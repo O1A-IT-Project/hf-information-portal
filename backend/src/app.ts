@@ -9,7 +9,12 @@ const app = express()
 const allowedOrigins = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
+
+  // Vercel domain
   'https://hf-information-portal.vercel.app',
+
+  // Vercel deployment
+  'https://hf-information-portal-hoq2y9zn8-timothieecantcodes-projects.vercel.app',
 ]
 
 app.use(
@@ -18,6 +23,7 @@ app.use(
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true)
       } else {
+        console.log('Blocked by CORS:', origin)
         callback(new Error('Not allowed by CORS'))
       }
     },

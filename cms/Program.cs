@@ -15,10 +15,11 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactApp", policy =>
     {
-policy.WithOrigins("http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173")
-              .AllowAnyHeader()
-              .AllowCredentials()
-              .AllowAnyMethod();
+        policy.WithOrigins("http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173")
+
+                      .AllowAnyHeader()
+                      .AllowCredentials()
+                      .AllowAnyMethod();
     });
 });
 
@@ -43,12 +44,17 @@ builder.Services.AddAuthentication()
             {
                 OnMessageReceived = context =>
                 {
-                    if (string.IsNullOrEmpty(context.Token) 
-                    && context.Request.Cookies.TryGetValue("jwt", out var token))
+                    if (string.IsNullOrEmpty(context.Token) &&
+                          context.Request.Cookies.TryGetValue("jwt", out var token))
                     {
-                        context.Token = token;
-                    }
+                        var origin = context.Request.Headers.Origin.ToString();
+                        var allowedOrigins = new[] { "http://localhost:3000" }; // match your CORS policy
 
+                        if (!string.IsNullOrEmpty(origin) && allowedOrigins.Contains(origin))
+                        {
+                            context.Token = token;
+                        }
+                    }
                     return Task.CompletedTask;
                 }
             };

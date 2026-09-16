@@ -67,7 +67,7 @@ const signup = async (req, res) => {
     // Ensure Umbraco Member record exists
     try {
       const memberResponse = await fetch(
-        "https://localhost:44343/umbraco/api/members/",
+        `${process.env.UMBRACO_SERVER}/umbraco/api/members/`,
         {
           method: "POST",
           headers: {
@@ -150,7 +150,7 @@ const signin = async (req, res) => {
     // Ensure Umbraco Member record exists
     try {
       const memberResponse = await fetch(
-        "https://localhost:44343/umbraco/api/members/",
+        `${process.env.UMBRACO_SERVER}/umbraco/api/members/`,
         {
           method: "POST",
           headers: {

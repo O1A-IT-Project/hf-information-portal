@@ -329,6 +329,11 @@ Registered as a **non-default** authentication scheme so it doesn't interfere wi
 `appsettings.json` holds only non-secret config (issuer, audience); the secret itself is never committed to source control.
 Umbraco's JWT secret is the same as the one used for our backend (auth) node.js.
 
+Add UMBRACO_SERVER with your Umbraco's address to .env in backend.
+
+E.g
+```UMBRACO_SERVER="https://localhost:44343"```
+
 ## Member sync (Umbraco)
 
 A custom `MembersController` at `/umbraco/api/members` reads `id`, `name`, `email`, and `memberTypeAlias` from the validated token claims and:

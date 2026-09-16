@@ -6,7 +6,7 @@ import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter basename={import.meta.env.PROD ? '/hf-information-portal' : '/'}>
+    <BrowserRouter>
       <App />
     </BrowserRouter>
   </StrictMode>

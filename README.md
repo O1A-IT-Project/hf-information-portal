@@ -241,8 +241,8 @@ The JWT payload carries only non-secret, identifying claims:
 ```json
 {
   "id": "nodeUserId",
-  "name": "Full Name",
-  "email": "user@example.com",
+  "fullName": "Full Name",
+  "emailaddress": "user@example.com",
   "memberTypeAlias": "member",
   "iat": 1234567890,
   "exp": 1234567890

@@ -327,6 +327,7 @@ Registered as a **non-default** authentication scheme so it doesn't interfere wi
 | Production | Environment variable (`Jwt__Secret`) or Azure Key Vault |
 
 `appsettings.json` holds only non-secret config (issuer, audience); the secret itself is never committed to source control.
+Umbraco's JWT secret is the same as the one used for our backend (auth) node.js.
 
 ## Member sync (Umbraco)
 

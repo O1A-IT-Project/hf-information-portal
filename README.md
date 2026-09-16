@@ -336,11 +336,11 @@ E.g
 
 ## Member sync (Umbraco)
 
-A custom `MembersController` at `/umbraco/api/members` reads `id`, `name`, `email`, and `memberTypeAlias` from the validated token claims and:
+A custom `MembersController` at `/umbraco/api/members` reads `id`, `fullName`, `emailaddress`, and `memberTypeAlias` from the validated token claims and:
 
-1. Checks whether an Umbraco member already exists for this Node user (matched via a custom `nodeUserId` property).
+1. Checks whether an Umbraco member already exists for this Node user (matched via the member's Username).
 2. If not, creates one via `IMemberService.CreateMemberWithIdentity(...)`.
-3. Stores the Node user's `id` on the new member's username so future lookups can link the two systems.
+3. Stores the Node user's `id` as the new member's Username so future lookups can link the two systems.
 
 This keeps Node as the single source of truth for identity, while letting Umbraco use its native Member Groups / content restriction features against the synced member record.
 

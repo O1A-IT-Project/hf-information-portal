@@ -18,15 +18,17 @@ namespace HFPortal.Controllers
     public class MembersController : ControllerBase
     {
         private readonly IMemberService _memberService;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Initializes the controller with Umbraco's member service, used to
         /// query and create <see cref="Umbraco.Cms.Core.Models.IMember"/> records.
         /// </summary>
         /// <param name="memberService">Umbraco's core member service, injected via DI.</param>
-        public MembersController(IMemberService memberService)
+        public MembersController(IMemberService memberService, ILogger logger)
         {
             this._memberService = memberService;
+            this._logger = logger;
         }
 
         /// <summary>
@@ -111,8 +113,11 @@ namespace HFPortal.Controllers
                 // Broad catch: CreateMemberWithIdentity can fail for several reasons
                 // (duplicate email, unknown memberTypeAlias, DB constraint, etc.) —
                 // surface the message rather than a generic 500 for easier debugging.
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                return BadRequest(ex.Message);
+                // log server side only
+                _logger.LogError(ex, "Failed to create Umbraco member for user {UserId}", nodeUserId);
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new { message = "An unexpected error occurred while creating the member." });
             }
         }
     }

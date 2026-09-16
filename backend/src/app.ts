@@ -3,6 +3,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
 import authRoutes from './routes/authRoutes.js'
+import { connectDB } from './config/db.js'
 
 const app = express()
 
@@ -35,12 +36,33 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// Health check
+// Backend check
 app.get('/', (_req, res) => {
   res.status(200).json({
     message: 'HF Information Portal API is running',
   })
 })
+
+// DB check
+app.get('/api/db-health', async (_req, res) => {
+  try {
+    const pool = await connectDB()
+
+    const result = await pool.request().query('SELECT 1 AS ok')
+
+    res.status(200).json({
+      database: 'connected',
+      result: result.recordset,
+    })
+  } catch (error) {
+    console.error('DB health check failed:', error)
+
+    res.status(500).json({
+      database: 'failed',
+    })
+  }
+})
+
 
 // Routes
 app.use('/api/auth', authRoutes)

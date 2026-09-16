@@ -159,7 +159,7 @@ const signin = async (req, res) => {
         },
       );
 
-      if (!memberResponse.ok) {
+if (!memberResponse.ok && memberResponse.status !== 409) {
         const errorData = await memberResponse.json().catch(() => null);
         console.error("Failed to sync Umbraco member:", errorData);
         // decide: fail the login, or let it succeed and retry sync later?

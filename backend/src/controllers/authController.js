@@ -62,7 +62,7 @@ const signup = async (req, res) => {
     const userId = await createUser(userData)
 
     // Generate JWT
-    const token = generateToken(user.userId, `${user.firstName} ${user.lastName}`, res)
+const token = generateToken(userId, `${firstName} ${lastName}`, email, res)
 
     // Ensure Umbraco Member record exists
     try {

@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from 'react'
 
 import { Link, useNavigate } from 'react-router-dom'
 
-import axios from 'axios'
+import { api } from '../api'
 
 import styles from './Navbar.module.css'
 
@@ -19,13 +19,7 @@ function Navbar({ user, setUser }: Props) {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        'http://localhost:3000/api/auth/signout',
-        {},
-        {
-          withCredentials: true,
-        }
-      )
+      await api.post('/api/auth/signout')
 
       setUser(null)
 

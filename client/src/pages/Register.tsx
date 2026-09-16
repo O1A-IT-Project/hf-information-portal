@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import type { Dispatch, SetStateAction } from 'react'
 import type { User } from '../App'
 
-import axios from 'axios'
+// import axios from 'axios'
+import { api } from '../api'
 
 type Props = {
   setUser: Dispatch<SetStateAction<User | null>>
@@ -32,18 +33,12 @@ function Register({ setUser }: Props) {
         return
       }
 
-      const response = await axios.post(
-        'http://localhost:3000/api/auth/signup',
-        {
-          email,
-          firstName,
-          lastName,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      )
+      const response = await api.post('/api/auth/signup', {
+        email,
+        firstName,
+        lastName,
+        password,
+      })
 
       if (response.data.success) {
         setUser(response.data.user)

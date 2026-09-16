@@ -154,7 +154,7 @@ npm install
 npm run dev
 ```
 
-The backend runs on:s
+The backend runs on:
 
 http://localhost:3000
 

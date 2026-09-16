@@ -1,6 +1,6 @@
 import styles from './Register.module.css'
 import axios from 'axios'
-
+import { api } from '../api'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -25,16 +25,10 @@ function Login({ setUser }: Props) {
         return
       }
 
-      const response = await axios.post(
-        'http://localhost:3000/api/auth/signin',
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      )
+      const response = await api.post('/api/auth/signin', {
+        email,
+        password,
+      })
 
       if (response.data.success) {
         setUser(response.data.data.user)

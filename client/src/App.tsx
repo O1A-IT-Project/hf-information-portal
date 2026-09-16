@@ -5,7 +5,6 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
-// import Search from './pages/Search'
 import Login from './pages/Login'
 import AdminPanel from './pages/AdminPanel'
 import ClinicianOnly from './pages/ClinicianOnly'
@@ -17,23 +16,23 @@ import FindClinic from './pages/FindClinic'
 import './Theme.css'
 
 import { Route, Navigate, Routes, useLocation } from 'react-router-dom'
-
 import { useEffect, useState } from 'react'
 
-import axios from 'axios'
+import { api } from './api'
 
 export type User = {
   id: string
-
   email: string
 
   firstName?: string
   lastName?: string
 
   roles?: ('patient' | 'clinician' | 'doctor' | 'pharmacy' | 'custodian' | 'admin')[]
+
   requestedRole?: 'patient' | 'clinician' | 'doctor' | 'pharmacy' | 'custodian'
 
   verificationStatus?: 'none' | 'pending' | 'approved' | 'rejected'
+
   pendingApplications?: {
     requestedRole: string
     verificationStatus: string
@@ -43,29 +42,25 @@ export type User = {
 
 function App() {
   const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  const location = useLocation()
+
+  const hideNavbarRoutes = ['/login', '/register']
+
   const refreshUser = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/auth/me', {
-        withCredentials: true,
-      })
-
+      const response = await api.get('/api/auth/me')
       setUser(response.data)
     } catch (error) {
       console.error('Failed to refresh user:', error)
     }
   }
-  const [loading, setLoading] = useState(true)
-  const location = useLocation()
-
-  const hideNavbarRoutes = ['/login', '/register']
 
   useEffect(() => {
     const loadUser = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/auth/me', {
-          withCredentials: true,
-        })
-
+        const response = await api.get('/api/auth/me')
         setUser(response.data)
       } catch (error) {
         setUser(null)
@@ -78,7 +73,6 @@ function App() {
     loadUser()
   }, [])
 
-  // This loading is used to make authentication slower, so unique page like admin panel wont log user out when refresh
   if (loading) {
     return <div>Loading...</div>
   }
@@ -93,8 +87,11 @@ function App() {
         <Route path="/search" element={<ContentPage />} />
         <Route path="/content" element={<ContentPage />} />
         <Route path="/content/*" element={<ContentDetailPage />} />
+
         <Route path="/register" element={<Register setUser={setUser} />} />
+
         <Route path="/login" element={<Login setUser={setUser} />} />
+
         <Route
           path="/admin_panel"
           element={
@@ -103,6 +100,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/ClinicianOnly"
           element={
@@ -111,10 +109,12 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/profile"
           element={user ? <Profile user={user} onUpdateUser={setUser} /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/apply-role"
           element={
@@ -122,6 +122,7 @@ function App() {
           }
         />
       </Routes>
+
       <Footer />
     </div>
   )

@@ -78,6 +78,7 @@ namespace HFPortal.Controllers
             // makes it far quicker to tell a token-shape problem from a genuine bug.
             var missing = new List<string>();
             if (string.IsNullOrWhiteSpace(nodeUserId)) missing.Add("id");
+            if (string.IsNullOrWhiteSpace(fullName)) missing.Add("fullName");
             if (string.IsNullOrWhiteSpace(email)) missing.Add("email");
             if (string.IsNullOrWhiteSpace(memberTypeAlias)) missing.Add("memberTypeAlias");
 

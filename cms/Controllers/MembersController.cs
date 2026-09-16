@@ -25,7 +25,7 @@ namespace HFPortal.Controllers
         /// query and create <see cref="Umbraco.Cms.Core.Models.IMember"/> records.
         /// </summary>
         /// <param name="memberService">Umbraco's core member service, injected via DI.</param>
-        public MembersController(IMemberService memberService, ILogger logger)
+        public MembersController(IMemberService memberService, ILogger<MembersController> logger)
         {
             this._memberService = memberService;
             this._logger = logger;

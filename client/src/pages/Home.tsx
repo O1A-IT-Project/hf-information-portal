@@ -1,7 +1,7 @@
 import styles from './Home.module.css'
 
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 import type { User } from '../App'
 import { getPosts, getForms } from '../services/umbraco'
@@ -158,15 +158,25 @@ function Home({ user }: Props) {
           </p>
         </div>
       </section>
+
       <section className={styles.surveysSection}>
         <div className={styles.surveysContent}>
 
           <div className={styles.surveysTitleBox}>
-            <h2>Featured Surveys</h2>
-            <p>
-              Share your experiences and insights to help improve heart failure data and research.
-            </p>
-          </div>
+  <div className={styles.surveysTitleText}>
+    <h2>Featured Surveys</h2>
+    <p>
+      Share your experiences and insights to help improve heart failure data and research.
+    </p>
+  </div>
+
+<Link
+  to="/surveys"
+  className={styles.viewAllSurveysLink}
+>
+  View All Surveys →
+</Link>
+</div>
 
           <div className={styles.surveyGrid}>
 
@@ -193,7 +203,7 @@ function Home({ user }: Props) {
                 </p>
 
                 <div className={styles.surveyDetails}>
-                   <div>
+                  <div>
                     <span>Recipient</span>
                     <strong>
                       patients
@@ -233,6 +243,7 @@ function Home({ user }: Props) {
             ))}
 
           </div>
+
 
         </div>
       </section>

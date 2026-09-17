@@ -302,3 +302,38 @@
 .takeSurveyButton:hover {
   background-color: #123b45;
 }
+
+.surveysTitleBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.surveysTitleBox h2 {
+  margin: 0 0 5px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.surveysTitleBox p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #555555;
+}
+
+.viewAllSurveysLink {
+  color: #08211f;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.viewAllSurveysLink:hover {
+  color: #123b45;
+  text-decoration: underline;
+}

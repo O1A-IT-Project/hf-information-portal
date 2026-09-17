@@ -37,49 +37,51 @@ function Navbar({ user, setUser }: Props) {
 
   return (
     <nav className={styles.navbar}>
-      {/* Left */}
-      <div className={styles.navbarLeft}>
-        <Link to="/" className={styles.logoLink}>
-          <img src={logo} alt="HF Portal Logo" className={styles.logo} />
-        </Link>
-      </div>
+      <div className={styles.navContainer}>
 
-      {/* Center */}
-      <div className={styles.navbarCenter}>
-        <Link to="/search">Resources</Link>
-
-        <Link to="/survey">Surveys</Link>
-
-        <Link to="/find-clinic">Find a Clinic</Link>
-
-        {user && <Link to="/surveys">Surveys</Link>}
-
-        <a href="https://ceih.sa.gov.au/contact-us" target="_blank" rel="noopener noreferrer">
-          Contact CEIH
+        {/* Logo */}
+        <a href="/" className={styles.logo}>
+          <i className={`bx bx-home-heart ${styles.logoIcon}`}></i>
+          <span>Heart Information Portal</span> 
         </a>
 
-        {user?.roles?.includes('admin') && <Link to="/admin_panel">Admin Dashboard</Link>}
+        {/* Center */}
+        <div className={styles.navbarCenter}>
+          <Link to="/search">Resources</Link>
 
-        {user?.roles?.includes('doctor') && <Link to="/ClinicianOnly">Clinician Dashboard</Link>}
-      </div>
+          <Link to="/survey">Surveys</Link>
 
-      {/* Right */}
-      <div className={styles.navbarRight}>
-        {user ? (
-          <>
-            <Link to="/profile" className={styles.hi}>
-              Hi, {user.firstName}
+          <Link to="/find-clinic">Find a Clinic</Link>
+
+          {user && <Link to="/surveys">Surveys</Link>}
+
+          <a href="https://ceih.sa.gov.au/contact-us" target="_blank" rel="noopener noreferrer">
+            Contact CEIH
+          </a>
+
+          {user?.roles?.includes('admin') && <Link to="/admin_panel">Admin Dashboard</Link>}
+
+          {user?.roles?.includes('doctor') && <Link to="/ClinicianOnly">Clinician Dashboard</Link>}
+        </div>
+
+        {/* Right */}
+        <div className={styles.navbarRight}>
+          {user ? (
+            <>
+              <Link to="/profile" className={styles.hi}>
+                Hi, {user.firstName}
+              </Link>
+
+              <button className={styles.joinUs} onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link to="/register">
+              <button className={styles.joinUs}>Join Us</button>
             </Link>
-
-            <button className={styles.joinUs} onClick={handleLogout}>
-              Logout
-            </button>
-          </>
-        ) : (
-          <Link to="/register">
-            <button className={styles.joinUs}>Join Us</button>
-          </Link>
-        )}
+          )}
+        </div>
       </div>
     </nav>
   )

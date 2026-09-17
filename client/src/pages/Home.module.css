@@ -1,8 +1,101 @@
 .homeContainer {
-  min-height: 100vh;
-  background-color: var(--surface);
-  color: var(--text-main);
+  width: 100%;
 }
+
+.searchSection {
+  width: 100%;
+  min-height: 600px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+
+  background-color: #08211f;
+  background-image:
+    repeating-radial-gradient(
+      circle at 18% 88%,
+      transparent 0 46px,
+      rgba(120, 240, 214, 0.10) 46px 47px
+    ),
+    radial-gradient(
+      900px 700px at 78% 10%,
+      rgba(45, 212, 191, 0.16),
+      transparent 66%
+    );
+
+  padding: 80px 20px;
+}
+
+.searchContent {
+  width: 100%;
+  max-width: 900px;
+}
+
+.searchContent h1 {
+  margin: 0 0 15px;
+  color: #ffffff;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.searchContent p {
+  margin: 0 0 35px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 18px;
+}
+
+.homeSearch {
+  width: 100%;
+  max-width: 950px;
+  height: 68px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 7px 8px 7px 22px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.homeSearch i {
+  color: #08211f;
+  font-size: 26px;
+  margin-right: 14px;
+}
+
+.homeSearch input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  font-size: 17px;
+  color: #333;
+}
+
+.homeSearch input::placeholder {
+  color: #8a98a8;
+}
+
+.homeSearch button {
+  height: 52px;
+  padding: 0 28px;
+  border: none;
+  border-radius: 9px;
+  background: #08211f;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.homeSearch button:hover {
+  background: #123b45;
+}
+
+
+
 
 .cardsSection {
   padding: 0 2rem;
@@ -84,4 +177,77 @@
   .cardGrid {
     gap: 1rem;
   }
+}
+
+.aboutSection {
+  padding: 60px;
+   background-color: #fafafa;
+   
+}
+
+.aboutContent {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 25px;
+}
+
+.infoCard {
+  padding: 10px 20px 20px;
+  text-align: center;
+}
+
+.iconCircle {
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.iconCircle i {
+  font-size: 44px;
+}
+
+.infoCard h3 {
+  font-size: 26px;
+  font-weight: 700;
+  white-space: nowrap;
+  margin: 0 0 10px;
+  color: #000000;
+}
+
+.infoCard p {
+  font-size: 17px;
+  line-height: 1.6;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* Different background colours */
+.surveyIcon {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.resourceIcon {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.communityIcon {
+  background-color: #f3e5f5;
+  color: #8e44ad;
+}
+
+.impactIcon {
+  background-color: #fff3e0;
+  color: #ef6c00;
 }

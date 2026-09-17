@@ -1,6 +1,29 @@
-﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+﻿@using Umbraco.Cms.Web.Common.PublishedModels
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.ContentPage>
-@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels
+
 @{
     Layout = null;
 }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@Model.PageTitle</title>
+</head>
+
+<body>
+
+    <h1>@Model.PageTitle</h1>
+
+    <p>@Model.Overview</p>
+
+    @if (Model.BodyContent != null)
+    {
+        @Html.Raw(Model.BodyContent.ToString())
+    }
+
+</body>
+</html>

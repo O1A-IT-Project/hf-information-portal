@@ -94,90 +94,7 @@
   background: #123b45;
 }
 
-
-
-
-.cardsSection {
-  padding: 0 2rem;
-  margin-top: 2.5rem;
-}
-
-.cardsSection h2 {
-  margin-bottom: 1.25rem;
-}
-
-.cardGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-.card {
-  padding: 1.5rem;
-  border-radius: 12px;
-
-  background-color: color-mix(in srgb, var(--primary) 50%, white);
-
-  border: 3px solid color-mix(in srgb, var(--primary) 70%, white);
-
-  box-shadow: 0 2px 8px rgba(50, 50, 80, 0.08);
-
-  cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(50, 50, 80, 0.12);
-}
-
-.card h3 {
-  margin-top: 0;
-  margin-bottom: 0.75rem;
-}
-
-.card p {
-  margin-bottom: 0;
-  line-height: 1.6;
-  color: var(--text-secondary);
-}
-
-.cardLink {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-}
-
-.dashboardSection {
-  padding: 0 2rem;
-  margin-top: 4rem;
-}
-
-.dashboardCard {
-  margin-top: 1rem;
-  padding: 1.5rem;
-
-  border: 1px solid var(--border);
-  border-radius: 12px;
-
-  background-color: var(--surface);
-
-  box-shadow: 0 2px 8px rgba(50, 50, 80, 0.06);
-}
-
-@media (max-width: 768px) {
-  .cardsSection,
-  .dashboardSection {
-    padding: 0 1rem;
-  }
-
-  .cardGrid {
-    gap: 1rem;
-  }
-}
+/* About */
 
 .aboutSection {
   padding: 60px;
@@ -231,7 +148,6 @@
   margin: 0 auto;
 }
 
-/* Different background colours */
 .surveyIcon {
   background-color: #e3f2fd;
   color: #1976d2;
@@ -250,4 +166,139 @@
 .impactIcon {
   background-color: #fff3e0;
   color: #ef6c00;
+}
+
+/* Featured Resources */ 
+/* Survey */
+
+.surveysSection {
+  padding: 60px 40px;
+  color: #000000;
+}
+
+.surveysContent {
+  width: 100%;
+  margin: 0;
+}
+
+.surveysTitleBox {
+  margin-bottom: 30px;
+}
+
+.surveysTitleBox h2 {
+  margin: 0 0 5px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.surveysTitleBox p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #555555;
+}
+
+.surveyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.surveyCard {
+  padding: 28px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+
+  /* Original hover effect */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.surveyCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.surveyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.surveyCategory {
+  padding: 6px 12px;
+  border-radius: 20px;
+  background-color: #dcece8;
+  color: #08211f;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.surveyStatus {
+  font-size: 14px;
+  font-weight: 600;
+  color: #388e3c;
+}
+
+.surveyName {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.surveyDescription {
+  margin: 0 0 25px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #444444;
+}
+
+.surveyDetails {
+  display: flex;
+  gap: 35px;
+  padding: 16px 0;
+  margin-bottom: 25px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.surveyDetails div:last-child {
+  margin-left: auto;
+}
+
+.surveyDetails div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.surveyDetails span {
+  font-size: 13px;
+  color: #777777;
+}
+
+.surveyDetails strong {
+  font-size: 14px;
+  color: #000000;
+}
+
+.takeSurveyButton {
+  width: 100%;
+  height: 46px;
+  border: none;
+  border-radius: 8px;
+  background-color: #08211f;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.takeSurveyButton:hover {
+  background-color: #123b45;
 }

@@ -4,11 +4,19 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import type { User } from '../App'
-import { getPosts } from '../services/umbraco'
+import { getPosts, getForms } from '../services/umbraco'
 import type { Post } from '../services/umbraco'
 
 type Props = {
   user: User | null
+}
+
+type Survey = {
+  id: string
+  name: string
+  createdBy: number
+  created: string
+  updated: string
 }
 
 function Home({ user }: Props) {
@@ -17,6 +25,10 @@ function Home({ user }: Props) {
   const [posts, setPosts] = useState<Post[]>([])
   const [loadingContent, setLoadingContent] = useState(true)
   const [contentError, setContentError] = useState('')
+
+  const [surveys, setSurveys] = useState<Survey[]>([])
+  const [loadingSurveys, setLoadingSurveys] = useState(true)
+  const [surveyError, setSurveyError] = useState('')
 
   useEffect(() => {
     const loadContent = async () => {
@@ -35,33 +47,26 @@ function Home({ user }: Props) {
     loadContent()
   }, [])
 
-  const handleCardClick = (path: string) => {
-    if (path.startsWith('http')) {
-      window.open(path, '_blank')
-    } else {
-      navigate(path)
+  useEffect(() => {
+    const loadSurveys = async () => {
+      try {
+        const data = await getForms()
+
+        setSurveys(data)
+      } catch (error) {
+        console.error(error)
+        setSurveyError('Unable to load surveys.')
+      } finally {
+        setLoadingSurveys(false)
+      }
     }
-  }
 
-  const getTypeLabel = (contentType: string) => {
-    switch (contentType) {
-      case 'videoPage':
-        return 'Video'
-      case 'conditionPage':
-        return 'Condition'
-      case 'contentPage':
-        return 'Article'
-      case 'newsPage':
-        return 'News'
-      default:
-        return contentType
-    }
-  }
+    loadSurveys()
+  }, [])
 
-  const getContentPath = (post: Post) => {
-    if (!post.route?.path) return '/content'
-
-    return `/content${post.route.path}`
+  const openSurvey = (formId: string) => {
+    window.location.href =
+      `https://localhost:44343/surveys/?formId=${formId}`
   }
 
   return (
@@ -102,7 +107,7 @@ function Home({ user }: Props) {
 
               <h3>Explore Resources</h3>
               <p>
-                  Access guides, articles, and tools to better understand heart failure.
+                Access guides, articles, and tools to better understand heart failure.
               </p>
             </div>
 
@@ -144,105 +149,93 @@ function Home({ user }: Props) {
           </div>
         </div>
       </section>
+      <section className={styles.resourcesSection}>
+        <div className={styles.resourcesContent}>
+          <h2>Featured Resources</h2>
 
-      <section className={styles.cardsSection}>
-        <h2>Featured Resources</h2>
-
-        <div className={styles.cardGrid}>
-          <div
-            className={styles.card}
-            onClick={() => handleCardClick('https://ceih.sa.gov.au/news-and-events')}
-            style={{ cursor: 'pointer' }}
-          >
-            <h3>News and Events</h3>
-
-            <p>
-              Stay up to date with the latest stories, insights and achievements from across CEIH.
-            </p>
-          </div>
-
-          <div
-            className={styles.card}
-            onClick={() => handleCardClick('https://ceih.sa.gov.au/clinical-networks')}
-            style={{ cursor: 'pointer' }}
-          >
-            <h3>Clinical Networks</h3>
-
-            <p>
-              Connecting clinicians, consumers and partners to improve healthcare across South
-              Australia.
-            </p>
-          </div>
-
-          <div
-            className={styles.card}
-            onClick={() => handleCardClick('/content')}
-            style={{ cursor: 'pointer' }}
-          >
-            <h3>Browse Content</h3>
-
-            <p>Search heart failure articles, news, videos and clinical resources from Umbraco.</p>
-          </div>
-
-          {user && !user.roles?.includes('admin') && (
-            <div
-              className={styles.card}
-              onClick={() => handleCardClick('/apply-role')}
-              style={{ cursor: 'pointer' }}
-            >
-              <h3>Apply for Additional Roles</h3>
-
-              <p>
-                Clinicians, doctors, pharmacies and content custodians can apply for additional
-                access permissions.
-              </p>
-            </div>
-          )}
+          <p className={styles.resourcesIntro}>
+            Guides, articles, and tools to better understand heart failure.
+          </p>
         </div>
       </section>
+      <section className={styles.surveysSection}>
+        <div className={styles.surveysContent}>
 
-      <section className={styles.cardsSection}>
-        <h2>Latest Content from Umbraco</h2>
+          <div className={styles.surveysTitleBox}>
+            <h2>Featured Surveys</h2>
+            <p>
+              Share your experiences and insights to help improve heart failure data and research.
+            </p>
+          </div>
 
-        {loadingContent && <p>Loading content...</p>}
+          <div className={styles.surveyGrid}>
 
-        {!loadingContent && contentError && <p>{contentError}</p>}
+            {surveys.slice(0, 3).map((survey) => (
+              <div className={styles.surveyCard} key={survey.id}>
 
-        {!loadingContent && !contentError && posts.length === 0 && <p>No content available.</p>}
+                <div className={styles.surveyHeader}>
+                  <span className={styles.surveyCategory}>
+                    Heart Failure
+                  </span>
 
-        {!loadingContent && posts.length > 0 && (
-          <div className={styles.cardGrid}>
-            {posts.map(post => (
-              <div
-                key={post.id}
-                className={styles.card}
-                onClick={() => handleCardClick(getContentPath(post))}
-                style={{ cursor: 'pointer' }}
-              >
-                <h3>{post.title}</h3>
+                  <span className={styles.surveyStatus}>
+                    Open
+                  </span>
+                </div>
 
-                <p>{post.body || 'No description available.'}</p>
+                <h3 className={styles.surveyName}>
+                  {survey.name}
+                </h3>
 
-                <small>{getTypeLabel(post.contentType)}</small>
+                <p className={styles.surveyDescription}>
+                  Complete this survey and share your experiences.
+                  Your insights can help improve heart failure research and care.
+                </p>
+
+                <div className={styles.surveyDetails}>
+                   <div>
+                    <span>Recipient</span>
+                    <strong>
+                      patients
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Created</span>
+                    <strong>
+                      {new Date(survey.created).toLocaleDateString()}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Updated</span>
+                    <strong>
+                      {new Date(survey.updated).toLocaleDateString()}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Created by</span>
+                    <strong>
+                      {survey.createdBy}
+                    </strong>
+                  </div>
+                </div>
+
+                <button
+                  className={styles.takeSurveyButton}
+                  onClick={() => openSurvey(survey.id)}
+                >
+                  Take Survey →
+                </button>
+
               </div>
             ))}
+
           </div>
-        )}
+
+        </div>
       </section>
-
-      {user && (
-        <section className={styles.dashboardSection}>
-          <h2>Welcome back</h2>
-
-          <div className={styles.dashboardCard}>
-            <p>
-              <strong>{user.roles?.join(', ')}</strong>
-            </p>
-
-            <p>Logged in as {user.email}</p>
-          </div>
-        </section>
-      )}
     </div>
   )
 }

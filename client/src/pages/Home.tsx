@@ -66,28 +66,84 @@ function Home({ user }: Props) {
 
   return (
     <div className={styles.homeContainer}>
-          <section className={styles.searchSection}>
-      <div className={styles.searchContent}>
-        <h1>Heart Failure: Information, Resources & Support</h1>
+      <section className={styles.searchSection}>
+        <div className={styles.searchContent}>
+          <h1>Heart Failure: Information, Resources & Support</h1>
 
-        <p>
-          Take surveys, explore helpful resources, and be part of something bigger. Your insights help us improve.
-        </p>
+          <p>
+            Explore helpful resources, take surveys, and share your insights to help improve heart failure data and research.
+          </p>
 
-        <div className={styles.homeSearch}>
-          <i className="bx bx-search"></i>
+          <div className={styles.homeSearch}>
+            <i className="bx bx-search"></i>
 
-          <input
-            type="text"
-            placeholder="Search heart failure information..."
-          />
+            <input
+              type="text"
+              placeholder="Search heart failure information..."
+            />
 
-          <button onClick={() => navigate('/search')}>
-            Search
-          </button>
+            <button onClick={() => navigate('/search')}>
+              Search
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section className={styles.aboutSection}>
+        <div className={styles.aboutContent}>
+
+
+          <div className={styles.infoGrid}>
+
+            <div className={styles.infoCard}>
+              <div className={`${styles.iconCircle} ${styles.resourceIcon}`}>
+                <i className="bx bx-book-open"></i>
+              </div>
+
+              <h3>Explore Resources</h3>
+              <p>
+                  Access guides, articles, and tools to better understand heart failure.
+              </p>
+            </div>
+
+            <div className={styles.infoCard}>
+              <div className={`${styles.iconCircle} ${styles.surveyIcon}`}>
+                <i className="bx bx-edit"></i>
+              </div>
+
+              <h3>Take Surveys</h3>
+              <p>
+                Share your experiences to support better heart failure research and care.
+              </p>
+            </div>
+
+
+            <div className={styles.infoCard}>
+              <div className={`${styles.iconCircle} ${styles.communityIcon}`}>
+                <i className="bx bx-group"></i>
+              </div>
+
+              <h3>Join Our Community</h3>
+              <p>
+                Learn, share experiences, and connect with others.
+              </p>
+            </div>
+
+            <div className={styles.infoCard}>
+              <div className={`${styles.iconCircle} ${styles.impactIcon}`}>
+                <i className="bx bx-heart"></i>
+              </div>
+
+              <h3>Make an Impact</h3>
+              <p>
+                Your insights can help contribute to better heart failure
+                research and support.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
 
       <section className={styles.cardsSection}>
         <h2>Featured Resources</h2>

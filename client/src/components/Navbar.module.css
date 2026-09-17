@@ -1,19 +1,37 @@
+/* ===== Body ===== */
+
+/* Remove default browser spacing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Page font */
+body {
+    font-family: Arial, sans-serif;
+    color: #17365d;
+}
+
+/* ===== Navbar ===== */
+
 .navbar {
+    width: 100%;
+    height: 72px;
+    background: #ffffff;
+
+    display: flex;
+    align-items: center;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+.navContainer {
+  width: 100%;
+  padding: 0 100px;
+
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-
-  background: var(--primary-dark);
-  color: var(--text-light);
-
-  padding: 1rem 2rem;
-
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* ===== Logo ===== */
@@ -21,113 +39,163 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
-  text-decoration: none;
-  color: var(--text-main);
-}
+  gap: 10px;
 
-.logo:visited {
-  color: var(--text-main);
-}
-
-.logo:hover {
-  color: var(--text-main);
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .logoIcon {
-  font-size: 32px;
-  color: #2373d6;
+  color: #1976D2;
+  font-size: 45px;
+  flex-shrink: 0;
 }
 
-/* ===== Center ===== */
+.logoText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-.navbarCenter {
+}
+
+
+.logoTitle {
+  color: #000000;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.logoOrg {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+  margin-top: 0;
+}
+
+/* ===== Links ===== */
+
+.navLinks {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 30px;
 
-  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.navbarCenter a {
-  color: var(--text-main);
+.navLinks a {
+  position: relative;
+
   text-decoration: none;
+  color: #405a78;
 
-  font-size: 1rem;
-  padding: 0.5rem;
+  font-size: 16px;
 
-  transition: opacity 0.2s ease;
+  padding: 26px 0;
 }
 
-.navbarCenter a:hover {
-  opacity: 0.6;
-  text-decoration: underline;
+/* Hover */
+.navLinks a:hover {
+  color: #1976d2;
 }
 
-/* ===== Right ===== */
+/* Active link */
+.navLinks .active {
+  color: #1976d2;
+}
 
-.navbarRight {
+/* Blue line underneath active link */
+.navLinks .active::after {
+  content: "";
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  height: 3px;
+
+  background: #1976d2;
+  border-radius: 3px;
+}
+
+.navLinks a:hover {
+  color: #1976d2;
+}
+
+
+/* ===== Right Side ===== */
+
+.navActions {
   display: flex;
   align-items: center;
-  gap: 1rem;
-
-  flex-wrap: wrap;
+  gap: 14px;
 }
 
-.hi {
-  text-decoration: none;
-  color: var(--text-main);
+/* Search button */
+.searchBar {
+  width: 280px;
+
+  display: flex;
+  align-items: center;
+
+  border: 1px solid #d5dce5;
+  border-radius: 8px;
+
+  padding: 4px 8px;
 }
 
-.hi:hover {
-  opacity: 40%;
-}
+.searchBar input {
+  flex: 1;
 
-.joinUs {
-  background: var(--secondary);
-  color: white;
-
-  border-radius: 0.6rem;
   border: none;
+  outline: none;
 
-  padding: 0.7rem 1.4rem;
+  font-size: 15px;
+}
 
-  font-size: 1rem;
-  font-weight: 600;
+.searchBtn {
+  border: none;
+  background: transparent;
+
+  font-size: 22px;
+  color: #365573;
 
   cursor: pointer;
-
-  transition:
-    opacity 0.2s ease,
-    transform 0.15s ease;
 }
 
-.joinUs:hover {
-  opacity: 0.85;
+.searchBtn:hover {
+  color: #1976d2;
+}
+/* Login / Register */
+
+.login {
+  text-decoration: none;
+  background: #287fe0;
+  color: white;
+  padding: 12px 27px;
+  border-radius: 10px;
+  font-weight: 600;
 }
 
-.joinUs:active {
-  transform: scale(0.98);
+.login:hover {
+   background: #176bc4;
 }
 
-@media (max-width: 900px) {
-  .navbar {
-    gap: 1rem;
-  }
-
-  .navbarCenter {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .navbarRight {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .searchBar {
-    max-width: 100%;
-  }
+.register {
+  text-decoration: none;
+  color: #287fe0;
+  border: 1px solid #287fe0;
+  padding: 11px 25px;
+  border-radius: 10px;
+  font-weight: 600;
 }
+
+.register:hover {
+    background: #eef6ff;
+}
+
 

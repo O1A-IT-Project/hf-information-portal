@@ -1,13 +1,11 @@
 import type { User } from '../App'
 import type { Dispatch, SetStateAction } from 'react'
 
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
 
 import styles from './Navbar.module.css'
-
-import logo from '../assets/logo.png'
 
 type Props = {
   user: User | null
@@ -42,44 +40,102 @@ function Navbar({ user, setUser }: Props) {
         {/* Logo */}
         <a href="/" className={styles.logo}>
           <i className={`bx bx-home-heart ${styles.logoIcon}`}></i>
-          <span>Heart Information Portal</span> 
+
+          <div className={styles.logoText}>
+            <span className={styles.logoTitle}>Heart Information Portal</span>
+            <span className={styles.logoOrg}>Commission on Excellence and Innovation in Health</span>
+          </div>
         </a>
 
-        {/* Center */}
-        <div className={styles.navbarCenter}>
-          <Link to="/search">Resources</Link>
+        {/* Links */}
 
-          <Link to="/survey">Surveys</Link>
+        <div className={styles.navLinks}>
 
-          <Link to="/find-clinic">Find a Clinic</Link>
+           <NavLink
+            to="/"
+            className={({ isActive }) => isActive ? styles.active : undefined}
+          >
+            Home
+          </NavLink>
 
-          {user && <Link to="/surveys">Surveys</Link>}
+          <NavLink
+            to="/search"
+            className={({ isActive }) => isActive ? styles.active : undefined}
+          >
+            Resources
+          </NavLink>
+
+          <NavLink
+            to="/survey"
+            className={({ isActive }) => isActive ? styles.active : undefined}
+          >
+            Surveys
+          </NavLink>
+
+          <NavLink
+            to="/find-clinic"
+            className={({ isActive }) => isActive ? styles.active : undefined}
+          >
+            Find a Clinic
+          </NavLink>
+
 
           <a href="https://ceih.sa.gov.au/contact-us" target="_blank" rel="noopener noreferrer">
-            Contact CEIH
+            About Us
           </a>
 
-          {user?.roles?.includes('admin') && <Link to="/admin_panel">Admin Dashboard</Link>}
+          {user?.roles?.includes('admin') && (
+            <NavLink
+              to="/admin_panel"
+              className={({ isActive }) => isActive ? styles.active : undefined}
+            >
+              Admin Dashboard
+            </NavLink>
+          )}
 
-          {user?.roles?.includes('doctor') && <Link to="/ClinicianOnly">Clinician Dashboard</Link>}
+          {user?.roles?.includes('doctor') && (
+            <NavLink
+              to="/ClinicianOnly"
+              className={({ isActive }) => isActive ? styles.active : undefined}
+            >
+              Clinician Dashboard
+            </NavLink>
+          )}
         </div>
 
-        {/* Right */}
-        <div className={styles.navbarRight}>
+        {/* Right Side */}
+        <div className={styles.navActions}>
+          <div className={styles.searchBar}>
+            <input
+              type="text"
+              placeholder="Search..."
+            />
+            <button className={styles.searchBtn}>
+              <i className="bx bx-search"></i>
+            </button>
+          </div>
+
+          {/* Login/Profile */}
           {user ? (
             <>
               <Link to="/profile" className={styles.hi}>
                 Hi, {user.firstName}
               </Link>
 
-              <button className={styles.joinUs} onClick={handleLogout}>
+              <button className={styles.login} onClick={handleLogout}>
                 Logout
               </button>
             </>
           ) : (
-            <Link to="/register">
-              <button className={styles.joinUs}>Join Us</button>
-            </Link>
+            <>
+              <Link to="/login" className={styles.login}>
+                Login
+              </Link>
+
+              <Link to="/register" className={styles.register}>
+                Register
+              </Link>
+            </>
           )}
         </div>
       </div>

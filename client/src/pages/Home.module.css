@@ -1,8 +1,111 @@
 .homeContainer {
-  min-height: 100vh;
-  background-color: var(--surface);
-  color: var(--text-main);
+  width: 100%;
 }
+
+.searchSection {
+  width: 100%;
+  min-height: 600px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+
+  background-color: #08211f;
+  background-image:
+    repeating-radial-gradient(
+      circle at 18% 88%,
+      transparent 0 46px,
+      rgba(120, 240, 214, 0.10) 46px 47px
+    ),
+    radial-gradient(
+      900px 700px at 78% 10%,
+      rgba(45, 212, 191, 0.16),
+      transparent 66%
+    );
+
+  padding: 80px 20px;
+}
+
+.searchContent {
+  width: 100%;
+  max-width: 900px;
+}
+
+.searchContent h1 {
+  margin: 0 0 15px;
+  color: #ffffff;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.searchContent p {
+  margin: 0 0 35px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 18px;
+}
+
+.homeSearch {
+  width: 100%;
+  max-width: 850px;
+  height: 60px;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  background: #ffffff;
+  border-radius: 12px;
+
+  padding: 6px 7px 6px 20px;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.homeSearch i {
+  color: #08211f;
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.homeSearch input {
+  flex: 1;
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  font-size: 16px;
+  color: #333;
+}
+
+.homeSearch input::placeholder {
+  color: #8a98a8;
+}
+
+.homeSearch button {
+  height: 46px;
+  padding: 0 25px;
+
+  border: none;
+  border-radius: 9px;
+
+  background:#08211f;
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.homeSearch button:hover {
+  background: #123b45;
+}
+
+
+
 
 .cardsSection {
   padding: 0 2rem;

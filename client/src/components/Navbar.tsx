@@ -2,6 +2,7 @@ import type { User } from '../App'
 import type { Dispatch, SetStateAction } from 'react'
 
 import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 import axios from 'axios'
 
@@ -14,6 +15,7 @@ type Props = {
 
 function Navbar({ user, setUser }: Props) {
   const navigate = useNavigate()
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const handleLogout = async () => {
     try {
@@ -42,7 +44,7 @@ function Navbar({ user, setUser }: Props) {
           <i className={`bx bx-home-heart ${styles.logoIcon}`}></i>
 
           <div className={styles.logoText}>
-            <span className={styles.logoTitle}>Heart Information Portal</span>
+            <span className={styles.logoTitle}>Heart Failure Information Portal</span>
             <span className={styles.logoOrg}>Commission on Excellence and Innovation in Health</span>
           </div>
         </a>
@@ -51,7 +53,7 @@ function Navbar({ user, setUser }: Props) {
 
         <div className={styles.navLinks}>
 
-           <NavLink
+          <NavLink
             to="/"
             className={({ isActive }) => isActive ? styles.active : undefined}
           >
@@ -118,13 +120,43 @@ function Navbar({ user, setUser }: Props) {
           {/* Login/Profile */}
           {user ? (
             <>
-              <Link to="/profile" className={styles.hi}>
-                Hi, {user.firstName}
-              </Link>
+              <div className={styles.profileMenu}>
+                <button
+                  className={styles.menuButton}
+                  onClick={() => setMenuOpen(!menuOpen)}
+                >
+                  <i className="bx bx-menu"></i>
+                </button>
 
-              <button className={styles.login} onClick={handleLogout}>
-                Logout
-              </button>
+                {menuOpen && (
+                  <div className={styles.dropdown}>
+                    <Link to="/profile" onClick={() => setMenuOpen(false)}>
+                      <i className="bx bx-user"></i>
+                      <span>Profile</span>
+                    </Link>
+
+                    <Link to="/apply-role" onClick={() => setMenuOpen(false)}>
+                      <i className="bx bx-bookmark"></i>
+                      <span>Bookmark</span>
+                    </Link>
+
+                    <Link to="/apply-role" onClick={() => setMenuOpen(false)}>
+                      <i className="bx bx-history"></i>
+                      <span>View History</span>
+                    </Link>
+
+                    <Link to="/apply-role" onClick={() => setMenuOpen(false)}>
+                      <i className="bx bx-file"></i>
+                      <span>Apply for a Role</span>
+                    </Link>
+
+                    <button onClick={handleLogout}>
+                      <i className="bx bx-log-out"></i>
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                )}
+              </div>
             </>
           ) : (
             <>

@@ -6,38 +6,10 @@ import { useNavigate } from 'react-router-dom'
 import type { User } from '../App'
 import { getPosts } from '../services/umbraco'
 import type { Post } from '../services/umbraco'
-import HeroCarousel from '../components/HeroCarousel'
-import type { HeroSlide } from '../components/HeroCarousel'
 
 type Props = {
   user: User | null
 }
-
-const HERO_SLIDES: HeroSlide[] = [
-  {
-    id: 1,
-    title: 'Heart Failure Information Portal',
-    description:
-      'Trusted heart failure information and healthcare resources for patients, clinicians and healthcare organisations.',
-    image: `${import.meta.env.BASE_URL}images/hero-1.jpg`,
-    alt: 'Heart failure information and healthcare resources',
-  },
-  {
-    id: 2,
-    title: 'Find Reliable Heart Failure Information',
-    description: 'Explore articles, clinical information and resources in one central location.',
-    image: `${import.meta.env.BASE_URL}images/hero-2.jpg`,
-    alt: 'Heart health information and resources',
-  },
-  {
-    id: 3,
-    title: 'Connect With Healthcare Services',
-    description:
-      'Discover healthcare services and clinical networks available across South Australia.',
-    image: `${import.meta.env.BASE_URL}images/hero-3.jpg`,
-    alt: 'Healthcare professionals and services',
-  },
-]
 
 function Home({ user }: Props) {
   const navigate = useNavigate()
@@ -94,7 +66,28 @@ function Home({ user }: Props) {
 
   return (
     <div className={styles.homeContainer}>
-      <HeroCarousel slides={HERO_SLIDES} />
+          <section className={styles.searchSection}>
+      <div className={styles.searchContent}>
+        <h1>Heart Failure: Information, Resources & Support</h1>
+
+        <p>
+          Take surveys, explore helpful resources, and be part of something bigger. Your insights help us improve.
+        </p>
+
+        <div className={styles.homeSearch}>
+          <i className="bx bx-search"></i>
+
+          <input
+            type="text"
+            placeholder="Search heart failure information..."
+          />
+
+          <button onClick={() => navigate('/search')}>
+            Search
+          </button>
+        </div>
+      </div>
+    </section>
 
       <section className={styles.cardsSection}>
         <h2>Featured Resources</h2>

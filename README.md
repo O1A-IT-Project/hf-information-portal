@@ -214,7 +214,7 @@ npm run dev
 Run the Umbraco server separately if available
 ```
 
-### Node.js ↔ .NET/Umbraco JWT Authentication
+### 9. Node.js ↔ .NET/Umbraco JWT Authentication
 
 ## Overview
 

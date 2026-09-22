@@ -42,6 +42,19 @@ type UmbracoApiResponse = {
   items: UmbracoApiItem[]
 }
 
+export interface Article {
+  id: string
+  name: string
+  pageTitle: string
+  overview: string
+  category: string
+  visibility: string[]
+  bodyContent: string
+  created: string
+  updated: string
+  path: string
+}
+
 type Survey = {
   id: string
   name: string
@@ -189,6 +202,33 @@ export async function getContentBySlug(slug: string) {
   const data = await res.json()
 
   return data
+}
+
+export async function getArticles(): Promise<Article[]> {
+  const res = await fetch(
+    'https://localhost:44343/umbraco/delivery/api/v2/content'
+  )
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch articles: ${res.status}`)
+  }
+
+  const data = await res.json()
+
+  return data.items
+    .filter((item: any) => item.contentType === 'articlePage')
+    .map((item: any) => ({
+      id: item.id,
+      name: item.name,
+      pageTitle: item.properties?.pageTitle ?? '',
+      overview: item.properties?.overview ?? '',
+      category: item.properties?.category ?? '',
+      visibility: item.properties?.visibility ?? [],
+      bodyContent: item.properties?.bodyContent?.markup ?? '',
+      created: item.createDate,
+      updated: item.updateDate,
+      path: item.route?.path ?? '',
+    }))
 }
 
 export async function getForms(): Promise<Survey[]> {

@@ -15,6 +15,7 @@ import ContentPage from './pages/ContentPage'
 import Survey from './pages/Survey'
 import ContentDetailPage from './pages/ContentDetailPage'
 import FindClinic from './pages/FindClinic'
+import ArticlePage from './pages/ArticlePage'
 
 import './Theme.css'
 
@@ -96,6 +97,7 @@ function App() {
         <Route path="/find-clinic" element={<FindClinic />} />
         <Route path="/search" element={<ContentPage />} />
         <Route path="/survey" element={<Survey />} />
+        <Route path="/article/:articlePath" element={<ArticlePage />} />
       
         <Route path="/content" element={<ContentPage />} />
         <Route path="/content/*" element={<ContentDetailPage />} />

@@ -160,6 +160,7 @@ body {
   color: #365573;
 
   cursor: pointer;
+  margin-top: 5px;
 }
 
 .searchBtn:hover {

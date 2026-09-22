@@ -103,7 +103,7 @@ User: sa
 Password: HF123456!
 Database: DB_CEIH
 ```
-### 3. Run the database schema
+### 3. Run the database schema s
 
 Open SSMS or Azure Data Studio and connect using:
 
@@ -154,7 +154,7 @@ npm install
 npm run dev
 ```
 
-The backend runs on:
+The backend runs on: s
 
 http://localhost:3000
 

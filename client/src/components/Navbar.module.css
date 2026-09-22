@@ -177,7 +177,7 @@ body {
 
 .login {
   text-decoration: none;
-  background: #287fe0;
+  background: #08211f;
   color: white;
   padding: 12px 27px;
   border-radius: 10px;
@@ -185,13 +185,13 @@ body {
 }
 
 .login:hover {
-  background: #176bc4;
+  background: #123b45;
 }
 
 .register {
   text-decoration: none;
-  color: #287fe0;
-  border: 1px solid #287fe0;
+  color: #08211f;;
+  border: 1px solid #08211f;;
   padding: 11px 25px;
   border-radius: 10px;
   font-weight: 600;

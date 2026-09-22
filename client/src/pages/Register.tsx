@@ -1,35 +1,56 @@
 import styles from './Register.module.css'
+import axios from 'axios'
 
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import type { Dispatch, SetStateAction } from 'react'
 import type { User } from '../App'
 
-// import axios from 'axios'
-import { api } from '../api'
+
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+
+// ============================================================
+// Types
+// ============================================================
 
 type Props = {
   setUser: Dispatch<SetStateAction<User | null>>
 }
 
+
+// ============================================================
+// Register Component
+// ============================================================
+
 function Register({ setUser }: Props) {
   const navigate = useNavigate()
+
+
+  // ==========================================================
+  // State
+  // ==========================================================
 
   const [email, setEmail] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+
+
+  // ==========================================================
+  // Register
+  // ==========================================================
 
   const handleRegister = async () => {
     try {
       if (!email || !firstName || !lastName || !password || !confirmPassword) {
-        alert('Please fill in all fields')
+        setErrorMessage('Please fill in all fields')
         return
       }
 
       if (password !== confirmPassword) {
-        alert('Passwords do not match')
+        setErrorMessage('Passwords do not match. Please check and try again.')
         return
       }
 
@@ -43,27 +64,35 @@ function Register({ setUser }: Props) {
       if (response.data.success) {
         setUser(response.data.user)
 
-        alert('Account created successfully')
-
         navigate('/')
       }
     } catch (error) {
       console.error(error)
 
-      alert('Registration failed')
+      setErrorMessage('Registration failed')
     }
   }
 
   return (
     <div className={styles.registerContainer}>
+
+      {/* ======================================================
+          Register Card
+          ====================================================== */}
+
       <div className={styles.registerCard}>
-        <button className={styles.underlinedBtn} onClick={() => navigate('/')}>
+
+        <button
+          className={styles.underlinedBtn}
+          onClick={() => navigate('/')}
+        >
           ⏎ Back to portal
         </button>
 
         <h2>Create Account</h2>
 
         <div className={styles.registerForm}>
+
           <div className={styles.formGroup}>
             <label>Email</label>
 
@@ -119,6 +148,12 @@ function Register({ setUser }: Props) {
             />
           </div>
 
+          {errorMessage && (
+            <p className={styles.errorMessage}>
+              {errorMessage}
+            </p>
+          )}
+
           <button className={styles.registerBtn} onClick={handleRegister}>
             Create Account
           </button>
@@ -131,6 +166,13 @@ function Register({ setUser }: Props) {
             </button>
           </div>
         </div>
+      </div>
+      {/* ======================================================
+          Register Image
+          ====================================================== */}
+
+      <div className={styles.registerImage}>
+        <img src="/plant.jpg" alt="Login" />
       </div>
     </div>
   )

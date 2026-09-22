@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -10,8 +11,10 @@ import AdminPanel from './pages/AdminPanel'
 import ClinicianOnly from './pages/ClinicianOnly'
 import RoleApplicationForm from './components/RoleApplicationForm'
 import ContentPage from './pages/ContentPage'
+import Survey from './pages/Survey'
 import ContentDetailPage from './pages/ContentDetailPage'
 import FindClinic from './pages/FindClinic'
+import ArticlePage from './pages/ArticlePage'
 
 import './Theme.css'
 
@@ -78,13 +81,18 @@ function App() {
   }
 
   return (
-    <div>
-      {!hideNavbarRoutes.includes(location.pathname) && <Navbar user={user} setUser={setUser} />}
+    <>
+      {!hideNavbarRoutes.includes(location.pathname) && (
+        <Navbar user={user} setUser={setUser} />
+      )}
 
       <Routes>
         <Route path="/" element={<Home user={user} />} />
         <Route path="/find-clinic" element={<FindClinic />} />
         <Route path="/search" element={<ContentPage />} />
+        <Route path="/survey" element={<Survey />} />
+        <Route path="/article/:articlePath" element={<ArticlePage />} />
+
         <Route path="/content" element={<ContentPage />} />
         <Route path="/content/*" element={<ContentDetailPage />} />
 
@@ -122,9 +130,10 @@ function App() {
           }
         />
       </Routes>
-
-      <Footer />
-    </div>
+      {!hideNavbarRoutes.includes(location.pathname) && (
+        <Footer />
+      )}
+    </>
   )
 }
 

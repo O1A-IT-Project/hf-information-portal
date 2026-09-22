@@ -250,7 +250,7 @@ function Home({ user }: Props) {
 
           </div>
 
-          {/* Survey Cards */}
+          {/* Survey Grid / Card */}
           <div className={styles.surveyGrid}>
 
             {surveys.slice(0, 3).map((survey) => (

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
 import type { User } from '../App'
-import { getPosts, getForms } from '../services/umbraco'
+import { getForms, getArticles } from '../services/umbraco'
 import type { Post } from '../services/umbraco'
 
 
@@ -14,6 +14,20 @@ import type { Post } from '../services/umbraco'
 
 type Props = {
   user: User | null
+}
+
+type Content = {
+  id: string
+  name: string
+  pageTitle: string
+  overview: string
+  category: string
+  visibility: string[]
+  bodyContent: string
+  author: string
+  created: string
+  updated: string
+  path: string
 }
 
 type Survey = {
@@ -41,7 +55,7 @@ function Home({ user }: Props) {
   // State
   // ==========================================================
 
-  const [posts, setPosts] = useState<Post[]>([])
+  const [content, setContent] = useState<Content[]>([])
   const [loadingContent, setLoadingContent] = useState(true)
   const [contentError, setContentError] = useState('')
 
@@ -51,18 +65,18 @@ function Home({ user }: Props) {
 
 
   // ==========================================================
-  // Load Content
+  // Load Posts (currently articles but to be updated)
   // ==========================================================
 
   useEffect(() => {
     const loadContent = async () => {
       try {
-        const data = await getPosts()
+        const data = await getArticles()
 
-        setPosts(data.slice(0, 4))
+        setContent(data)
       } catch (error) {
         console.error(error)
-        setContentError('Unable to load content from Umbraco.')
+        setContentError('Unable to load content.')
       } finally {
         setLoadingContent(false)
       }
@@ -209,25 +223,120 @@ function Home({ user }: Props) {
 
 
       {/* ======================================================
-          Featured Resources
+          Featured Resouces
           ====================================================== */}
 
       <section className={styles.resourcesSection}>
         <div className={styles.resourcesContent}>
-          <h2>Featured Resources</h2>
 
-          <p className={styles.resourcesIntro}>
-            Guides, articles, and tools to better understand heart failure.
-          </p>
-        </div>
-      </section>
+          {/* Section Header */}
+          <div className={styles.resourcesTitleBox}>
 
+            <div className={styles.resourcesTitleText}>
+              <h2>Featured Resources</h2>
+
+              <p>
+                Guides, articles, and tools to better understand heart failure.
+              </p>
+            </div>
+
+            <Link
+              to="/resources"
+              className={styles.viewAllResourcesLink}
+            >
+              View All Resources →
+            </Link>
+
+          </div>
+
+          {/* Resource Cards */}
+          <div className={styles.resourceGrid}>
+
+            {content.slice(0, 3).map((content) => (
+
+              <div
+                className={styles.resourceCard}
+                key={content.id}
+              >
+
+                {/* Resource Header */}
+                <div className={styles.resourceHeader}>
+
+                  <span className={styles.resourceType}>
+                    Article
+                  </span>
+
+                </div>
+
+                {/* Resource Information */}
+                <h3 className={styles.resourceName}>
+                  {content.name}
+                </h3>
+
+                <p className={styles.resourceDescription}>
+                  {content.overview}
+                </p>
+
+                {/* Resource Details */}
+                <div className={styles.resourceDetails}>
+
+                  <div>
+                    <span>Category</span>
+
+                    <strong>
+                      {content.category}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Created</span>
+
+                    <strong>
+                      {new Date(content.updated).toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Updated</span>
+
+                    <strong>
+                      {new Date(content.updated).toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Author</span>
+
+                    <strong>
+                      {content.author}
+                    </strong>
+                  </div>
+
+                </div>
+
+                {/* Resource Action */}
+                <button className={styles.viewResourceButton} onClick={() => navigate(`/article${content.path}`)}>  View Resource → </button>
+              </div>
+
+            ))}
+
+          </div>
+        </div >
+      </section >
 
       {/* ======================================================
           Featured Surveys
           ====================================================== */}
 
-      <section className={styles.surveysSection}>
+      < section className={styles.surveysSection} >
         <div className={styles.surveysContent}>
 
           {/* Section Header */}
@@ -250,7 +359,7 @@ function Home({ user }: Props) {
 
           </div>
 
-          {/* Survey Grid / Card */}
+          {/* Survey Cards */}
           <div className={styles.surveyGrid}>
 
             {surveys.slice(0, 3).map((survey) => (
@@ -263,8 +372,8 @@ function Home({ user }: Props) {
                 {/* Survey Header */}
                 <div className={styles.surveyHeader}>
 
-                  <span className={styles.surveyCategory}>
-                    {survey.category}
+                  <span className={styles.surveyType}>
+                    Survey
                   </span>
 
                   <span className={styles.surveyStatus}>
@@ -340,10 +449,12 @@ function Home({ user }: Props) {
             ))}
 
           </div>
-          
+
         </div>
-      </section>
-    </div>
+      </section >
+
+
+    </div >
   )
 }
 

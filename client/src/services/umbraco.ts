@@ -42,7 +42,7 @@ type UmbracoApiResponse = {
   items: UmbracoApiItem[]
 }
 
-export interface Article {
+type Article = {
   id: string
   name: string
   pageTitle: string
@@ -50,6 +50,7 @@ export interface Article {
   category: string
   visibility: string[]
   bodyContent: string
+  author: string
   created: string
   updated: string
   path: string
@@ -225,6 +226,7 @@ export async function getArticles(): Promise<Article[]> {
       category: item.properties?.category ?? '',
       visibility: item.properties?.visibility ?? [],
       bodyContent: item.properties?.bodyContent?.markup ?? '',
+      author: item.properties?.author ?? '',
       created: item.createDate,
       updated: item.updateDate,
       path: item.route?.path ?? '',

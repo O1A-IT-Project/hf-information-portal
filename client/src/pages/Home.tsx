@@ -14,9 +14,12 @@ type Props = {
 type Survey = {
   id: string
   name: string
-  createdBy: number
+  path: string
+  organisationName: string
   created: string
   updated: string
+  recipients: string[]
+  description: string
 }
 
 function Home({ user }: Props) {
@@ -64,9 +67,13 @@ function Home({ user }: Props) {
     loadSurveys()
   }, [])
 
-  const openSurvey = (path: string) => {
-    window.location.href = `https://localhost:44343${path}`
-  }
+const openSurvey = (path: string) => {
+  window.open(
+    `https://localhost:44343${path}`,
+    '_blank',
+    'noopener,noreferrer'
+  )
+}
 
   return (
     <div className={styles.homeContainer}>
@@ -231,7 +238,7 @@ function Home({ user }: Props) {
                   </div>
 
                   <div>
-                    <span>Created by</span>
+                    <span>Organisation</span>
                     <strong>
                       {survey.organisationName}
                     </strong>

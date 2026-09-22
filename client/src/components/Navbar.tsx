@@ -41,7 +41,7 @@ function Navbar({ user, setUser }: Props) {
 
         {/* Logo */}
         <a href="/" className={styles.logo}>
-          <i className={`bx bx-home-heart ${styles.logoIcon}`}></i>
+          <i className={`bx bx-donate-heart ${styles.logoIcon}`}></i>
 
           <div className={styles.logoText}>
             <span className={styles.logoTitle}>Heart Failure Information Portal</span>

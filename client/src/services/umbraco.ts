@@ -45,12 +45,13 @@ type UmbracoApiResponse = {
 type Survey = {
   id: string
   name: string
-  path: string
-  createdBy: number
+  description: string
+  category: string
+  recipients: string[]
+  organisationName: string
   created: string
   updated: string
-  recipients: string[]
-  description: string
+  path: string
 }
 
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true'
@@ -201,18 +202,19 @@ export async function getForms(): Promise<Survey[]> {
 
   const data = await res.json()
 
-return data.items
-  .filter((item: any) => item.contentType === 'surveyPage')
-  .map((item: any) => ({
-    id: item.id,
-    name: item.name,
-    path: item.route?.path ?? '',
-    organisationName: item.properties?.organisationName ?? '',
-    created: item.createDate,
-    updated: item.updateDate,
-    recipients: item.properties?.recipients ?? [],
-    description: item.properties?.description ?? ''
-  }))
+  return data.items
+    .filter((item: any) => item.contentType === 'surveyPage')
+    .map((item: any) => ({
+      id: item.id,
+      name: item.name,
+      description: item.properties?.description ?? '',
+      category: item.properties?.category ?? '',
+      recipients: item.properties?.recipients ?? [],
+      organisationName: item.properties?.organisationName ?? '',
+      created: item.createDate,
+      updated: item.updateDate,
+      path: item.route?.path ?? '',
+    }))
 }
 
 

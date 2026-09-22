@@ -19,12 +19,13 @@ type Props = {
 type Survey = {
   id: string
   name: string
-  path: string
+  description: string
+  category: string
+  recipients: string[]
   organisationName: string
   created: string
   updated: string
-  recipients: string[]
-  description: string
+  path: string
 }
 
 
@@ -263,7 +264,7 @@ function Home({ user }: Props) {
                 <div className={styles.surveyHeader}>
 
                   <span className={styles.surveyCategory}>
-                    Heart Failure
+                    {survey.category}
                   </span>
 
                   <span className={styles.surveyStatus}>

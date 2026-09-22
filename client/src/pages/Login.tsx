@@ -1,47 +1,27 @@
-import styles from './Login.module.css'
+import styles from './Register.module.css'
 import axios from 'axios'
-
-import type { Dispatch, SetStateAction } from 'react'
-import type { User } from '../App'
-
+import { api } from '../api'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import type { Dispatch, SetStateAction } from 'react'
 
-// ============================================================
-// Types
-// ============================================================
+import type { User } from '../App'
 
 type Props = {
   setUser: Dispatch<SetStateAction<User | null>>
 }
 
-
-// ============================================================
-// Login Component
-// ============================================================
-
 function Login({ setUser }: Props) {
   const navigate = useNavigate()
 
-
-  // ==========================================================
-  // State
-  // ==========================================================
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
-
-
-  // ==========================================================
-  // Login
-  // ==========================================================
 
   const handleLogin = async () => {
     try {
       if (!email || !password) {
-        setErrorMessage('Please enter email and password')
+        alert('Please enter email and password')
         return
       }
 
@@ -59,34 +39,22 @@ function Login({ setUser }: Props) {
       console.error(error)
 
       if (axios.isAxiosError(error)) {
-        setErrorMessage(error.response?.data?.message || 'Login failed')
+        alert(error.response?.data?.message || 'Login failed')
       } else {
-        setErrorMessage('Login failed')
+        alert('Login failed')
       }
     }
   }
 
   return (
-    <div className={styles.loginContainer}>
-
-
-      {/* ======================================================
-          Login Card
-          ====================================================== */}
-
-      <div className={styles.loginCard}>
-
-        <button
-          className={styles.underlinedBtn}
-          onClick={() => navigate('/')}
-        >
-          ⏎ Back to portal
+    <div className={styles.registerContainer}>
+      <div className={styles.registerCard}>
+        <button className={styles.underlinedBtn} onClick={() => navigate('/')}>
+          ⏎Back to portal
         </button>
+        <h2>LOG IN</h2>
 
-        <h2>Welcome back!</h2>
-
-        <div className={styles.loginForm}>
-
+        <div className={styles.registerForm}>
           <div className={styles.formGroup}>
             <label>Email</label>
 
@@ -109,51 +77,25 @@ function Login({ setUser }: Props) {
             />
 
             <div className={styles.forgotDiv}>
-              <button className={styles.underlinedBtn}>
-                Forgot password?
-              </button>
+              <button className={styles.underlinedBtn}>Forgot password?</button>
             </div>
           </div>
 
-          {errorMessage && (
-            <p className={styles.errorMessage}>
-              {errorMessage}
-            </p>
-          )}
-
-          <button
-            className={styles.loginBtn}
-            onClick={handleLogin}
-          >
+          <button className={styles.registerBtn} onClick={handleLogin}>
             Log In
           </button>
 
           <div className={styles.redirect}>
             <p>Don't have an account?</p>
 
-            <button
-              className={styles.underlinedBtn}
-              onClick={() => navigate('/register')}
-            >
+            <button className={styles.underlinedBtn} onClick={() => navigate('/register')}>
               Create One
             </button>
           </div>
-
         </div>
-
       </div>
-
-
-      {/* ======================================================
-          Login Image
-          ====================================================== */}
-
-      <div className={styles.loginImage}>
-        <img src="/plant.jpg" alt="Login" />
-      </div>
-
     </div>
-  );
+  )
 }
 
 export default Login

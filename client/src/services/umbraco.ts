@@ -49,6 +49,7 @@ type Survey = {
   created: string
   updated: string
   recipients: string[]
+  description: string
 }
 
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true'
@@ -199,15 +200,15 @@ export async function getForms(): Promise<Survey[]> {
 
   const data = await res.json()
 
-  return data
-    .filter((item: any) => item.contentType === 'sd')
+  return data.items
+    .filter((item: any) => item.contentType === 'surveyPage')
     .map((item: any) => ({
       id: item.id,
       name: item.name,
-      createdBy: item.createBy,
       created: item.createDate,
       updated: item.updateDate,
-      recipients: item.properties.recipients
+      recipients: item.properties?.recipients ?? [],
+      description: item.properties?.description ?? ''
     }))
 }
 

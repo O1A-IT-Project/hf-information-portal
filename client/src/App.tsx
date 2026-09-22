@@ -88,9 +88,9 @@ function App() {
 
   return (
     <>
-       {!hideNavbarRoutes.includes(location.pathname) && (
-      <Navbar user={user} setUser={setUser} />
-    )}
+      {!hideNavbarRoutes.includes(location.pathname) && (
+        <Navbar user={user} setUser={setUser} />
+      )}
 
       <Routes>
         <Route path="/" element={<Home user={user} />} />
@@ -98,7 +98,7 @@ function App() {
         <Route path="/search" element={<ContentPage />} />
         <Route path="/survey" element={<Survey />} />
         <Route path="/article/:articlePath" element={<ArticlePage />} />
-      
+
         <Route path="/content" element={<ContentPage />} />
         <Route path="/content/*" element={<ContentDetailPage />} />
         <Route path="/register" element={<Register setUser={setUser} />} />
@@ -130,8 +130,10 @@ function App() {
           }
         />
       </Routes>
-      <Footer />
-      </>
+      {!hideNavbarRoutes.includes(location.pathname) && (
+        <Footer />
+      )}
+    </>
   )
 }
 

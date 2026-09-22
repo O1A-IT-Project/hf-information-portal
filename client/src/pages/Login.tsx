@@ -1,22 +1,41 @@
-import styles from './Register.module.css'
+import styles from './Login.module.css'
 import axios from 'axios'
+
+import type { Dispatch, SetStateAction } from 'react'
+import type { User } from '../App'
 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import type { Dispatch, SetStateAction } from 'react'
 
-import type { User } from '../App'
+// ============================================================
+// Types
+// ============================================================
 
 type Props = {
   setUser: Dispatch<SetStateAction<User | null>>
 }
 
+
+// ============================================================
+// Login Component
+// ============================================================
+
 function Login({ setUser }: Props) {
   const navigate = useNavigate()
 
+
+  // ==========================================================
+  // State
+  // ==========================================================
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+
+  // ==========================================================
+  // Login
+  // ==========================================================
 
   const handleLogin = async () => {
     try {
@@ -53,14 +72,26 @@ function Login({ setUser }: Props) {
   }
 
   return (
-    <div className={styles.registerContainer}>
-      <div className={styles.registerCard}>
-        <button className={styles.underlinedBtn} onClick={() => navigate('/')}>
-          ⏎Back to portal
-        </button>
-        <h2>LOG IN</h2>
+    <div className={styles.loginContainer}>
 
-        <div className={styles.registerForm}>
+
+      {/* ======================================================
+          Login Card
+          ====================================================== */}
+
+      <div className={styles.loginCard}>
+
+        <button
+          className={styles.underlinedBtn}
+          onClick={() => navigate('/')}
+        >
+          ⏎ Back to portal
+        </button>
+
+        <h2>Welcome back!</h2>
+
+        <div className={styles.loginForm}>
+
           <div className={styles.formGroup}>
             <label>Email</label>
 
@@ -83,25 +114,47 @@ function Login({ setUser }: Props) {
             />
 
             <div className={styles.forgotDiv}>
-              <button className={styles.underlinedBtn}>Forgot password?</button>
+              <button className={styles.underlinedBtn}>
+                Forgot password?
+              </button>
             </div>
           </div>
 
-          <button className={styles.registerBtn} onClick={handleLogin}>
+          <button
+            className={styles.loginBtn}
+            onClick={handleLogin}
+          >
             Log In
           </button>
 
           <div className={styles.redirect}>
             <p>Don't have an account?</p>
 
-            <button className={styles.underlinedBtn} onClick={() => navigate('/register')}>
+            <button
+              className={styles.underlinedBtn}
+              onClick={() => navigate('/register')}
+            >
               Create One
             </button>
           </div>
+
         </div>
+
       </div>
+
+
+     {/* ======================================================
+          Login Image
+          ====================================================== */}
+
+      <div className={styles.loginImage}>
+        <img src="/plant.jpg" alt="Login" />
+      </div>
+
+
+
     </div>
-  )
+  );
 }
 
 export default Login

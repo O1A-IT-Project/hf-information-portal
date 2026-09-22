@@ -45,16 +45,10 @@ function Login({ setUser }: Props) {
         return
       }
 
-      const response = await axios.post(
-        'http://localhost:3000/api/auth/signin',
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      )
+      const response = await api.post('/api/auth/signin', {
+        email,
+        password,
+      })
 
       if (response.data.success) {
         setUser(response.data.data.user)

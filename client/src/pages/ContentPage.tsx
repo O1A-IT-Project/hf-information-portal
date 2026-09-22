@@ -258,19 +258,22 @@ function ContentPage() {
           <div className={styles.resultsGroup}>
             {searched && results.length === 0 && <p>No results found</p>}
 
-            {results.map((item) => (
-              <Link
-                key={item.id}
-                to={`/content${item.route?.path || ""}`}
-                className={styles.resultLink}
-              >
-                <div className={styles.resultCard}>
-                  <div>
-                    <h3>{item.title}</h3>
+            {searched &&
+              results.length > 0 &&
+              !groupByYear &&                     
+              results.map((item) => (
+                <Link
+                  key={item.id}
+                  to={`/content${item.route?.path || ""}`}
+                  className={styles.resultLink}
+                >
+                  <div className={styles.resultCard}>
+                    <div>
+                      <h3>{item.title}</h3>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
 
             {searched &&
               results.length > 0 &&
@@ -278,7 +281,6 @@ function ContentPage() {
               groupedResults.map(([year, items]) => (
                 <div key={year} className={styles.yearGroup}>
                   <h3 className={styles.yearHeading}>{year}</h3>
-
                   {items.map(renderResultCard)}
                 </div>
               ))}

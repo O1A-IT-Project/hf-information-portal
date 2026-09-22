@@ -8,7 +8,7 @@ The system provides access to healthcare resources through a React frontend, an 
 
 ## Live Demo
 
-[View the application](https://2026-s1-o1a.github.io/hf-information-portal/)
+[View the application](https://hf-information-portal.vercel.app)
 
 ## Main Features
 

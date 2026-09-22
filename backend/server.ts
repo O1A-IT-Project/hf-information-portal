@@ -1,9 +1,9 @@
 import app from './src/app.ts'
 import { disconnectDB } from './src/config/db.js'
 
-const port = 3000
+const port = Number(process.env.PORT) || 3000
 
-const server = app.listen(port, () => {
+const server = app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on port ${port}`)
 })
 

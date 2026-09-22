@@ -54,18 +54,12 @@ function Register({ setUser }: Props) {
         return
       }
 
-      const response = await axios.post(
-        'http://localhost:3000/api/auth/signup',
-        {
-          email,
-          firstName,
-          lastName,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      )
+      const response = await api.post('/api/auth/signup', {
+        email,
+        firstName,
+        lastName,
+        password,
+      })
 
       if (response.data.success) {
         setUser(response.data.user)

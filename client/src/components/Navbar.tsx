@@ -38,13 +38,7 @@ function Navbar({ user, setUser }: Props) {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        'http://localhost:3000/api/auth/signout',
-        {},
-        {
-          withCredentials: true,
-        }
-      )
+      await api.post('/api/auth/signout')
 
       setUser(null)
 

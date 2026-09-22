@@ -37,8 +37,8 @@
    ============================================================ */
 
 .registerCard {
-  width: 600px;
-  height: 820px;
+  width: 700px;
+  height: 900px;
   background-color: white;
   padding: 45px;
   border-radius: 12px 0 0 12px;
@@ -117,7 +117,7 @@
 .errorMessage {
   color: #d32f2f;
   font-size: 14px;
-  margin: -10px 0 0 0;
+  margin: 10px 0 0 0;
   text-align: center;
 }
 
@@ -126,8 +126,8 @@
    ============================================================ */
 
 .registerImage {
-  width: 750px;
-  height: 820px;
+  width: 850px;
+  height: 900px;
   overflow: hidden;
   border-radius: 0 12px 12px 0;
 }

@@ -35,6 +35,7 @@ function Register({ setUser }: Props) {
   const [lastName, setLastName] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
 
   // ==========================================================
@@ -44,12 +45,12 @@ function Register({ setUser }: Props) {
   const handleRegister = async () => {
     try {
       if (!email || !firstName || !lastName || !password || !confirmPassword) {
-        alert('Please fill in all fields')
+        setErrorMessage('Please fill in all fields')
         return
       }
 
       if (password !== confirmPassword) {
-        alert('Passwords do not match')
+        setErrorMessage('Passwords do not match. Please check and try again.')
         return
       }
 
@@ -69,14 +70,12 @@ function Register({ setUser }: Props) {
       if (response.data.success) {
         setUser(response.data.user)
 
-        alert('Account created successfully')
-
         navigate('/')
       }
     } catch (error) {
       console.error(error)
 
-      alert('Registration failed')
+      setErrorMessage('Registration failed')
     }
   }
 
@@ -154,6 +153,12 @@ function Register({ setUser }: Props) {
               onChange={e => setConfirmPassword(e.target.value)}
             />
           </div>
+
+          {errorMessage && (
+            <p className={styles.errorMessage}>
+              {errorMessage}
+            </p>
+          )}
 
           <button className={styles.registerBtn} onClick={handleRegister}>
             Create Account

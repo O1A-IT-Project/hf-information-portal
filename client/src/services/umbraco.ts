@@ -45,6 +45,7 @@ type UmbracoApiResponse = {
 type Survey = {
   id: string
   name: string
+  path: string
   createdBy: number
   created: string
   updated: string
@@ -200,17 +201,21 @@ export async function getForms(): Promise<Survey[]> {
 
   const data = await res.json()
 
-  return data.items
-    .filter((item: any) => item.contentType === 'surveyPage')
-    .map((item: any) => ({
-      id: item.id,
-      name: item.name,
-      created: item.createDate,
-      updated: item.updateDate,
-      recipients: item.properties?.recipients ?? [],
-      description: item.properties?.description ?? ''
-    }))
+return data.items
+  .filter((item: any) => item.contentType === 'surveyPage')
+  .map((item: any) => ({
+    id: item.id,
+    name: item.name,
+    path: item.route?.path ?? '',
+    organisationName: item.properties?.organisationName ?? '',
+    created: item.createDate,
+    updated: item.updateDate,
+    recipients: item.properties?.recipients ?? [],
+    description: item.properties?.description ?? ''
+  }))
 }
+
+
 
 
 

@@ -64,9 +64,8 @@ function Home({ user }: Props) {
     loadSurveys()
   }, [])
 
-  const openSurvey = (formId: string) => {
-    window.location.href =
-      `https://localhost:44343/surveys/?formId=${formId}`
+  const openSurvey = (path: string) => {
+    window.location.href = `https://localhost:44343${path}`
   }
 
   return (
@@ -163,20 +162,20 @@ function Home({ user }: Props) {
         <div className={styles.surveysContent}>
 
           <div className={styles.surveysTitleBox}>
-  <div className={styles.surveysTitleText}>
-    <h2>Featured Surveys</h2>
-    <p>
-      Share your experiences and insights to help improve heart failure data and research.
-    </p>
-  </div>
+            <div className={styles.surveysTitleText}>
+              <h2>Featured Surveys</h2>
+              <p>
+                Share your experiences and insights to help improve heart failure data and research.
+              </p>
+            </div>
 
-<Link
-  to="/survey"
-  className={styles.viewAllSurveysLink}
->
-  View All Surveys →
-</Link>
-</div>
+            <Link
+              to="/survey"
+              className={styles.viewAllSurveysLink}
+            >
+              View All Surveys →
+            </Link>
+          </div>
 
           <div className={styles.surveyGrid}>
 
@@ -198,43 +197,50 @@ function Home({ user }: Props) {
                 </h3>
 
                 <p className={styles.surveyDescription}>
-                  Complete this survey and share your experiences.
-                  Your insights can help improve heart failure research and care.
+                  {survey.description}
                 </p>
 
                 <div className={styles.surveyDetails}>
                   <div>
                     <span>Recipient</span>
                     <strong>
-                      patients
+                      {survey.recipients.join(', ')}
                     </strong>
                   </div>
 
                   <div>
                     <span>Created</span>
                     <strong>
-                      {new Date(survey.created).toLocaleDateString()}
+                      {new Date(survey.updated).toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
                     </strong>
                   </div>
 
                   <div>
                     <span>Updated</span>
                     <strong>
-                      {new Date(survey.updated).toLocaleDateString()}
+                      {new Date(survey.updated).toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
                     </strong>
                   </div>
 
                   <div>
                     <span>Created by</span>
                     <strong>
-                      {survey.createdBy}
+                      {survey.organisationName}
                     </strong>
                   </div>
                 </div>
 
                 <button
                   className={styles.takeSurveyButton}
-                  onClick={() => openSurvey(survey.id)}
+                  onClick={() => openSurvey(survey.path)}
                 >
                   Take Survey →
                 </button>

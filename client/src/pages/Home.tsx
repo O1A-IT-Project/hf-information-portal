@@ -1,11 +1,10 @@
 import styles from './Home.module.css'
 
+import type { User } from '../App'
+
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-
-import type { User } from '../App'
 import { getForms, getArticles } from '../services/umbraco'
-import type { Post } from '../services/umbraco'
 
 
 // ============================================================

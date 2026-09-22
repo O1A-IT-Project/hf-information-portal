@@ -1,22 +1,41 @@
+import styles from './Navbar.module.css'
+import axios from 'axios'
+
 import type { User } from '../App'
 import type { Dispatch, SetStateAction } from 'react'
 
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
-import axios from 'axios'
 
-import styles from './Navbar.module.css'
+// ============================================================
+// Types
+// ============================================================
 
 type Props = {
   user: User | null
   setUser: Dispatch<SetStateAction<User | null>>
 }
 
+
+// ============================================================
+// Navbar Component
+// ============================================================
+
 function Navbar({ user, setUser }: Props) {
   const navigate = useNavigate()
+
+  // ==========================================================
+  // State
+  // ==========================================================
+
   const [menuOpen, setMenuOpen] = useState(false)
 
+
+  // ==========================================================
+  // Logout
+  // ==========================================================
+  
   const handleLogout = async () => {
     try {
       await axios.post(

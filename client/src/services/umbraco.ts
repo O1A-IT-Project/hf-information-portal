@@ -48,6 +48,7 @@ type Survey = {
   createdBy: number
   created: string
   updated: string
+  recipients: string[]
 }
 
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true'
@@ -188,13 +189,26 @@ export async function getContentBySlug(slug: string) {
 }
 
 export async function getForms(): Promise<Survey[]> {
-  const res = await fetch('https://localhost:44343/api/forms')
+  const res = await fetch(
+    'https://localhost:44343/umbraco/delivery/api/v2/content'
+  )
 
   if (!res.ok) {
     throw new Error(`Failed to fetch forms: ${res.status}`)
   }
 
-  return res.json()
+  const data = await res.json()
+
+  return data
+    .filter((item: any) => item.contentType === 'sd')
+    .map((item: any) => ({
+      id: item.id,
+      name: item.name,
+      createdBy: item.createBy,
+      created: item.createDate,
+      updated: item.updateDate,
+      recipients: item.properties.recipients
+    }))
 }
 
 

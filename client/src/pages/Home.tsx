@@ -171,7 +171,7 @@ function Home({ user }: Props) {
   </div>
 
 <Link
-  to="/surveys"
+  to="/survey"
   className={styles.viewAllSurveysLink}
 >
   View All Surveys →

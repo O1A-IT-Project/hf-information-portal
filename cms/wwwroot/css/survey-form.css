@@ -1,0 +1,229 @@
+/* =========================================================
+   SURVEY
+   ========================================================= */
+
+.survey-card {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* =========================================================
+   FORM SECTIONS / FIELDSETS
+   ========================================================= */
+
+.umbraco-forms-form .umbraco-forms-fieldset {
+    border: 0 !important;
+    border-bottom: 1px solid #dee2e6 !important;
+
+    padding: 0 0 25px 0 !important;
+    margin: 0 0 25px 0 !important;
+
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Keep the separator visible */
+.umbraco-forms-form .umbraco-forms-fieldset > legend {
+    color: #1f2937;
+    font-size: 20px;
+    font-weight: 600;
+
+    padding: 0 !important;
+    margin: 0 0 20px 0 !important;
+}
+
+
+/* =========================================================
+   INDIVIDUAL FIELDS
+   ========================================================= */
+
+.umbraco-forms-form .umbraco-forms-field {
+    width: 100%;
+    box-sizing: border-box;
+
+    border: none !important;
+
+    margin-bottom: 20px;
+}
+
+
+/* Field labels */
+.umbraco-forms-form .umbraco-forms-label {
+    display: block;
+
+    color: #344054;
+    font-size: 16px;
+    font-weight: 500;
+
+    margin-bottom: 8px;
+}
+
+
+/* =========================================================
+   CHECKBOX LIST
+   ========================================================= */
+
+.umbraco-forms-form .checkboxlist.checkboxlist-vertical {
+    width: 100%;
+    max-width: 400px;
+}
+
+
+/* Each checkbox + label */
+.umbraco-forms-form
+.checkboxlist.checkboxlist-vertical > div {
+    display: grid !important;
+
+    grid-template-columns: 24px minmax(0, 1fr) !important;
+
+    column-gap: 10px;
+    align-items: center;
+
+    width: 100%;
+
+    margin-bottom: 10px;
+}
+
+
+/* Checkbox */
+.umbraco-forms-form
+.checkboxlist.checkboxlist-vertical
+> div
+> input[type="checkbox"] {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+
+    width: 18px !important;
+    height: 18px !important;
+
+    display: block !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+/* Checkbox label */
+.umbraco-forms-form
+.checkboxlist.checkboxlist-vertical
+> div
+> label {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+
+    display: block !important;
+
+    width: auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    color: #344054;
+    font-size: 16px;
+    line-height: 1.4;
+
+    cursor: pointer;
+}
+
+
+
+/* =========================================================
+   TEXT INPUTS / SELECTS / TEXTAREAS
+   ========================================================= */
+
+.umbraco-forms-form input[type="text"],
+.umbraco-forms-form input[type="email"],
+.umbraco-forms-form input[type="number"],
+.umbraco-forms-form input[type="tel"],
+.umbraco-forms-form select,
+.umbraco-forms-form textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 10px 12px;
+
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+
+    font-size: 16px;
+    color: #344054;
+
+    background: #ffffff;
+}
+
+
+/* Input focus */
+.umbraco-forms-form input[type="text"]:focus,
+.umbraco-forms-form input[type="email"]:focus,
+.umbraco-forms-form input[type="number"]:focus,
+.umbraco-forms-form input[type="tel"]:focus,
+.umbraco-forms-form select:focus,
+.umbraco-forms-form textarea:focus {
+    border-color: #86b7fe;
+
+    outline: 0;
+
+    box-shadow:
+        0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+   ========================================================= */
+
+.umbraco-forms-form
+.umbraco-forms-navigation
+input[type="submit"] {
+    display: inline-block !important;
+
+    width: auto !important;
+
+    padding: 10px 24px !important;
+
+    border: 1px solid #0d6efd !important;
+    border-radius: 6px !important;
+
+    background-color: #0d6efd !important;
+
+    color: #ffffff !important;
+
+    font-size: 16px !important;
+    font-weight: 500 !important;
+
+    line-height: 1.5 !important;
+
+    text-align: center !important;
+
+    cursor: pointer !important;
+
+    transition:
+        background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out;
+}
+
+
+/* Submit hover */
+.umbraco-forms-form
+.umbraco-forms-navigation
+input[type="submit"]:hover {
+    background-color: #0b5ed7 !important;
+    border-color: #0a58ca !important;
+}
+
+
+/* Submit focus */
+.umbraco-forms-form
+.umbraco-forms-navigation
+input[type="submit"]:focus {
+    outline: 0;
+
+    box-shadow:
+        0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+
+

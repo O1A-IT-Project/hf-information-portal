@@ -44,6 +44,7 @@ function Footer() {
       <div className={styles.footerBottom}>
         <p>© {currentYear} Heart Failure Information Portal</p>
       </div>
+      <br></br>
     </footer>
   )
 }

@@ -35,7 +35,7 @@ function Navbar({ user, setUser }: Props) {
   // ==========================================================
   // Logout
   // ==========================================================
-  
+
   const handleLogout = async () => {
     try {
       await axios.post(
@@ -58,7 +58,10 @@ function Navbar({ user, setUser }: Props) {
     <nav className={styles.navbar}>
       <div className={styles.navContainer}>
 
-        {/* Logo */}
+
+        {/* ======================================================
+          Logo & Title
+          ====================================================== */}
         <a href="/" className={styles.logo}>
           <i className={`bx bx-donate-heart ${styles.logoIcon}`}></i>
 
@@ -68,7 +71,10 @@ function Navbar({ user, setUser }: Props) {
           </div>
         </a>
 
-        {/* Links */}
+
+        {/* ======================================================
+          Links
+          ====================================================== */}
 
         <div className={styles.navLinks}>
 
@@ -124,8 +130,12 @@ function Navbar({ user, setUser }: Props) {
           )}
         </div>
 
-        {/* Right Side */}
         <div className={styles.navActions}>
+
+
+          {/* ======================================================
+          Search
+          ====================================================== */}
           <div className={styles.searchBar}>
             <input
               type="text"
@@ -136,7 +146,10 @@ function Navbar({ user, setUser }: Props) {
             </button>
           </div>
 
-          {/* Login/Profile */}
+
+          {/* ======================================================
+          Login & Register / Menu
+          ====================================================== */}
           {user ? (
             <>
               <div className={styles.profileMenu}>

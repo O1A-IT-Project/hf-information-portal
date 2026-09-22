@@ -158,8 +158,6 @@ function Login({ setUser }: Props) {
         <img src="/plant.jpg" alt="Login" />
       </div>
 
-
-
     </div>
   );
 }

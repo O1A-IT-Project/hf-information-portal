@@ -1,24 +1,45 @@
 import styles from './Register.module.css'
+import axios from 'axios'
 
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import type { Dispatch, SetStateAction } from 'react'
 import type { User } from '../App'
 
-import axios from 'axios'
+
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+
+// ============================================================
+// Types
+// ============================================================
 
 type Props = {
   setUser: Dispatch<SetStateAction<User | null>>
 }
 
+
+// ============================================================
+// Register Component
+// ============================================================
+
 function Register({ setUser }: Props) {
   const navigate = useNavigate()
+
+
+  // ==========================================================
+  // State
+  // ==========================================================
 
   const [email, setEmail] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+
+
+  // ==========================================================
+  // Register
+  // ==========================================================
 
   const handleRegister = async () => {
     try {
@@ -61,14 +82,24 @@ function Register({ setUser }: Props) {
 
   return (
     <div className={styles.registerContainer}>
+
+      {/* ======================================================
+          Register Card
+          ====================================================== */}
+
       <div className={styles.registerCard}>
-        <button className={styles.underlinedBtn} onClick={() => navigate('/')}>
+
+        <button
+          className={styles.underlinedBtn}
+          onClick={() => navigate('/')}
+        >
           ⏎ Back to portal
         </button>
 
         <h2>Create Account</h2>
 
         <div className={styles.registerForm}>
+
           <div className={styles.formGroup}>
             <label>Email</label>
 
@@ -136,6 +167,13 @@ function Register({ setUser }: Props) {
             </button>
           </div>
         </div>
+      </div>
+      {/* ======================================================
+          Register Image
+          ====================================================== */}
+
+      <div className={styles.registerImage}>
+        <img src="/plant.jpg" alt="Login" />
       </div>
     </div>
   )

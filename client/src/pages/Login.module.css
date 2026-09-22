@@ -1,16 +1,7 @@
-.loginContainer {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
-}
+/* ============================================================
+   Background
+   ============================================================ */
 
-/* Blurred plant background */
 .loginContainer::before {
   content: "";
   position: absolute;
@@ -24,21 +15,26 @@
 }
 
 
-.loginCard,
-.loginImage {
+/* ============================================================
+   Login
+   ============================================================ */
+
+.loginContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  box-sizing: border-box;
   position: relative;
-  z-index: 1;
+  overflow: hidden;
 }
 
-.underlinedBtn:first-child {
-  margin-bottom: 20px;
-}
 
-.loginCard h2 {
-  margin-top: 40px;
-  margin-bottom: 30px;
-}
-
+/* ============================================================
+   Login Form
+   ============================================================ */
 
 .loginCard {
   width: 600px;
@@ -128,4 +124,30 @@
 
 .redirect p {
   margin: 0;
+}
+
+.errorMessage {
+  color: #d32f2f;
+  font-size: 14px;
+  margin: -10px 0 0 0;
+  text-align: center;
+}
+
+/* ============================================================
+   Login Image
+   ============================================================ */
+
+.loginCard,
+.loginImage {
+  position: relative;
+  z-index: 1;
+}
+
+.underlinedBtn:first-child {
+  margin-bottom: 20px;
+}
+
+.loginCard h2 {
+  margin-top: 40px;
+  margin-bottom: 30px;
 }

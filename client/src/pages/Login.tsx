@@ -31,6 +31,7 @@ function Login({ setUser }: Props) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
 
   // ==========================================================
@@ -40,7 +41,7 @@ function Login({ setUser }: Props) {
   const handleLogin = async () => {
     try {
       if (!email || !password) {
-        alert('Please enter email and password')
+        setErrorMessage('Please enter email and password')
         return
       }
 
@@ -64,9 +65,9 @@ function Login({ setUser }: Props) {
       console.error(error)
 
       if (axios.isAxiosError(error)) {
-        alert(error.response?.data?.message || 'Login failed')
+        setErrorMessage(error.response?.data?.message || 'Login failed')
       } else {
-        alert('Login failed')
+        setErrorMessage('Login failed')
       }
     }
   }
@@ -120,6 +121,12 @@ function Login({ setUser }: Props) {
             </div>
           </div>
 
+          {errorMessage && (
+            <p className={styles.errorMessage}>
+              {errorMessage}
+            </p>
+          )}
+
           <button
             className={styles.loginBtn}
             onClick={handleLogin}
@@ -143,7 +150,7 @@ function Login({ setUser }: Props) {
       </div>
 
 
-     {/* ======================================================
+      {/* ======================================================
           Login Image
           ====================================================== */}
 

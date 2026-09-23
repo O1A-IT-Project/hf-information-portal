@@ -48,7 +48,8 @@ builder.Services.AddAuthentication()
                           context.Request.Cookies.TryGetValue("jwt", out var token))
                     {
                         var origin = context.Request.Headers.Origin.ToString();
-                        var allowedOrigins = new[] { "http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173" };
+                        var allowedOrigins = new[] { "http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173" };
+
 
                         if (!string.IsNullOrEmpty(origin) && allowedOrigins.Contains(origin))
                         {
@@ -64,6 +65,8 @@ WebApplication app = builder.Build();
 
 
 await app.BootUmbracoAsync();
+
+app.UseRouting();
 
 app.UseCors("ReactApp");
 app.UseAuthentication();
@@ -81,3 +84,4 @@ app.UseUmbraco()
     });
 
 await app.RunAsync();
+

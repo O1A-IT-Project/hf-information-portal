@@ -1,3 +1,13 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
+// Must come after dotenv.config() so NODE_ENV is available,
+// and before any routes/modules that might make HTTPS calls
+if (process.env.NODE_ENV !== 'production') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+  console.log("NODE_TLS_REJECT_UNAUTHORIZED = '0'")
+}
+
 import app from './src/app.ts'
 import { disconnectDB } from './src/config/db.js'
 

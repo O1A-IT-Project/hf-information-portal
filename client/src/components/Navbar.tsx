@@ -1,12 +1,11 @@
 import styles from './Navbar.module.css'
 
-import type { User } from '../App'
+import type { User, Role } from '../App'
 import type { Dispatch, SetStateAction } from 'react'
 
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { api } from '../api'
-
 
 // ============================================================
 // Types
@@ -15,14 +14,15 @@ import { api } from '../api'
 type Props = {
   user: User | null
   setUser: Dispatch<SetStateAction<User | null>>
+  activeRole: Role | null
+  onRoleChange: (role: Role) => void
 }
-
 
 // ============================================================
 // Navbar Component
 // ============================================================
 
-function Navbar({ user, setUser }: Props) {
+function Navbar({ user, setUser, activeRole, onRoleChange }: Props) {
   const navigate = useNavigate()
 
   // ==========================================================
@@ -30,7 +30,6 @@ function Navbar({ user, setUser }: Props) {
   // ==========================================================
 
   const [menuOpen, setMenuOpen] = useState(false)
-
 
   // ==========================================================
   // Logout
@@ -40,6 +39,8 @@ function Navbar({ user, setUser }: Props) {
     try {
       await api.post('/api/auth/signout')
 
+      sessionStorage.removeItem('activeRole')
+
       setUser(null)
 
       navigate('/')
@@ -48,11 +49,17 @@ function Navbar({ user, setUser }: Props) {
     }
   }
 
+  const formatRole = (role: Role) => {
+    if (role === 'custodian') {
+      return 'Content Custodian'
+    }
+
+    return role.charAt(0).toUpperCase() + role.slice(1)
+  }
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.navContainer}>
-
-
         {/* ======================================================
           Logo & Title
           ====================================================== */}
@@ -61,63 +68,59 @@ function Navbar({ user, setUser }: Props) {
 
           <div className={styles.logoText}>
             <span className={styles.logoTitle}>Heart Failure Information Portal</span>
-            <span className={styles.logoOrg}>Commission on Excellence and Innovation in Health</span>
+            <span className={styles.logoOrg}>
+              Commission on Excellence and Innovation in Health
+            </span>
           </div>
         </a>
-
 
         {/* ======================================================
           Links
           ====================================================== */}
 
         <div className={styles.navLinks}>
-
-          <NavLink
-            to="/"
-            className={({ isActive }) => isActive ? styles.active : undefined}
-          >
+          <NavLink to="/" className={({ isActive }) => (isActive ? styles.active : undefined)}>
             Home
           </NavLink>
 
           <NavLink
             to="/search"
-            className={({ isActive }) => isActive ? styles.active : undefined}
+            className={({ isActive }) => (isActive ? styles.active : undefined)}
           >
             Resources
           </NavLink>
 
           <NavLink
             to="/survey"
-            className={({ isActive }) => isActive ? styles.active : undefined}
+            className={({ isActive }) => (isActive ? styles.active : undefined)}
           >
             Surveys
           </NavLink>
 
           <NavLink
             to="/find-clinic"
-            className={({ isActive }) => isActive ? styles.active : undefined}
+            className={({ isActive }) => (isActive ? styles.active : undefined)}
           >
             Find a Clinic
           </NavLink>
-
 
           <a href="https://ceih.sa.gov.au/contact-us" target="_blank" rel="noopener noreferrer">
             About Us
           </a>
 
-          {user?.roles?.includes('admin') && (
+          {activeRole === 'admin' && (
             <NavLink
               to="/admin_panel"
-              className={({ isActive }) => isActive ? styles.active : undefined}
+              className={({ isActive }) => (isActive ? styles.active : undefined)}
             >
               Admin Dashboard
             </NavLink>
           )}
 
-          {user?.roles?.includes('doctor') && (
+          {activeRole === 'doctor' && (
             <NavLink
               to="/ClinicianOnly"
-              className={({ isActive }) => isActive ? styles.active : undefined}
+              className={({ isActive }) => (isActive ? styles.active : undefined)}
             >
               Clinician Dashboard
             </NavLink>
@@ -125,21 +128,15 @@ function Navbar({ user, setUser }: Props) {
         </div>
 
         <div className={styles.navActions}>
-
-
           {/* ======================================================
           Search
           ====================================================== */}
           <div className={styles.searchBar}>
-            <input
-              type="text"
-              placeholder="Search..."
-            />
+            <input type="text" placeholder="Search..." />
             <button className={styles.searchBtn}>
               <i className="bx bx-search"></i>
             </button>
           </div>
-
 
           {/* ======================================================
           Login & Register / Menu
@@ -147,18 +144,44 @@ function Navbar({ user, setUser }: Props) {
           {user ? (
             <>
               <div className={styles.profileMenu}>
-                <button
-                  className={styles.menuButton}
-                  onClick={() => setMenuOpen(!menuOpen)}
-                >
-                  <i className="bx bx-menu"></i>
+                <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)}>
+                  <i className="bx bx-user-circle"></i>
                 </button>
 
                 {menuOpen && (
                   <div className={styles.dropdown}>
+                    {activeRole && (user.roles?.length ?? 0) > 1 && (
+                      <div className={styles.roleSwitcher}>
+                        <div className={styles.roleSwitcherHeader}>
+                          <span className={styles.roleSwitcherLabel}>Viewing as </span>
+
+                          <span className={styles.activeRoleBadge}>{formatRole(activeRole)}</span>
+                        </div>
+
+                        <select
+                          className={styles.roleSelect}
+                          value={activeRole}
+                          onChange={event => {
+                            onRoleChange(event.target.value as Role)
+                            setMenuOpen(false)
+                          }}
+                        >
+                          {(user.roles ?? []).map(role => (
+                            <option key={role} value={role}>
+                              {formatRole(role)}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
                     <Link to="/profile" onClick={() => setMenuOpen(false)}>
                       <i className="bx bx-user"></i>
                       <span>Profile</span>
+                    </Link>
+
+                    <Link to="/apply-role" onClick={() => setMenuOpen(false)}>
+                      <i className="bx bx-bell"></i>
+                      <span>Notification</span>
                     </Link>
 
                     <Link to="/apply-role" onClick={() => setMenuOpen(false)}>
@@ -168,7 +191,7 @@ function Navbar({ user, setUser }: Props) {
 
                     <Link to="/apply-role" onClick={() => setMenuOpen(false)}>
                       <i className="bx bx-history"></i>
-                      <span>View History</span>
+                      <span>History</span>
                     </Link>
 
                     <Link to="/apply-role" onClick={() => setMenuOpen(false)}>

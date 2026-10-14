@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import styles from './Inbox.module.css'
 
 import {
   fetchNotifications,
@@ -8,6 +9,39 @@ import {
 } from '../services/notifications'
 import type { Notification } from '../services/notifications'
 
+// ============================================================
+// Inbox Dummy Data
+// ============================================================
+const DUMMY: Notification[] = [
+  {
+    notificationId: 1,
+    type: 'role_approved',
+    title: 'Your account was approved',
+    message: 'You now have access to create and send surveys.',
+    link: '/profile',
+    isRead: false,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    notificationId: 2,
+    type: 'survey',
+    title: 'New survey available: Employee Wellness 2025',
+    message: 'A new survey has been published in your organisation. It closes in 7 days — make sure to submit your response before then.',
+    link: '/survey',
+    isRead: false,
+    createdAt: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
+  },
+  {
+    notificationId: 3,
+    type: 'survey',
+    title: 'Reminder: finish your draft',
+    message: 'You have an unfinished survey draft waiting.',
+    link: null,
+    isRead: true,
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 26).toISOString(),
+  },
+]
+
 function Inbox() {
   const navigate = useNavigate()
   const [notifications, setNotifications] = useState<Notification[]>([])
@@ -15,8 +49,9 @@ function Inbox() {
 
   const load = async () => {
     try {
-      const data = await fetchNotifications()
-      setNotifications(data.notifications)
+      // const data = await fetchNotifications()
+      // setNotifications(data.notifications)
+      setNotifications(DUMMY)
     } finally {
       setLoading(false)
     }
@@ -30,10 +65,11 @@ function Inbox() {
     if (!n.isRead) {
       await markNotificationRead(n.notificationId)
       setNotifications(prev =>
-        prev.map(x => (x.notificationId === n.notificationId ? { ...x, isRead: true } : x))
+        prev.map(x =>
+          x.notificationId === n.notificationId ? { ...x, isRead: true } : x
+        )
       )
     }
-
     if (n.link) navigate(n.link)
   }
 
@@ -42,33 +78,57 @@ function Inbox() {
     setNotifications(prev => prev.map(n => ({ ...n, isRead: true })))
   }
 
+  const hasUnread = notifications.some(n => !n.isRead)
+
   return (
-    <div style={{ padding: '2rem', maxWidth: 800, margin: '0 auto' }}>
-      <h1>Inbox</h1>
-
-      <button onClick={handleMarkAll}>Mark all as read</button>
-
-      {loading && <p>Loading...</p>}
-      {!loading && notifications.length === 0 && <p>No notifications.</p>}
-
-      {notifications.map(n => (
-        <div
-          key={n.notificationId}
-          onClick={() => handleOpen(n)}
-          style={{
-            cursor: 'pointer',
-            padding: '1rem',
-            marginTop: '0.75rem',
-            borderRadius: 8,
-            fontWeight: n.isRead ? 400 : 600,
-            background: n.isRead ? 'transparent' : 'rgba(255,255,255,0.06)',
-          }}
+    <div className={styles.inboxContainer}>
+      <div className={styles.inboxHeader}>
+        <h1 className={styles.inboxTitle}>Inbox</h1>
+        <button
+          className={styles.markAllButton}
+          onClick={handleMarkAll}
+          disabled={!hasUnread}
         >
-          <div>{n.title}</div>
-          <div>{n.message}</div>
-          <small>{new Date(n.createdAt).toLocaleString()}</small>
+          Mark all as read
+        </button>
+      </div>
+
+      {loading && <p className={styles.inboxEmpty}>Loading...</p>}
+
+      {!loading && notifications.length === 0 && (
+        <p className={styles.inboxEmpty}>No notifications.</p>
+      )}
+
+      {!loading && notifications.length > 0 && (
+        <div className={styles.notificationList}>
+          {notifications.map(n => (
+            <div
+              key={n.notificationId}
+              onClick={() => handleOpen(n)}
+              className={`${styles.notificationItem} ${
+                !n.isRead ? styles.notificationUnread : ''
+              }`}
+            >
+              {/* Left: icon based on type */}
+              <div className={styles.notificationIcon}>
+                {n.type === 'role_approved' ? '✓' : '🔔'}
+              </div>
+
+              {/* Middle: content */}
+              <div className={styles.notificationContent}>
+                <p className={styles.notificationTitle}>{n.title}</p>
+                <p className={styles.notificationMessage}>{n.message}</p>
+                <span className={styles.notificationTime}>
+                  {new Date(n.createdAt).toLocaleString()}
+                </span>
+              </div>
+
+              {/* Right: unread dot */}
+              {!n.isRead && <span className={styles.notificationDot} />}
+            </div>
+          ))}
         </div>
-      ))}
+      )}
     </div>
   )
 }

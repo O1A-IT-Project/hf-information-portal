@@ -52,17 +52,18 @@ function Navbar({ user, setUser }: Props) {
   // ==========================================================
   // Notification 
   // ==========================================================
-  const [unread, setUnread] = useState(0)
+  const [unread, setUnread] = useState(2)
 
   useEffect(() => {
     if (!user) return
 
-    const poll = () => fetchNotifications().then(d => setUnread(d.unreadCount)).catch(() => {})
+    // COMMENTED OUT FOR NOW: USING DUMMY DATA INSTEAD
+    // const poll = () => fetchNotifications().then(d => setUnread(d.unreadCount)).catch(() => {})
 
-    poll()
-    const id = setInterval(poll, 60000)
+    // poll()
+    // const id = setInterval(poll, 60000)
 
-    return () => clearInterval(id)
+    // return () => clearInterval(id)
   }, [user])
   
   return (

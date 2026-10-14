@@ -528,7 +528,17 @@ const approveRoleApplication = async (applicationId, adminUserId) => {
         reviewedAt = GETDATE()
       WHERE applicationId = @ApplicationId
     `)
-
+    
+    await createNotification(
+      {
+        userId: application.userId,
+        type: 'role_approved',
+        title: 'Role request approved',
+        message: `Your request for the ${application.requestedRole} role has been approved.`,
+        link: '/profile',
+      },
+      transaction
+    )
     await transaction.commit()
 
     return {

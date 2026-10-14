@@ -2,7 +2,7 @@
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProtectedRoute from './components/ProtectedRoute'
-
+import Inbox from './pages/Inbox'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
@@ -95,7 +95,7 @@ function App() {
 
         <Route path="/content" element={<ContentPage />} />
         <Route path="/content/*" element={<ContentDetailPage />} />
-
+        <Route path="/inbox" element={user ? <Inbox /> : <Navigate to="/login" />} />
         <Route path="/register" element={<Register setUser={setUser} />} />
 
         <Route path="/login" element={<Login setUser={setUser} />} />

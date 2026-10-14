@@ -1,11 +1,11 @@
 import styles from './Navbar.module.css'
 import axios from 'axios'
-
+import { Bell } from "lucide-react";
 import type { User } from '../App'
 import type { Dispatch, SetStateAction } from 'react'
-
+import { fetchNotifications } from '../services/notifications'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { api } from '../api'
 
 
@@ -49,6 +49,22 @@ function Navbar({ user, setUser }: Props) {
     }
   }
 
+  // ==========================================================
+  // Notification 
+  // ==========================================================
+  const [unread, setUnread] = useState(0)
+
+  useEffect(() => {
+    if (!user) return
+
+    const poll = () => fetchNotifications().then(d => setUnread(d.unreadCount)).catch(() => {})
+
+    poll()
+    const id = setInterval(poll, 60000)
+
+    return () => clearInterval(id)
+  }, [user])
+  
   return (
     <nav className={styles.navbar}>
       <div className={styles.navContainer}>
@@ -140,8 +156,20 @@ function Navbar({ user, setUser }: Props) {
               <i className="bx bx-search"></i>
             </button>
           </div>
-
-
+          
+          {/* ======================================================
+          Notifications
+          ====================================================== */}
+          {user && (
+            <Link to="/inbox" className={styles.bellLink}>
+              <Bell size={22} />
+              {unread > 0 && (
+                <span className={styles.bellBadge}>
+                  {unread > 99 ? "99+" : unread}
+                </span>
+              )}
+            </Link>
+          )}
           {/* ======================================================
           Login & Register / Menu
           ====================================================== */}
@@ -176,7 +204,7 @@ function Navbar({ user, setUser }: Props) {
                       <i className="bx bx-file"></i>
                       <span>Apply for a Role</span>
                     </Link>
-
+                    
                     <button onClick={handleLogout}>
                       <i className="bx bx-log-out"></i>
                       <span>Logout</span>

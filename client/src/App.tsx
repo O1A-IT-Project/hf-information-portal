@@ -23,6 +23,8 @@ import { useEffect, useState } from 'react'
 
 import { api } from './api'
 
+export type Role = 'patient' | 'clinician' | 'doctor' | 'pharmacy' | 'custodian' | 'admin'
+
 export type User = {
   id: string
   email: string
@@ -45,6 +47,7 @@ export type User = {
 
 function App() {
   const [user, setUser] = useState<User | null>(null)
+  const [activeRole, setActiveRole] = useState<Role | null>(null)
   const [loading, setLoading] = useState(true)
 
   const location = useLocation()
@@ -76,6 +79,48 @@ function App() {
     loadUser()
   }, [])
 
+  useEffect(() => {
+    // Wait until the initial authentication check has finished
+    if (loading) {
+      return
+    }
+
+    if (!user) {
+      setActiveRole(null)
+      sessionStorage.removeItem('activeRole')
+      return
+    }
+
+    const roles = user.roles ?? []
+
+    if (roles.length === 0) {
+      setActiveRole(null)
+      sessionStorage.removeItem('activeRole')
+      return
+    }
+
+    const storedRole = sessionStorage.getItem('activeRole') as Role | null
+
+    if (storedRole && roles.includes(storedRole)) {
+      setActiveRole(storedRole)
+      return
+    }
+
+    const defaultRole: Role = roles.includes('patient') ? 'patient' : roles[0]
+
+    setActiveRole(defaultRole)
+    sessionStorage.setItem('activeRole', defaultRole)
+  }, [user, loading])
+
+  const handleRoleChange = (role: Role) => {
+    if (!user?.roles?.includes(role)) {
+      return
+    }
+
+    setActiveRole(role)
+    sessionStorage.setItem('activeRole', role)
+  }
+
   if (loading) {
     return <div>Loading...</div>
   }
@@ -83,7 +128,12 @@ function App() {
   return (
     <>
       {!hideNavbarRoutes.includes(location.pathname) && (
-        <Navbar user={user} setUser={setUser} />
+        <Navbar
+          user={user}
+          setUser={setUser}
+          activeRole={activeRole}
+          onRoleChange={handleRoleChange}
+        />
       )}
 
       <Routes>
@@ -103,7 +153,7 @@ function App() {
         <Route
           path="/admin_panel"
           element={
-            <ProtectedRoute user={user} allowedRoles={['admin']}>
+            <ProtectedRoute user={user} activeRole={activeRole} allowedRoles={['admin']}>
               {user ? <AdminPanel user={user} /> : null}
             </ProtectedRoute>
           }
@@ -112,7 +162,7 @@ function App() {
         <Route
           path="/ClinicianOnly"
           element={
-            <ProtectedRoute user={user} allowedRoles={['doctor']}>
+            <ProtectedRoute user={user} activeRole={activeRole} allowedRoles={['doctor']}>
               <ClinicianOnly />
             </ProtectedRoute>
           }
@@ -130,9 +180,7 @@ function App() {
           }
         />
       </Routes>
-      {!hideNavbarRoutes.includes(location.pathname) && (
-        <Footer />
-      )}
+      {!hideNavbarRoutes.includes(location.pathname) && <Footer />}
     </>
   )
 }

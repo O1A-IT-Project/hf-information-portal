@@ -1,25 +1,29 @@
 import { Navigate } from 'react-router-dom'
-import type { User } from '../App'
+
+import type { User, Role } from '../App'
 
 type Props = {
   user: User | null
-  allowedRoles: NonNullable<User['roles']>
+  activeRole: Role | null
+  allowedRoles: Role[]
   children: React.ReactNode
 }
 
-function ProtectedRoute({ user, allowedRoles, children }: Props) {
+function ProtectedRoute({ user, activeRole, allowedRoles, children }: Props) {
   if (!user) {
-    return <Navigate to="/login" />
+    return <Navigate to="/login" replace />
   }
 
-  const hasPermission = user.roles?.some(role => allowedRoles.includes(role))
+  const ownsRequiredRole = user.roles?.some(role => allowedRoles.includes(role)) ?? false
 
-  if (!hasPermission) {
-    alert(
-      `You require one of the following role(s) to access this page: ${allowedRoles.join(', ')}`
-    )
+  if (!ownsRequiredRole) {
+    return <Navigate to="/" replace />
+  }
 
-    return <Navigate to="/" />
+  const activeRoleAllowed = activeRole !== null && allowedRoles.includes(activeRole)
+
+  if (!activeRoleAllowed) {
+    return <Navigate to="/" replace />
   }
 
   return <>{children}</>

@@ -62,27 +62,24 @@ const signup = async (req, res) => {
     const userId = await createUser(userData)
 
     // Generate JWT
-const token = generateToken(userId, `${firstName} ${lastName}`, email, res)
+    const token = generateToken(userId, `${firstName} ${lastName}`, email, res)
 
     // Ensure Umbraco Member record exists
     try {
-      const memberResponse = await fetch(
-        `${process.env.UMBRACO_SERVER}/umbraco/api/members/`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const memberResponse = await fetch(`${process.env.UMBRACO_SERVER}/umbraco/api/members/`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      })
 
       if (!memberResponse.ok) {
-        const errorData = await memberResponse.json().catch(() => null);
-        console.error("Failed to sync Umbraco member:", errorData);
+        const errorData = await memberResponse.json().catch(() => null)
+        console.error('Failed to sync Umbraco member:', errorData)
         // decide: fail the login, or let it succeed and retry sync later?
       }
     } catch (err) {
-      console.error("Error reaching Umbraco:", err);
+      console.error('Error reaching Umbraco:', err)
     }
 
     // Return response
@@ -145,27 +142,23 @@ const signin = async (req, res) => {
     const pendingApplications = await getPendingVerificationRequestsByUserId(user.userId)
 
     // Generate JWT
-    const token = generateToken(user.userId, `${user.firstName} ${user.lastName}`, res)
-
+    const token = generateToken(user.userId, `${user.firstName} ${user.lastName}`, user.email, res)
     // Ensure Umbraco Member record exists
     try {
-      const memberResponse = await fetch(
-        `${process.env.UMBRACO_SERVER}/umbraco/api/members/`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const memberResponse = await fetch(`${process.env.UMBRACO_SERVER}/umbraco/api/members/`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      })
 
-if (!memberResponse.ok && memberResponse.status !== 409) {
-        const errorData = await memberResponse.json().catch(() => null);
-        console.error("Failed to sync Umbraco member:", errorData);
+      if (!memberResponse.ok && memberResponse.status !== 409) {
+        const errorData = await memberResponse.json().catch(() => null)
+        console.error('Failed to sync Umbraco member:', errorData)
         // decide: fail the login, or let it succeed and retry sync later?
       }
     } catch (err) {
-      console.error("Error reaching Umbraco:", err);
+      console.error('Error reaching Umbraco:', err)
     }
 
     // Return successful response

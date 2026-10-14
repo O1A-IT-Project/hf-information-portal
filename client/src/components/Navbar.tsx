@@ -1,5 +1,4 @@
 import styles from './Navbar.module.css'
-import axios from 'axios'
 
 import type { User } from '../App'
 import type { Dispatch, SetStateAction } from 'react'

@@ -46,7 +46,7 @@ type Survey = {
 // Home Component
 // ============================================================
 
-function Home({ user }: Props) {
+function Home({ }: Props) {
   const navigate = useNavigate()
 
 
@@ -250,82 +250,93 @@ function Home({ user }: Props) {
 
           {/* Resource Cards */}
           <div className={styles.resourceGrid}>
+            {loadingContent && <p>Loading resources...</p>}
 
-            {content.slice(0, 3).map((content) => (
+            {!loadingContent && contentError && (
+              <p role="alert">{contentError}</p>
+            )}
 
-              <div
-                className={styles.resourceCard}
-                key={content.id}
-              >
+            {!loadingContent && !contentError && content.length === 0 && (
+              <p>No resources available at the moment.</p>
+            )}
 
-                {/* Resource Header */}
-                <div className={styles.resourceHeader}>
+            {!loadingContent &&
+              !contentError &&
+              content.slice(0, 3).map((content) => (
 
-                  <span className={styles.resourceType}>
-                    Article
-                  </span>
+                <div
+                  className={styles.resourceCard}
+                  key={content.id}
+                >
 
+                  {/* Resource Header */}
+                  <div className={styles.resourceHeader}>
+
+                    <span className={styles.resourceType}>
+                      Article
+                    </span>
+
+                  </div>
+
+                  {/* Resource Information */}
+                  <h3 className={styles.resourceName}>
+                    {content.name}
+                  </h3>
+
+                  <p className={styles.resourceDescription}>
+                    {content.overview}
+                  </p>
+
+                  {/* Resource Details */}
+                  <div className={styles.resourceDetails}>
+
+                    <div>
+                      <span>Category</span>
+
+                      <strong>
+                        {content.category}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>Created</span>
+
+                      <strong>
+                        {new Date(content.updated).toLocaleDateString('en-GB', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                        })}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>Updated</span>
+
+                      <strong>
+                        {new Date(content.updated).toLocaleDateString('en-GB', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                        })}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>Author</span>
+
+                      <strong>
+                        {content.author}
+                      </strong>
+                    </div>
+
+                  </div>
+
+                  {/* Resource Action */}
+                  <button className={styles.viewResourceButton} onClick={() => navigate(`/article${content.path}`)}>  View Resource → </button>
                 </div>
 
-                {/* Resource Information */}
-                <h3 className={styles.resourceName}>
-                  {content.name}
-                </h3>
-
-                <p className={styles.resourceDescription}>
-                  {content.overview}
-                </p>
-
-                {/* Resource Details */}
-                <div className={styles.resourceDetails}>
-
-                  <div>
-                    <span>Category</span>
-
-                    <strong>
-                      {content.category}
-                    </strong>
-                  </div>
-
-                  <div>
-                    <span>Created</span>
-
-                    <strong>
-                      {new Date(content.updated).toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      })}
-                    </strong>
-                  </div>
-
-                  <div>
-                    <span>Updated</span>
-
-                    <strong>
-                      {new Date(content.updated).toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      })}
-                    </strong>
-                  </div>
-
-                  <div>
-                    <span>Author</span>
-
-                    <strong>
-                      {content.author}
-                    </strong>
-                  </div>
-
-                </div>
-
-                {/* Resource Action */}
-                <button className={styles.viewResourceButton} onClick={() => navigate(`/article${content.path}`)}>  View Resource → </button>
-              </div>
-
-            ))}
+              ))}
 
           </div>
         </div >
@@ -360,92 +371,101 @@ function Home({ user }: Props) {
 
           {/* Survey Cards */}
           <div className={styles.surveyGrid}>
+            {loadingSurveys && <p>Loading surveys...</p>}
 
-            {surveys.slice(0, 3).map((survey) => (
+            {surveyError && <p role="alert">{surveyError}</p>}
 
-              <div
-                className={styles.surveyCard}
-                key={survey.id}
-              >
+            {!loadingSurveys && !surveyError && surveys.length === 0 && (
+              <p>No surveys available at the moment.</p>
+            )}
 
-                {/* Survey Header */}
-                <div className={styles.surveyHeader}>
+            {!loadingSurveys &&
+              !surveyError &&
+              surveys.slice(0, 3).map((survey) => (
 
-                  <span className={styles.surveyType}>
-                    Survey
-                  </span>
-
-                  <span className={styles.surveyStatus}>
-                    Open
-                  </span>
-
-                </div>
-
-                {/* Survey Information */}
-                <h3 className={styles.surveyName}>
-                  {survey.name}
-                </h3>
-
-                <p className={styles.surveyDescription}>
-                  {survey.description}
-                </p>
-
-                {/* Survey Details */}
-                <div className={styles.surveyDetails}>
-
-                  <div>
-                    <span>Recipient</span>
-
-                    <strong>
-                      {survey.recipients.join(', ')}
-                    </strong>
-                  </div>
-
-                  <div>
-                    <span>Created</span>
-
-                    <strong>
-                      {new Date(survey.updated).toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      })}
-                    </strong>
-                  </div>
-
-                  <div>
-                    <span>Updated</span>
-
-                    <strong>
-                      {new Date(survey.updated).toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      })}
-                    </strong>
-                  </div>
-
-                  <div>
-                    <span>Organisation</span>
-
-                    <strong>
-                      {survey.organisationName}
-                    </strong>
-                  </div>
-
-                </div>
-
-                {/* Survey Action */}
-                <button
-                  className={styles.takeSurveyButton}
-                  onClick={() => openSurvey(survey.path)}
+                <div
+                  className={styles.surveyCard}
+                  key={survey.id}
                 >
-                  Take Survey →
-                </button>
 
-              </div>
+                  {/* Survey Header */}
+                  <div className={styles.surveyHeader}>
 
-            ))}
+                    <span className={styles.surveyType}>
+                      Survey
+                    </span>
+
+                    <span className={styles.surveyStatus}>
+                      Open
+                    </span>
+
+                  </div>
+
+                  {/* Survey Information */}
+                  <h3 className={styles.surveyName}>
+                    {survey.name}
+                  </h3>
+
+                  <p className={styles.surveyDescription}>
+                    {survey.description}
+                  </p>
+
+                  {/* Survey Details */}
+                  <div className={styles.surveyDetails}>
+
+                    <div>
+                      <span>Recipient</span>
+
+                      <strong>
+                        {survey.recipients.join(', ')}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>Created</span>
+
+                      <strong>
+                        {new Date(survey.updated).toLocaleDateString('en-GB', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                        })}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>Updated</span>
+
+                      <strong>
+                        {new Date(survey.updated).toLocaleDateString('en-GB', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                        })}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>Organisation</span>
+
+                      <strong>
+                        {survey.organisationName}
+                      </strong>
+                    </div>
+
+                  </div>
+
+                  {/* Survey Action */}
+                  <button
+                    className={styles.takeSurveyButton}
+                    onClick={() => openSurvey(survey.path)}
+                  >
+                    Take Survey →
+                  </button>
+
+                </div>
+
+              ))}
 
           </div>
 

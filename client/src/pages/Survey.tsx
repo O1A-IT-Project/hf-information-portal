@@ -3,13 +3,7 @@ import { getForms } from '../services/umbraco'
 
 import styles from './Survey.module.css'
 
-type Survey = {
-  id: string
-  name: string
-  createdBy: number
-  created: string
-  updated: string
-}
+type Survey = Awaited<ReturnType<typeof getForms>>[number]
 
 export default function SurveyList() {
   const [surveys, setSurveys] = useState<Survey[]>([])

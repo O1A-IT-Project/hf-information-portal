@@ -1,5 +1,4 @@
 import styles from './Register.module.css'
-import axios from 'axios'
 
 import type { Dispatch, SetStateAction } from 'react'
 import type { User } from '../App'

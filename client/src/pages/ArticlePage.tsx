@@ -1,3 +1,5 @@
+import styles from './ArticlePage.module.css'
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getArticles } from '../services/umbraco'
@@ -53,11 +55,8 @@ function ArticlePage() {
 
   return (
     <main className="container mt-4">
-      <h1>{article.pageTitle}</h1>
-
-      <p>{article.overview}</p>
-
       <div
+        className={styles.articleBody}
         dangerouslySetInnerHTML={{
           __html: bodyContent,
         }}

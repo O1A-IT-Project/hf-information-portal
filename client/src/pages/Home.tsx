@@ -161,7 +161,7 @@ function Home({ user }: Props) {
         <div className={styles.aboutContent}>
 
           <div className={styles.infoGrid}>
-
+          <Link to="/search" className={styles.infoCard}>
             {/* Explore Resources */}
             <div className={styles.infoCard}>
               <div className={`${styles.iconCircle} ${styles.resourceIcon}`}>
@@ -174,7 +174,10 @@ function Home({ user }: Props) {
                 Access guides, articles, and tools to better understand heart failure.
               </p>
             </div>
+            </Link>
 
+            
+          <Link to="/survey" className={styles.infoCard}>
             {/* Take Surveys */}
             <div className={styles.infoCard}>
               <div className={`${styles.iconCircle} ${styles.surveyIcon}`}>
@@ -187,7 +190,9 @@ function Home({ user }: Props) {
                 Share your experiences to support better heart failure research and care.
               </p>
             </div>
-
+          </Link>
+          
+          <Link to="/" className={styles.infoCard}>
             {/* Join Our Community */}
             <div className={styles.infoCard}>
               <div className={`${styles.iconCircle} ${styles.communityIcon}`}>
@@ -200,7 +205,9 @@ function Home({ user }: Props) {
                 Learn, share experiences, and connect with others.
               </p>
             </div>
+          </Link>
 
+          <Link to="/" className={styles.infoCard}>
             {/* Make an Impact */}
             <div className={styles.infoCard}>
               <div className={`${styles.iconCircle} ${styles.impactIcon}`}>
@@ -214,7 +221,7 @@ function Home({ user }: Props) {
                 research and support.
               </p>
             </div>
-
+          </Link>
           </div>
 
         </div>

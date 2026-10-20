@@ -26,7 +26,7 @@ function Profile({ user, onUpdateUser }: Props) {
 
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
-
+ 
   const [avatarVersion, setAvatarVersion] = useState(Date.now())
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
   const [isUploadingImage, setIsUploadingImage] = useState(false)

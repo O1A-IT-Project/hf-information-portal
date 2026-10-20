@@ -52,7 +52,7 @@ function Navbar({ user, setUser }: Props) {
   // ==========================================================
   // Notification 
   // ==========================================================
-  const [unread, setUnread] = useState(2)
+  const [unread, setUnread] = useState(0)
 
   useEffect(() => {
     if (!user) return

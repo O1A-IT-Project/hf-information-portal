@@ -15,8 +15,16 @@
 
   border-right: 1px solid rgba(255, 255, 255, 0.08);
 
-  background-color: var(--primary);
+  background-color: #08211f;
+  background-image:
+    repeating-radial-gradient(circle at 18% 88%,
+      transparent 0 46px,
+      rgba(120, 240, 214, 0.10) 46px 47px),
+    radial-gradient(900px 700px at 78% 10%,
+      rgba(45, 212, 191, 0.16),
+      transparent 66%);
 }
+
 
 .title {
   margin-bottom: 2rem;
@@ -25,31 +33,57 @@
 }
 
 .menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
   list-style: none;
-
   padding: 0;
-
   margin: 0;
+}
+
+.sidebarOptions {
+  width: 100%;
+  max-width: 950px;
+  height: 68px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  padding: 7px 8px 7px 22px;
 }
 
 .menu li {
   padding: 0.9rem 1rem;
 
-  border-radius: 10px;
+  border-radius: 12px;
+  background-color: var(--surface);
+  color: var(--text-main);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
   cursor: pointer;
 
-  transition: background-color 0.2s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .menu li:hover {
-  background-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-.active {
+.menu li.active {
   background-color: var(--primary-dark);
-
+  color: white;
   font-weight: 600;
+}
+
+.menu li a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
 }
 
 .content {

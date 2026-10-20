@@ -4,6 +4,7 @@ import styles from './Profile.module.css'
 import defaultPfp from '../assets/pfp.png'
 
 import type { User } from '../App'
+import { NavLink } from 'react-router-dom'
 
 type Props = {
   user: User
@@ -144,9 +145,13 @@ function Profile({ user, onUpdateUser }: Props) {
             Edit Profile
           </li>
 
-          <li>Security</li>
-
-          <li>Notifications</li>
+          <li>
+            <NavLink
+              to="/inbox"
+            >
+              Notifications
+            </NavLink>
+          </li>
 
           <li>Settings</li>
         </ul>

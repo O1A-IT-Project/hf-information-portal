@@ -1,11 +1,26 @@
 import app from './src/app.ts'
-import { disconnectDB } from './src/config/db.js'
+import {
+  connectDB,
+  disconnectDB,
+} from './src/config/db.js'
 
 const port = 3000
 
-const server = app.listen(port, () => {
-  console.log(`Server running on port ${port}`)
-})
+const startServer = async () => {
+  try {
+    await connectDB()
+    const server = app.listen(port, () => {
+      console.log(`Server running on port ${port}`)
+    })
+
+    return server
+  } catch (error) {
+    console.error('Failed to start server:', error)
+    process.exit(1)
+  }
+}
+
+const server = await startServer()
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', async err => {

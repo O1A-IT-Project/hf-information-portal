@@ -38,7 +38,7 @@ function ContentTemplate({ content }: Props) {
       {props.image && props.image.length > 0 && (
         <section className={styles.section}>
           <img
-            src={`http://localhost:58609${props.image[0].url}`}
+            src={`${props.image[0].url}`}
             alt={props.image[0].name}
             className={styles.image}
           />

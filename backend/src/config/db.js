@@ -25,7 +25,13 @@ const config = {
   requestTimeout: 10000,
 }
 
+const notificationConfig = {
+  ...config,
+  database: process.env.NOTIFICATION_DB_DATABASE,
+}
+
 let pool = null
+let notificationPool = null
 
 const connectDB = async () => {
   try {
@@ -46,6 +52,25 @@ const connectDB = async () => {
   }
 }
 
+const connectNotificationDB = async () => {
+  try {
+    if (notificationPool?.connected) {
+      return notificationPool
+    }
+
+    console.log('Attempting notification DB connection...')
+
+    notificationPool = await new sql.ConnectionPool(notificationConfig).connect()
+
+    console.log('Connected to PortalAppDb')
+
+    return notificationPool
+  } catch (error) {
+    console.error('Notification database connection failed:', error.message)
+    throw new Error('Notification database connection failed')
+  }
+}
+
 const disconnectDB = async () => {
   try {
     if (pool) {
@@ -58,4 +83,4 @@ const disconnectDB = async () => {
   }
 }
 
-export { sql, connectDB, disconnectDB }
+export { sql, connectDB, disconnectDB, connectNotificationDB }

@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import notificationRoutes from './routes/notificationRoutes.js'
 
 import authRoutes from './routes/authRoutes.js'
 
@@ -31,5 +32,6 @@ app.use(express.urlencoded({ extended: true }))
 
 // Routes
 app.use('/api/auth', authRoutes)
+app.use('/api/notifications', notificationRoutes)
 
 export default app

@@ -3,6 +3,15 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+// console log to check if environment variables are missing
+console.log('DB environment:', {
+  DB_SERVER: process.env.DB_SERVER ? 'set' : 'missing',
+  DB_DATABASE: process.env.DB_DATABASE ? 'set' : 'missing',
+  DB_USER: process.env.DB_USER ? 'set' : 'missing',
+  DB_PASSWORD: process.env.DB_PASSWORD ? 'set' : 'missing',
+  DB_PORT: process.env.DB_PORT ? 'set' : 'missing',
+})
+
 const config = {
   server: process.env.DB_SERVER,
   database: process.env.DB_DATABASE,
@@ -11,7 +20,7 @@ const config = {
   port: Number(process.env.DB_PORT || 1433),
 
   options: {
-    encrypt: false,
+    encrypt: true,
     trustServerCertificate: true,
   },
 

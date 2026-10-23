@@ -12,7 +12,7 @@ type Props = {
 
 type View = 'overview' | 'edit'
 
-const API_BASE = 'http://localhost:3000'
+const API_BASE = import.meta.env.VITE_API_BASE_URL
 
 function Profile({ user, onUpdateUser }: Props) {
   const [view, setView] = useState<View>('overview')
@@ -244,13 +244,11 @@ function Profile({ user, onUpdateUser }: Props) {
                       </div>
 
                       <div className={styles.applicationDetails}>
-                        {Object.entries(application.verificationData || {}).map(
-                          ([key, value]) => (
-                            <p key={key}>
-                              <strong>{key}:</strong> {String(value)}
-                            </p>
-                          ),
-                        )}
+                        {Object.entries(application.verificationData || {}).map(([key, value]) => (
+                          <p key={key}>
+                            <strong>{key}:</strong> {String(value)}
+                          </p>
+                        ))}
                       </div>
                     </div>
                   ))}

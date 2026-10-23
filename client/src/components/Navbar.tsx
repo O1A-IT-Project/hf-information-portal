@@ -1,31 +1,45 @@
-import type { User } from '../App'
-import type { Dispatch, SetStateAction } from 'react'
-
-import { Link, useNavigate } from 'react-router-dom'
-
-import axios from 'axios'
-
 import styles from './Navbar.module.css'
 
-import logo from '../assets/logo.png'
+import type { User, Role } from '../App'
+import type { Dispatch, SetStateAction } from 'react'
+
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { api } from '../api'
+
+// ============================================================
+// Types
+// ============================================================
 
 type Props = {
   user: User | null
   setUser: Dispatch<SetStateAction<User | null>>
+  activeRole: Role | null
+  onRoleChange: (role: Role) => void
 }
 
-function Navbar({ user, setUser }: Props) {
+// ============================================================
+// Navbar Component
+// ============================================================
+
+function Navbar({ user, setUser, activeRole, onRoleChange }: Props) {
   const navigate = useNavigate()
+
+  // ==========================================================
+  // State
+  // ==========================================================
+
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  // ==========================================================
+  // Logout
+  // ==========================================================
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        'http://localhost:3000/api/auth/signout',
-        {},
-        {
-          withCredentials: true,
-        }
-      )
+      await api.post('/api/auth/signout')
+
+      sessionStorage.removeItem('activeRole')
 
       setUser(null)
 
@@ -35,49 +49,176 @@ function Navbar({ user, setUser }: Props) {
     }
   }
 
+  const formatRole = (role: Role) => {
+    if (role === 'custodian') {
+      return 'Content Custodian'
+    }
+
+    return role.charAt(0).toUpperCase() + role.slice(1)
+  }
+
   return (
     <nav className={styles.navbar}>
-      {/* Left */}
-      <div className={styles.navbarLeft}>
-        <Link to="/" className={styles.logoLink}>
-          <img src={logo} alt="HF Portal Logo" className={styles.logo} />
-        </Link>
-      </div>
+      <div className={styles.navContainer}>
+        {/* ======================================================
+          Logo & Title
+          ====================================================== */}
+        <a href="/" className={styles.logo}>
+          <i className={`bx bx-donate-heart ${styles.logoIcon}`}></i>
 
-      {/* Center */}
-      <div className={styles.navbarCenter}>
-        <Link to="/search">Resources</Link>
-
-        <Link to="/find-clinic">Find a Clinic</Link>
-
-        {user && <Link to="/surveys">Surveys</Link>}
-
-        <a href="https://ceih.sa.gov.au/contact-us" target="_blank" rel="noopener noreferrer">
-          Contact CEIH
+          <div className={styles.logoText}>
+            <span className={styles.logoTitle}>Heart Failure Information Portal</span>
+            <span className={styles.logoOrg}>
+              Commission on Excellence and Innovation in Health
+            </span>
+          </div>
         </a>
 
-        {user?.roles?.includes('admin') && <Link to="/admin_panel">Admin Dashboard</Link>}
+        {/* ======================================================
+          Links
+          ====================================================== */}
 
-        {user?.roles?.includes('doctor') && <Link to="/ClinicianOnly">Clinician Dashboard</Link>}
-      </div>
+        <div className={styles.navLinks}>
+          <NavLink to="/" className={({ isActive }) => (isActive ? styles.active : undefined)}>
+            Home
+          </NavLink>
 
-      {/* Right */}
-      <div className={styles.navbarRight}>
-        {user ? (
-          <>
-            <Link to="/profile" className={styles.hi}>
-              Hi, {user.firstName}
-            </Link>
+          <NavLink
+            to="/search"
+            className={({ isActive }) => (isActive ? styles.active : undefined)}
+          >
+            Resources
+          </NavLink>
 
-            <button className={styles.joinUs} onClick={handleLogout}>
-              Logout
+          <NavLink
+            to="/survey"
+            className={({ isActive }) => (isActive ? styles.active : undefined)}
+          >
+            Surveys
+          </NavLink>
+
+          <NavLink
+            to="/find-clinic"
+            className={({ isActive }) => (isActive ? styles.active : undefined)}
+          >
+            Find a Clinic
+          </NavLink>
+
+          <a href="https://ceih.sa.gov.au/contact-us" target="_blank" rel="noopener noreferrer">
+            About Us
+          </a>
+
+          {activeRole === 'admin' && (
+            <NavLink
+              to="/admin_panel"
+              className={({ isActive }) => (isActive ? styles.active : undefined)}
+            >
+              Admin Dashboard
+            </NavLink>
+          )}
+
+          {activeRole === 'doctor' && (
+            <NavLink
+              to="/ClinicianOnly"
+              className={({ isActive }) => (isActive ? styles.active : undefined)}
+            >
+              Clinician Dashboard
+            </NavLink>
+          )}
+        </div>
+
+        <div className={styles.navActions}>
+          {/* ======================================================
+          Search
+          ====================================================== */}
+          <div className={styles.searchBar}>
+            <input type="text" placeholder="Search..." />
+            <button className={styles.searchBtn}>
+              <i className="bx bx-search"></i>
             </button>
-          </>
-        ) : (
-          <Link to="/register">
-            <button className={styles.joinUs}>Join Us</button>
-          </Link>
-        )}
+          </div>
+
+          {/* ======================================================
+          Login & Register / Menu
+          ====================================================== */}
+          {user ? (
+            <>
+              <div className={styles.profileMenu}>
+                <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)}>
+                  <i className="bx bx-user-circle"></i>
+                </button>
+
+                {menuOpen && (
+                  <div className={styles.dropdown}>
+                    {activeRole && (user.roles?.length ?? 0) > 1 && (
+                      <div className={styles.roleSwitcher}>
+                        <div className={styles.roleSwitcherHeader}>
+                          <span className={styles.roleSwitcherLabel}>Viewing as </span>
+
+                          <span className={styles.activeRoleBadge}>{formatRole(activeRole)}</span>
+                        </div>
+
+                        <select
+                          className={styles.roleSelect}
+                          value={activeRole}
+                          onChange={event => {
+                            onRoleChange(event.target.value as Role)
+                            setMenuOpen(false)
+                          }}
+                        >
+                          {(user.roles ?? []).map(role => (
+                            <option key={role} value={role}>
+                              {formatRole(role)}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+                    <Link to="/profile" onClick={() => setMenuOpen(false)}>
+                      <i className="bx bx-user"></i>
+                      <span>Profile</span>
+                    </Link>
+
+                    <Link to="/apply-role" onClick={() => setMenuOpen(false)}>
+                      <i className="bx bx-bell"></i>
+                      <span>Notification</span>
+                    </Link>
+
+                    <Link to="/apply-role" onClick={() => setMenuOpen(false)}>
+                      <i className="bx bx-bookmark"></i>
+                      <span>Bookmark</span>
+                    </Link>
+
+                    <Link to="/apply-role" onClick={() => setMenuOpen(false)}>
+                      <i className="bx bx-history"></i>
+                      <span>History</span>
+                    </Link>
+
+                    <Link to="/apply-role" onClick={() => setMenuOpen(false)}>
+                      <i className="bx bx-file"></i>
+                      <span>Apply for a Role</span>
+                    </Link>
+
+                    <button onClick={handleLogout}>
+                      <i className="bx bx-log-out"></i>
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className={styles.login}>
+                Login
+              </Link>
+
+              <Link to="/register" className={styles.register}>
+                Register
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   )

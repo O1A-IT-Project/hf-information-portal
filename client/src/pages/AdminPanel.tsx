@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { api } from '../api'
 
 import styles from './AdminPanel.module.css'
 
 import type { User } from '../App'
 
-const API_BASE_URL = 'http://localhost:3000/api/auth'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
 
 type Props = {
   user: User
@@ -49,14 +50,11 @@ function AdminPanel({ user }: Props) {
 
   // Verification requests
   const [requests, setRequests] = useState<VerificationRequest[]>([])
-
   const [selectedRequest, setSelectedRequest] = useState<VerificationRequest | null>(null)
 
   // User management
   const [searchEmail, setSearchEmail] = useState('')
-
   const [searchedUser, setSearchedUser] = useState<ManagedUser | null>(null)
-
   const [selectedRoles, setSelectedRoles] = useState<string[]>([])
 
   const [searchError, setSearchError] = useState('')
@@ -72,9 +70,7 @@ function AdminPanel({ user }: Props) {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/verification-requests`, {
-          withCredentials: true,
-        })
+        const response = await api.get('/api/auth/verification-requests')
 
         setRequests(response.data)
       } catch (error) {
@@ -93,15 +89,9 @@ function AdminPanel({ user }: Props) {
     if (!selectedRequest) return
 
     try {
-      await axios.post(
-        `${API_BASE_URL}/approve-request`,
-        {
-          applicationId: selectedRequest.id,
-        },
-        {
-          withCredentials: true,
-        }
-      )
+      await api.post('/api/auth/approve-request', {
+        applicationId: selectedRequest.id,
+      })
 
       alert('Application approved')
 
@@ -122,15 +112,9 @@ function AdminPanel({ user }: Props) {
     if (!selectedRequest) return
 
     try {
-      await axios.post(
-        `${API_BASE_URL}/reject-request`,
-        {
-          applicationId: selectedRequest.id,
-        },
-        {
-          withCredentials: true,
-        }
-      )
+      await api.post('/api/auth/reject-request', {
+        applicationId: selectedRequest.id,
+      })
 
       alert('Application rejected')
 
@@ -160,12 +144,10 @@ function AdminPanel({ user }: Props) {
       setSearchError('')
       setSearchedUser(null)
 
-      const response = await axios.get(`${API_BASE_URL}/users/search`, {
+      const response = await api.get('/api/auth/users/search', {
         params: {
           email: trimmedEmail,
         },
-
-        withCredentials: true,
       })
 
       const foundUser: ManagedUser = response.data
@@ -207,15 +189,9 @@ function AdminPanel({ user }: Props) {
     try {
       setSavingRoles(true)
 
-      const response = await axios.patch(
-        `${API_BASE_URL}/users/${searchedUser.id}/roles`,
-        {
-          roles: selectedRoles,
-        },
-        {
-          withCredentials: true,
-        }
-      )
+      const response = await api.patch(`/api/auth/users/${searchedUser.id}/roles`, {
+        roles: selectedRoles,
+      })
 
       const updatedUser: ManagedUser = response.data
 
@@ -272,15 +248,11 @@ function AdminPanel({ user }: Props) {
 
     try {
       setAdminsLoading(true)
-
       setAdminsError('')
 
-      const response = await axios.get(`${API_BASE_URL}/admins`, {
-        withCredentials: true,
-      })
+      const response = await api.get('/api/auth/admins')
 
       setAdmins(response.data)
-
       setAdminsLoaded(true)
     } catch (error) {
       console.error(error)
@@ -307,7 +279,6 @@ function AdminPanel({ user }: Props) {
     }
 
     setSearchEmail(admin.email)
-
     setActiveTab('users')
 
     await searchUserByEmail(admin.email)
@@ -622,11 +593,12 @@ function AdminPanel({ user }: Props) {
                     <div key={admin.id} className={styles.adminCard}>
                       <div className={styles.adminAvatar}>
                         <img
-                          src={`${API_BASE_URL}/profile-image/${admin.id}`}
+                          src={`${API_BASE_URL}/api/auth/profile-image/${admin.id}`}
                           alt={`${admin.firstName} ${admin.lastName}`}
                           className={styles.adminAvatarImage}
                           onError={event => {
                             event.currentTarget.style.display = 'none'
+
                             event.currentTarget.nextElementSibling?.removeAttribute('hidden')
                           }}
                         />

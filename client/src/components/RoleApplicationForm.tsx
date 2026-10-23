@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { api } from '../api'
+
 import { useNavigate } from 'react-router-dom'
 
 import styles from './RoleApplicationForm.module.css'
@@ -38,7 +40,7 @@ function RoleApplicationForm({ refreshUser }: Props) {
   useEffect(() => {
     const fetchAvailableRoles = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/auth/me', {
+        const response = await api.get('api/auth/me', {
           withCredentials: true,
         })
 
@@ -118,8 +120,8 @@ function RoleApplicationForm({ refreshUser }: Props) {
         }
       }
 
-      await axios.post(
-        'http://localhost:3000/api/auth/apply',
+      await api.post(
+        '/api/auth/apply',
         {
           requestedRole,
           verificationData,

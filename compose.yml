@@ -1,15 +1,94 @@
+name: hf-portal
+
 services:
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: hf-db
     platform: linux/amd64
     environment:
-      ACCEPT_EULA: 'Y'
-      MSSQL_SA_PASSWORD: 'HF123456!'
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+      MSSQL_SA_PASSWORD: "${SA_PASSWORD}"
     ports:
-      - '1434:1433'
+      - "1345:1433"
     volumes:
-      - hf-db-data:/var/opt/mssql
+      - hf-sql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q \"SELECT 1\" -b -o /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+
+  db-setup:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SA_PASSWORD: "${SA_PASSWORD}"
+    volumes:
+      - ./backend/database:/setup:ro
+    entrypoint: ["/bin/bash", "/setup/setup.sh"]
+    restart: "no"
+
+  cms:
+    build:
+      context: ./cms
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_URLS: "https://+:8443"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "${CERT_PASSWORD}"
+      ConnectionStrings__umbracoDbDSN: "Server=db;Database=UmbracoCms;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True"
+      ConnectionStrings__umbracoDbDSN_ProviderName: "Microsoft.Data.SqlClient"
+      Umbraco__CMS__Unattended__InstallUnattended: "true"
+      Umbraco__CMS__Unattended__UnattendedUserName: "Client Admin"
+      Umbraco__CMS__Unattended__UnattendedUserEmail: "${UMBRACO_ADMIN_EMAIL:?Please set UMBRACO_ADMIN_EMAIL in the .env file}"
+      Umbraco__CMS__Unattended__UnattendedUserPassword: "${UMBRACO_ADMIN_PASSWORD}"
+      Umbraco__CMS__Unattended__InstallMissingDatabase: "true"
+    ports:
+      - "8443:8443"
+    volumes:
+      - ./cms/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+      - cms-media:/app/wwwroot/media
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      db-setup:
+        condition: service_completed_successfully
+    environment:
+      DB_SERVER: db
+      DB_PORT: "1433"
+      DB_DATABASE: DB_CEIH
+      DB_USER: sa
+      DB_PASSWORD: "${SA_PASSWORD}"
+      JWT_SECRET: "${JWT_SECRET:?Please set JWT_SECRET in the .env file}"
+      JWT_EXPIRES_IN: "7d"
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  website:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    depends_on:
+      - cms
+      - backend
+    ports:
+      - "5173:80"
+    restart: unless-stopped
 
 volumes:
-  hf-db-data:
+  hf-sql-data:
+  cms-media:

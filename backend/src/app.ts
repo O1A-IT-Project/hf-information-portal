@@ -1,7 +1,6 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import notificationRoutes from './routes/notificationRoutes.js'
 
 import authRoutes from './routes/authRoutes.js'
 import { connectDB } from './config/db.js'
@@ -67,6 +66,5 @@ app.get('/api/db-health', async (_req, res) => {
 
 // Routes
 app.use('/api/auth', authRoutes)
-app.use('/api/notifications', notificationRoutes)
 
 export default app

@@ -161,9 +161,9 @@ function Home({ user }: Props) {
         <div className={styles.aboutContent}>
 
           <div className={styles.infoGrid}>
-          <Link to="/search" className={styles.infoCard}>
+          <Link to="/search" className={`${styles.infoCard} ${styles.cardLink}`}>
             {/* Explore Resources */}
-            <div className={styles.infoCard}>
+            <div>
               <div className={`${styles.iconCircle} ${styles.resourceIcon}`}>
                 <i className="bx bx-book-open"></i>
               </div>
@@ -177,9 +177,9 @@ function Home({ user }: Props) {
             </Link>
 
             
-          <Link to="/survey" className={styles.infoCard}>
+          <Link to="/survey" className={`${styles.infoCard} ${styles.cardLink}`}>
             {/* Take Surveys */}
-            <div className={styles.infoCard}>
+            <div>
               <div className={`${styles.iconCircle} ${styles.surveyIcon}`}>
                 <i className="bx bx-edit"></i>
               </div>
@@ -192,7 +192,6 @@ function Home({ user }: Props) {
             </div>
           </Link>
           
-          <Link to="/" className={styles.infoCard}>
             {/* Join Our Community */}
             <div className={styles.infoCard}>
               <div className={`${styles.iconCircle} ${styles.communityIcon}`}>
@@ -205,9 +204,7 @@ function Home({ user }: Props) {
                 Learn, share experiences, and connect with others.
               </p>
             </div>
-          </Link>
 
-          <Link to="/" className={styles.infoCard}>
             {/* Make an Impact */}
             <div className={styles.infoCard}>
               <div className={`${styles.iconCircle} ${styles.impactIcon}`}>
@@ -221,7 +218,6 @@ function Home({ user }: Props) {
                 research and support.
               </p>
             </div>
-          </Link>
           </div>
 
         </div>

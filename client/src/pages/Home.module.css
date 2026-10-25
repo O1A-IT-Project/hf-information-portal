@@ -156,6 +156,19 @@
   margin: 0 auto;
 }
 
+/* Add this below .infoCard p */
+.cardLink {
+  display: block;         /* Ensures the link behaves like a block container */
+  color: inherit;         /* Removes the default blue link color */
+  text-decoration: none;  /* Removes the underline */
+}
+
+/* Optional: Keep a hover effect so users know it's clickable */
+.cardLink:hover {
+  transform: translateY(-4px); /* Matches your other card hover effects */
+  /* You can add a drop shadow here too if you want */
+}
+
 
 /* ============================================================
    Feature Icons

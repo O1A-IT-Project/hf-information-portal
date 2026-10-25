@@ -274,7 +274,15 @@ function Profile({ user, onUpdateUser }: Props) {
             {error && <p className={styles.error}>{error}</p>}
 
             <div className={styles.avatarEditRow}>
-              <img src={avatarSrc} alt="profile preview" className={styles.avatar} />
+              <img
+                src={avatarSrc}
+                alt="profile"
+                className={styles.avatar}
+                onError={e => {
+                  e.currentTarget.onerror = null
+                  e.currentTarget.src = defaultPfp
+                }}
+              />
 
               <div>
                 <button

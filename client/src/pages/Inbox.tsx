@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './Inbox.module.css'
 
 import {
@@ -17,7 +17,7 @@ const DUMMY: Notification[] = [
     notificationId: 1,
     type: 'role_approved',
     title: 'Your account was approved',
-    message: 'You now have access to create and send surveys.',
+    message: 'You now have access to create and send surveys. [SAMPLE]',
     link: '/profile',
     isRead: false,
     createdAt: new Date().toISOString(),
@@ -26,7 +26,7 @@ const DUMMY: Notification[] = [
     notificationId: 2,
     type: 'survey',
     title: 'New survey available: Employee Wellness 2025',
-    message: 'A new survey has been published in your organisation. It closes in 7 days — make sure to submit your response before then.',
+    message: 'A new survey has been published in your organisation. It closes in 7 days — make sure to submit your response before then. [SAMPLE]',
     link: '/survey',
     isRead: false,
     createdAt: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
@@ -35,7 +35,7 @@ const DUMMY: Notification[] = [
     notificationId: 3,
     type: 'survey',
     title: 'Reminder: finish your draft',
-    message: 'You have an unfinished survey draft waiting.',
+    message: 'You have an unfinished survey draft waiting. [SAMPLE]',
     link: null,
     isRead: true,
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 26).toISOString(),
@@ -91,6 +91,13 @@ function Inbox() {
         >
           Mark all as read
         </button>
+        <Link 
+          to="/profile" 
+          className={styles.markAllButton}
+          style={{ display: 'inline-block', textAlign: 'center', textDecoration: 'none' }}
+        >
+          Return to Profile
+        </Link>
       </div>
 
       {loading && <p className={styles.inboxEmpty}>Loading...</p>}

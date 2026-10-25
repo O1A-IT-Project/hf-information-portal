@@ -13,17 +13,11 @@
 
   padding: 2rem;
 
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
 
-  background-color: #08211f;
-  background-image:
-    repeating-radial-gradient(circle at 18% 88%,
-      transparent 0 46px,
-      rgba(120, 240, 214, 0.10) 46px 47px),
-    radial-gradient(900px 700px at 78% 10%,
-      rgba(45, 212, 191, 0.16),
-      transparent 66%);
+  background-color: var(--primary);
 }
+
 
 
 .title {
@@ -57,16 +51,23 @@
   padding: 0.9rem 1rem;
 
   border-radius: 12px;
-  background-color: var(--surface);
-  color: var(--text-main);
+  color: #e6fffa;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  background-color: #08211f;
+  background-image:
+    repeating-radial-gradient(
+      circle at 18% 130%,
+      transparent 0 22px,
+      rgba(120, 240, 214, 0.14) 22px 23px
+    ),
+    radial-gradient(260px 140px at 85% 0%, rgba(45, 212, 191, 0.2), transparent 70%);
 
   cursor: pointer;
 
   transition:
     transform 0.15s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
+    box-shadow 0.2s ease;
 }
 
 .menu li:hover {
@@ -76,6 +77,7 @@
 
 .menu li.active {
   background-color: var(--primary-dark);
+  background-image: none;
   color: white;
   font-weight: 600;
 }
@@ -90,6 +92,15 @@
   flex: 1;
 
   padding: 2.5rem;
+
+  background-color: #08211f;
+  background-image:
+    repeating-radial-gradient(
+      circle at 18% 88%,
+      transparent 0 46px,
+      rgba(120, 240, 214, 0.1) 46px 47px
+    ),
+    radial-gradient(900px 700px at 78% 10%, rgba(45, 212, 191, 0.16), transparent 66%);
 }
 
 .headerSection {
@@ -97,7 +108,14 @@
   align-items: center;
   gap: 1.5rem;
 
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
+  padding: 1.8rem;
+
+  border-radius: 16px;
+
+  background-color: var(--primary);
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
 }
 
 .avatar {
@@ -142,7 +160,7 @@
 
   border-radius: 16px;
 
-  background-color: var(--primary);
+  background-color: white;
 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
 }

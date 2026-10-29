@@ -89,14 +89,15 @@
 }
 
 
-
-
-
 .surveysContainer {
   max-width: 1500px;
   margin: 0 auto;
   padding: 40px 20px;
 }
+
+/* ------------------------------------------------------------
+   Section Header
+   ------------------------------------------------------------ */
 
 .surveysTitle {
   text-align: center;
@@ -105,116 +106,176 @@
   font-size: 36px;
 }
 
-/* Grid containing all cards */
+/* ------------------------------------------------------------
+   Section Header
+   ------------------------------------------------------------ */
+
+.surveysTitleBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.surveysTitleBox h2 {
+  margin: 0 0 5px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.surveysTitleBox p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #555555;
+}
+
+.viewAllSurveysLink {
+  color: #08211f;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.viewAllSurveysLink:hover {
+  color: #123b45;
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------
+   Survey Grid
+   ------------------------------------------------------------ */
+
 .surveyGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
 }
 
-/* Individual card */
+
+/* ------------------------------------------------------------
+   Survey Card
+   ------------------------------------------------------------ */
+
 .surveyCard {
-  background: white;
-  border: 1px solid #dce3ec;
-  border-radius: 16px;
-  padding: 24px;
+  padding: 28px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Card hover effect */
 .surveyCard:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-/* Top section */
+
+/* ------------------------------------------------------------
+   Survey Header
+   ------------------------------------------------------------ */
+
 .surveyHeader {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
-.organisationLabel {
-  margin: 0 0 4px;
-  font-size: 13px;
-  color: #718096;
-}
-
-.organisationName {
-  margin: 0;
-  font-size: 16px;
-  color: #14284b;
-}
-
-/* Open badge */
-.surveyStatus {
-  background: #dcfce7;
-  color: #16834b;
-  padding: 6px 14px;
+.surveyType {
+  padding: 6px 12px;
   border-radius: 20px;
+  background-color: #dcece8;
+  color: #08211f;
   font-size: 13px;
   font-weight: 600;
 }
 
-/* Survey title */
+.surveyStatus {
+  font-size: 14px;
+  font-weight: 600;
+  color: #388e3c;
+}
+
+/* ------------------------------------------------------------
+   Survey Information
+   ------------------------------------------------------------ */
+
 .surveyName {
-  margin: 0 0 10px;
-  color: #102a56;
+  margin: 0 0 12px;
   font-size: 22px;
+  font-weight: 700;
+  color: #000000;
 }
 
-/* Description */
 .surveyDescription {
-  color: #5f6f85;
+  margin: 0 0 25px;
+  font-size: 16px;
   line-height: 1.5;
-  margin-bottom: 24px;
+  color: #444444;
 }
 
-/* Created / Updated section */
+
+/* ------------------------------------------------------------
+   Survey Details
+   ------------------------------------------------------------ */
+
 .surveyDetails {
   display: flex;
-  gap: 50px;
+  gap: 35px;
   padding: 16px 0;
+  margin-bottom: 25px;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
-  margin-bottom: 20px;
+}
+
+.surveyDetails div:last-child {
+  margin-left: auto;
 }
 
 .surveyDetails div {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
 }
 
 .surveyDetails span {
   font-size: 13px;
-  color: #718096;
+  color: #777777;
 }
 
 .surveyDetails strong {
   font-size: 14px;
-  color: #263b5b;
+  color: #000000;
 }
 
-/* Button */
+
+/* ------------------------------------------------------------
+   Survey Action
+   ------------------------------------------------------------ */
+
 .takeSurveyButton {
   width: 100%;
-  padding: 12px 20px;
-  background: #0878e8;
-  color: white;
+  height: 46px;
   border: none;
   border-radius: 8px;
+  background-color: #08211f;
+  color: #ffffff;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .takeSurveyButton:hover {
-  background: #0565c5;
+  background-color: #123b45;
 }
+
 
 /* Mobile */
 @media (max-width: 768px) {

@@ -1,3 +1,8 @@
+
+/* ------------------------------------------------------------
+   Title
+   ------------------------------------------------------------ */
+
 .surveysTitleBox {
   width: 100%;
   background: white;
@@ -15,19 +20,22 @@
   text-align: center;
 }
 
+
+/* ------------------------------------------------------------
+   Search
+   ------------------------------------------------------------ */
+
 .searchForm {
   display: flex;
   justify-content: flex-start;
   margin-bottom: 24px;
 }
 
-
 .searchGroup {
   display: flex;
   width: 700px;
   gap: 12px;
 }
-
 
 .searchGroup input {
   flex: 1;
@@ -53,34 +61,27 @@
   background: #123b45;
 }
 
-.categoryButtons {
+/* ------------------------------------------------------------
+   Category Dropdown
+   ------------------------------------------------------------ */
+
+.categoryDropdown {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 24px;
-  flex-wrap: wrap;
 }
 
-.categoryButton {
-  padding: 8px 16px;
-  background: white;
-  color: #102a56;
+.categoryDropdown select {
+  min-width: 240px;
+  padding: 11px 16px;
+  background-color: #ffffff;
+  color: #08211f;
   border: 1px solid #dce3ec;
   border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
   cursor: pointer;
-}
-
-.categoryButton:hover {
-  background: #eaf4ff;
-  border-color: #0878e8;
-  color: #0878e8;
-}
-
-.categoryButton.active {
-  background: #0878e8;
-  color: white;
-  border-color: #0878e8;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* ------------------------------------------------------------
@@ -240,20 +241,4 @@
 
 .takeSurveyButton:hover {
   background-color: #123b45;
-}
-
-
-/* Mobile */
-@media (max-width: 768px) {
-  .surveyGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .surveysTitle {
-    font-size: 28px;
-  }
-
-  .surveyCard {
-    padding: 20px;
-  }
 }

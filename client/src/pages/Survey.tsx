@@ -25,6 +25,7 @@ export default function SurveyList() {
   const [loadingSurveys, setLoadingSurveys] = useState(true)
   const [surveyError, setSurveyError] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('All')
 
   // ==========================================================
   // Load Surveys
@@ -47,9 +48,33 @@ export default function SurveyList() {
     loadSurveys()
   }, [])
 
-  const filteredSurveys = surveys.filter((survey) =>
-    survey.name.toLowerCase().includes(searchTerm.trim().toLowerCase())
-  )
+  // ==========================================================
+  // Get Categories
+  // ==========================================================
+
+  const categories = [
+    'All',
+    ...new Set(
+      surveys
+        .map((survey) => survey.category?.trim())
+        .filter((category): category is string => Boolean(category))
+    ),
+  ]
+
+  // ==========================================================
+  // Filter Surveys
+  // ==========================================================
+  const filteredSurveys = surveys.filter((survey) => {
+    const matchesTitle = survey.name
+      .toLowerCase()
+      .includes(searchTerm.trim().toLowerCase())
+
+    const matchesCategory =
+      selectedCategory === 'All' ||
+      survey.category?.trim() === selectedCategory
+
+    return matchesTitle && matchesCategory
+  })
 
   // ==========================================================
   // Survey Navigation
@@ -90,14 +115,20 @@ export default function SurveyList() {
         </div>
       </div>
 
-      <div className={styles.categoryButtons}>
-        <button className={`${styles.categoryButton} ${styles.active}`}>
-          All
-        </button>
-        <button className={styles.categoryButton}>Heart Disease</button>
-        <button className={styles.categoryButton}>Education</button>
-        <button className={styles.categoryButton}>Nutrition</button>
-        <button className={styles.categoryButton}>Physical Wellbeing</button>
+      <div className={styles.categoryDropdown}>
+        <label htmlFor="surveyCategory">Filter by category:</label>
+
+        <select
+          id="surveyCategory"
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className={styles.surveyGrid}>

@@ -11,7 +11,6 @@
 
 .surveysTitleBox h1 {
   margin: 0;
-  color: #102a56;
   font-size: 32px;
   text-align: center;
 }
@@ -41,8 +40,8 @@
 
 .searchButton {
   padding: 10px 28px;
-  background: #0878e8;
-  color: white;
+  background-color: #08211f;
+  color: #ffffff;
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -51,11 +50,7 @@
 }
 
 .searchButton:hover {
-  background: #0565c5;
-}
-
-.searchGroup input:focus {
-  border-color: #0878e8;
+  background: #123b45;
 }
 
 .categoryButtons {
@@ -101,27 +96,6 @@
 /* ------------------------------------------------------------
    Section Header
    ------------------------------------------------------------ */
-
-.surveysTitleBox {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.surveysTitleBox h2 {
-  margin: 0 0 5px;
-  font-size: 32px;
-  font-weight: 700;
-  color: #000000;
-}
-
-.surveysTitleBox p {
-  margin: 0;
-  font-size: 17px;
-  line-height: 1.5;
-  color: #555555;
-}
 
 .viewAllSurveysLink {
   color: #08211f;

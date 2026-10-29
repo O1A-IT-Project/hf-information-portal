@@ -24,6 +24,7 @@ export default function SurveyList() {
   const [surveys, setSurveys] = useState<Survey[]>([])
   const [loadingSurveys, setLoadingSurveys] = useState(true)
   const [surveyError, setSurveyError] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
 
   // ==========================================================
   // Load Surveys
@@ -46,6 +47,10 @@ export default function SurveyList() {
     loadSurveys()
   }, [])
 
+  const filteredSurveys = surveys.filter((survey) =>
+    survey.name.toLowerCase().includes(searchTerm.trim().toLowerCase())
+  )
+
   // ==========================================================
   // Survey Navigation
   // ==========================================================
@@ -63,17 +68,23 @@ export default function SurveyList() {
 
       <div className={styles.surveysTitleBox}>
         <h1>Available Surveys</h1>
-
       </div>
 
       <div className={styles.searchForm}>
         <div className={styles.searchGroup}>
           <input
             type="text"
-            placeholder="Search surveys..."
+            placeholder="Search surveys by title..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            aria-label="Search surveys by title"
           />
 
-          <button className={styles.searchButton}>
+          <button
+            type="button"
+            className={styles.searchButton}
+            onClick={() => setSearchTerm(searchTerm.trim())}
+          >
             Search
           </button>
         </div>
@@ -100,7 +111,15 @@ export default function SurveyList() {
 
         {!loadingSurveys &&
           !surveyError &&
-          surveys.slice(0, 3).map((survey) => (
+          surveys.length > 0 &&
+          filteredSurveys.length === 0 && (
+            <p>No surveys found matching "{searchTerm}".</p>
+          )}
+
+        {!loadingSurveys &&
+          !surveyError &&
+          filteredSurveys.slice(0, 3).map((survey) => (
+
 
             <div
               className={styles.surveyCard}

@@ -242,3 +242,47 @@
 .takeSurveyButton:hover {
   background-color: #123b45;
 }
+
+/* ------------------------------------------------------------
+   Survey Page Navigation
+   ------------------------------------------------------------ */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.pageButton {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #dce3ec;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #08211f;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.pageButton:hover:not(:disabled) {
+  background: #eaf4ff;
+  border-color: #123b45;
+}
+
+.activePage {
+  background: #08211f;
+  border-color: #08211f;
+  color: #ffffff;
+}
+
+.pageButton.activePage:hover {
+  background: #123b45;
+  color: #ffffff;
+}

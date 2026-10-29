@@ -26,6 +26,8 @@ export default function SurveyList() {
   const [surveyError, setSurveyError] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
+  const [currentPage, setCurrentPage] = useState(1)
+  const surveysPerPage = 10
 
   // ==========================================================
   // Load Surveys
@@ -64,6 +66,7 @@ export default function SurveyList() {
   // ==========================================================
   // Filter Surveys
   // ==========================================================
+
   const filteredSurveys = surveys.filter((survey) => {
     const matchesTitle = survey.name
       .toLowerCase()
@@ -75,6 +78,21 @@ export default function SurveyList() {
 
     return matchesTitle && matchesCategory
   })
+
+  // ==========================================================
+  // Survey Page
+  // ==========================================================
+
+  const totalPages = Math.ceil(
+    filteredSurveys.length / surveysPerPage
+  )
+
+  const startIndex = (currentPage - 1) * surveysPerPage
+
+  const paginatedSurveys = filteredSurveys.slice(
+    startIndex,
+    startIndex + surveysPerPage
+  )
 
   // ==========================================================
   // Survey Navigation
@@ -101,14 +119,20 @@ export default function SurveyList() {
             type="text"
             placeholder="Search surveys by title..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value)
+              setCurrentPage(1)
+            }}
             aria-label="Search surveys by title"
           />
 
           <button
             type="button"
             className={styles.searchButton}
-            onClick={() => setSearchTerm(searchTerm.trim())}
+            onClick={() => {
+              setSearchTerm(searchTerm.trim())
+              setCurrentPage(1)
+            }}
           >
             Search
           </button>
@@ -121,7 +145,10 @@ export default function SurveyList() {
         <select
           id="surveyCategory"
           value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
+          onChange={(e) => {
+            setSelectedCategory(e.target.value)
+            setCurrentPage(1)
+          }}
         >
           {categories.map((category) => (
             <option key={category} value={category}>
@@ -149,7 +176,7 @@ export default function SurveyList() {
 
         {!loadingSurveys &&
           !surveyError &&
-          filteredSurveys.slice(0, 3).map((survey) => (
+          paginatedSurveys.map((survey) => (
 
 
             <div
@@ -237,6 +264,47 @@ export default function SurveyList() {
           ))}
 
       </div>
+
+       {/* Survey Page navigation */}
+      {!loadingSurveys &&
+        !surveyError &&
+        totalPages > 1 && (
+          <div className={styles.pagination}>
+            <button
+              type="button"
+              className={styles.pageButton}
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((page) => page - 1)}
+            >
+              Previous
+            </button>
+
+            {Array.from(
+              { length: totalPages },
+              (_, index) => index + 1
+            ).map((page) => (
+              <button
+                type="button"
+                key={page}
+                className={`${styles.pageButton} ${currentPage === page ? styles.activePage : ''
+                  }`}
+                aria-current={currentPage === page ? 'page' : undefined}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </button>
+            ))}
+
+            <button
+              type="button"
+              className={styles.pageButton}
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((page) => page + 1)}
+            >
+              Next
+            </button>
+          </div>
+        )}
 
     </div>
 

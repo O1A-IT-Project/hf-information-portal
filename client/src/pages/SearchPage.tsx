@@ -35,6 +35,10 @@ function SearchPage() {
   const [selectedType, setSelectedType] = useState('All')
   const [sortOrder, setSortOrder] = useState('latest')
 
+  const [visitedContent, setVisitedContent] = useState<string[]>(() => {
+    return JSON.parse(localStorage.getItem('visitedContent') || '[]')
+  })
+
   // ==========================================================
   // Load Content
   // ==========================================================
@@ -111,6 +115,18 @@ function SearchPage() {
         ? dateB - dateA
         : dateA - dateB
     })
+
+  // ==========================================================
+  // Filter Content
+  // ==========================================================
+  const handleContentClick = (id: string, path: string) => {
+    const updatedVisited = [...new Set([...visitedContent, id])]
+
+    setVisitedContent(updatedVisited)
+    localStorage.setItem('visitedContent', JSON.stringify(updatedVisited))
+
+    navigate(`/content${path}`)
+  }
 
   return (
     <div className={styles.resourcesContainer}>
@@ -216,8 +232,9 @@ function SearchPage() {
 
             <div key={content.id} className={styles.contentCard}>
               <h2
-                className={styles.contentTitle}
-                onClick={() => navigate(`/content${content.path}`)}
+                className={`${styles.contentTitle} ${visitedContent.includes(content.id) ? styles.visited : ''
+                  }`}
+                onClick={() => handleContentClick(content.id, content.path)}
               >
                 {content.name}
               </h2>

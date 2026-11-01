@@ -155,16 +155,16 @@
 
 .contentTitle {
   color: #1a0dab;
+  cursor: pointer;
   font-size: 18px;
   font-weight: 500;
-  margin: 0 0 8px;
-  cursor: pointer;
+  text-decoration: none;
 }
 
 .contentTitle:hover {
   text-decoration: underline;
 }
 
-.contentTitle:visited {
-  color: #b39ddb;
+.contentTitle.visited {
+  color: #681da8;
 }

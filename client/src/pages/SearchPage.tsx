@@ -2,8 +2,8 @@
 import type { User } from '../App'
 
 import { useEffect, useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { getForms, getContent } from '../services/umbraco'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { getContent } from '../services/umbraco'
 
 import styles from "./SearchPage.module.css";
 
@@ -25,6 +25,7 @@ type Content = {
 function SearchPage() {
 
   const navigate = useNavigate()
+  const location = useLocation()
 
   // ==========================================================
   // State
@@ -34,7 +35,9 @@ function SearchPage() {
   const [loadingContent, setLoadingContent] = useState(true)
   const [contentError, setContentError] = useState('')
 
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState(
+    location.state?.searchTerm || ''
+  )
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedType, setSelectedType] = useState('All')
   const [sortOrder, setSortOrder] = useState('latest')
@@ -45,6 +48,10 @@ function SearchPage() {
 
   const [currentPage, setCurrentPage] = useState(1)
   const contentPerPage = 5
+
+
+
+
 
   // ==========================================================
   // Load Content

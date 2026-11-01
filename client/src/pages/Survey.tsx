@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getForms } from '../services/umbraco'
+import { useLocation } from 'react-router-dom'
 
 import styles from './Survey.module.css'
 
@@ -17,6 +18,8 @@ type Survey = {
 
 export default function SurveyList() {
 
+  const location = useLocation()
+
   // ==========================================================
   // State
   // ==========================================================
@@ -25,7 +28,7 @@ export default function SurveyList() {
   const [loadingSurveys, setLoadingSurveys] = useState(true)
   const [surveyError, setSurveyError] = useState('')
 
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState(location.state?.searchTerm || '')
   const [selectedCategory, setSelectedCategory] = useState('All')
 
   const [currentPage, setCurrentPage] = useState(1)
@@ -267,7 +270,7 @@ export default function SurveyList() {
 
       </div>
 
-       {/* Survey Page navigation */}
+      {/* Survey Page navigation */}
       {!loadingSurveys &&
         !surveyError &&
         totalPages > 1 && (

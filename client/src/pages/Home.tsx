@@ -55,6 +55,9 @@ function Home({ }: Props) {
   // State
   // ==========================================================
 
+  const [homeSearchTerm, setHomeSearchTerm] = useState('')
+  const [showSuggestions, setShowSuggestions] = useState(false)
+
   const [content, setContent] = useState<Content[]>([])
   const [loadingContent, setLoadingContent] = useState(true)
   const [contentError, setContentError] = useState('')
@@ -137,17 +140,75 @@ function Home({ }: Props) {
             Explore helpful resources, take surveys, and share your insights to help improve heart failure data and research.
           </p>
 
-          <div className={styles.homeSearch}>
-            <i className="bx bx-search"></i>
+          <div className={styles.homeSearchContainer}>
+            <div className={styles.homeSearch}>
+              <i className="bx bx-search"></i>
 
-            <input
-              type="text"
-              placeholder="Search heart failure information..."
-            />
+              <input
+                type="text"
+                placeholder="Search heart failure information..."
+                value={homeSearchTerm}
+                onChange={(e) => {
+                  setHomeSearchTerm(e.target.value)
+                  setShowSuggestions(e.target.value.trim().length > 0)
+                }}
+                onFocus={() => {
+                  if (homeSearchTerm.trim()) {
+                    setShowSuggestions(true)
+                  }
+                }}
+              />
 
-            <button onClick={() => navigate('/search')}>
-              Search
-            </button>
+              <button
+                onClick={() => {
+                  navigate('/search', {
+                    state: { searchTerm: homeSearchTerm }
+                  })
+                }}
+              >
+                Search
+              </button>
+            </div>
+
+            {showSuggestions && homeSearchTerm.trim() && (
+              <div className={styles.searchSuggestions}>
+
+                  <div
+                  className={styles.suggestionItem}
+                  onClick={() => {
+                    navigate('/search', {
+                      state: { searchTerm: homeSearchTerm }
+                    })
+                    setShowSuggestions(false)
+                  }}
+                >
+                  <i className="bx bx-file"></i>
+                  <div>
+                    <strong>Search Resources</strong>
+                    <p>Search resources for "{homeSearchTerm}"</p>
+                  </div>
+                </div>
+
+                <div
+                  className={styles.suggestionItem}
+                  onClick={() => {
+                    navigate('/survey', {
+                      state: { searchTerm: homeSearchTerm }
+                    })
+                    setShowSuggestions(false)
+                  }}
+                >
+                  <i className="bx bx-clipboard"></i>
+                  <div>
+                    <strong>Search Surveys</strong>
+                    <p>Search surveys for "{homeSearchTerm}"</p>
+                  </div>
+                </div>
+
+              
+
+              </div>
+            )}
           </div>
 
         </div>
@@ -241,7 +302,7 @@ function Home({ }: Props) {
             </div>
 
             <Link
-              to="/resources"
+              to="/search"
               className={styles.viewAllResourcesLink}
             >
               View All Resources →

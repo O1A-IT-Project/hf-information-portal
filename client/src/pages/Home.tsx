@@ -4,7 +4,7 @@ import type { User } from '../App'
 
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { getForms, getArticles } from '../services/umbraco'
+import { getForms, getContent } from '../services/umbraco'
 
 
 // ============================================================
@@ -21,6 +21,7 @@ type Content = {
   pageTitle: string
   overview: string
   category: string
+  type: string
   visibility: string[]
   bodyContent: string
   author: string
@@ -70,7 +71,7 @@ function Home({ }: Props) {
   useEffect(() => {
     const loadContent = async () => {
       try {
-        const data = await getArticles()
+        const data = await getContent()
 
         setContent(data)
       } catch (error) {

@@ -10,9 +10,8 @@ import Login from './pages/Login'
 import AdminPanel from './pages/AdminPanel'
 import ClinicianOnly from './pages/ClinicianOnly'
 import RoleApplicationForm from './components/RoleApplicationForm'
-import ContentPage from './pages/ContentPage'
+// import ContentPage from './pages/ContentPage'
 import Survey from './pages/Survey'
-import ContentDetailPage from './pages/ContentDetailPage'
 import FindClinic from './pages/FindClinic'
 import ArticlePage from './pages/ArticlePage'
 
@@ -139,12 +138,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Home user={user} />} />
         <Route path="/find-clinic" element={<FindClinic />} />
-        <Route path="/search" element={<ContentPage />} />
+        {/* <Route path="/search" element={<ContentPage />} /> */}
         <Route path="/survey" element={<Survey />} />
         <Route path="/article/:articlePath" element={<ArticlePage />} />
 
-        <Route path="/content" element={<ContentPage />} />
-        <Route path="/content/*" element={<ContentDetailPage />} />
+        {/* <Route path="/content" element={<ContentPage />} /> */}
 
         <Route path="/register" element={<Register setUser={setUser} />} />
 

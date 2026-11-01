@@ -2,7 +2,7 @@ import styles from './ArticlePage.module.css'
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getArticles } from '../services/umbraco'
+import { getContent } from '../services/umbraco'
 
 export type Article = {
   id: string;
@@ -24,7 +24,7 @@ function ArticlePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getArticles()
+    getContent()
       .then((articles) => {
         const foundArticle = articles.find(
           (article) => article.path === `/${articlePath}/`

@@ -24,8 +24,10 @@ export default function SurveyList() {
   const [surveys, setSurveys] = useState<Survey[]>([])
   const [loadingSurveys, setLoadingSurveys] = useState(true)
   const [surveyError, setSurveyError] = useState('')
+
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
+  
   const [currentPage, setCurrentPage] = useState(1)
   const surveysPerPage = 10
 

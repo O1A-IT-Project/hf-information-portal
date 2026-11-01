@@ -26,6 +26,10 @@ function SearchPage() {
 
   const navigate = useNavigate()
 
+  // ==========================================================
+  // State
+  // ==========================================================
+
   const [content, setContent] = useState<Content[]>([])
   const [loadingContent, setLoadingContent] = useState(true)
   const [contentError, setContentError] = useState('')
@@ -38,6 +42,9 @@ function SearchPage() {
   const [visitedContent, setVisitedContent] = useState<string[]>(() => {
     return JSON.parse(localStorage.getItem('visitedContent') || '[]')
   })
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const contentPerPage = 5
 
   // ==========================================================
   // Load Content
@@ -117,7 +124,22 @@ function SearchPage() {
     })
 
   // ==========================================================
-  // Filter Content
+  // content Page
+  // ==========================================================
+
+  const totalPages = Math.ceil(
+    filteredContent.length / contentPerPage
+  )
+
+  const startIndex = (currentPage - 1) * contentPerPage
+
+  const paginatedContent = filteredContent.slice(
+    startIndex,
+    startIndex + contentPerPage
+  )
+
+  // ==========================================================
+  // Visited Content
   // ==========================================================
   const handleContentClick = (id: string, path: string) => {
     const updatedVisited = [...new Set([...visitedContent, id])]
@@ -228,8 +250,7 @@ function SearchPage() {
 
         {!loadingContent &&
           !contentError &&
-          filteredContent.map((content) => (
-
+          paginatedContent.map((content) => (
             <div key={content.id} className={styles.contentCard}>
               <h2
                 className={`${styles.contentTitle} ${visitedContent.includes(content.id) ? styles.visited : ''
@@ -238,19 +259,61 @@ function SearchPage() {
               >
                 {content.name}
               </h2>
+
               <p>{content.overview}</p>
+
               <div className={styles.contentInformation}>
                 <p>Author: {content.author}</p>
+                <p>Type: {content.type}</p>
                 <p>Publishing Date: {new Date(content.updated).getFullYear()}</p>
               </div>
             </div>
           ))}
       </div>
+
+      {/* Content Page navigation */}
+      {!loadingContent &&
+        !contentError &&
+        totalPages > 1 && (
+          <div className={styles.pagination}>
+            <button
+              type="button"
+              className={styles.pageButton}
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((page) => page - 1)}
+            >
+              Previous
+            </button>
+
+            {Array.from(
+              { length: totalPages },
+              (_, index) => index + 1
+            ).map((page) => (
+              <button
+                type="button"
+                key={page}
+                className={`${styles.pageButton} ${currentPage === page ? styles.activePage : ''
+                  }`}
+                aria-current={currentPage === page ? 'page' : undefined}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </button>
+            ))}
+
+            <button
+              type="button"
+              className={styles.pageButton}
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((page) => page + 1)}
+            >
+              Next
+            </button>
+          </div>
+        )}
     </div>
 
-
   );
-
 
 }
 

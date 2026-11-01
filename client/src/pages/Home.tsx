@@ -274,7 +274,7 @@ function Home({ }: Props) {
                   <div className={styles.resourceHeader}>
 
                     <span className={styles.resourceType}>
-                      Article
+                      {content.type}
                     </span>
 
                   </div>

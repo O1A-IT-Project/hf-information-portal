@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import styles from "./SearchPage.module.css";
 
-function ContentPage() {
+function SearchPage() {
   
   return (
     <div className={styles.resourcesContainer}>
@@ -15,4 +15,4 @@ function ContentPage() {
   );
 }
 
-export default ContentPage;
+export default SearchPage;

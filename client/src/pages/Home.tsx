@@ -65,7 +65,7 @@ function Home({ }: Props) {
 
 
   // ==========================================================
-  // Load Posts (currently articles but to be updated)
+  // Load Content
   // ==========================================================
 
   useEffect(() => {
@@ -334,7 +334,7 @@ function Home({ }: Props) {
                   </div>
 
                   {/* Resource Action */}
-                  <button className={styles.viewResourceButton} onClick={() => navigate(`/article${content.path}`)}>  View Resource → </button>
+                  <button className={styles.viewResourceButton} onClick={() => navigate(`/content${content.path}`)}>  View Resource → </button>
                 </div>
 
               ))}

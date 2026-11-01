@@ -14,7 +14,7 @@ import RoleApplicationForm from './components/RoleApplicationForm'
 import Survey from './pages/Survey'
 import FindClinic from './pages/FindClinic'
 import SearchPage from './pages/SearchPage'
-import ArticlePage from './pages/ArticlePage'
+import ContentPage from './pages/ContentPage'
 
 import './Theme.css'
 
@@ -141,7 +141,7 @@ function App() {
         <Route path="/find-clinic" element={<FindClinic />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/survey" element={<Survey />} />
-        <Route path="/article/:articlePath" element={<ArticlePage />} />
+        <Route path="/content/:contentPath" element={<ContentPage />} />
 
         <Route path="/content" element={<SearchPage />} />
 

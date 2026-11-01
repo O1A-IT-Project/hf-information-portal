@@ -34,6 +34,14 @@ export default function SurveyList() {
   const [currentPage, setCurrentPage] = useState(1)
   const surveysPerPage = 10
 
+  useEffect(() => {
+    const state = location.state as { searchTerm?: string } | null
+
+    if (state?.searchTerm !== undefined) {
+      setSearchTerm(state.searchTerm)
+    }
+  }, [location.key, location.state])
+
   // ==========================================================
   // Load Surveys
   // ==========================================================

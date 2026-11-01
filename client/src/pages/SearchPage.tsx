@@ -50,7 +50,13 @@ function SearchPage() {
   const contentPerPage = 5
 
 
+  useEffect(() => {
+    const state = location.state as { searchTerm?: string } | null
 
+    if (state?.searchTerm !== undefined) {
+      setSearchTerm(state.searchTerm)
+    }
+  }, [location.key, location.state])
 
 
   // ==========================================================

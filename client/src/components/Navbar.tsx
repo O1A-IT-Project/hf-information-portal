@@ -25,11 +25,23 @@ type Props = {
 function Navbar({ user, setUser, activeRole, onRoleChange }: Props) {
   const navigate = useNavigate()
 
+  const handleSearch = (type: 'survey' | 'resources') => {
+    const route = type === 'survey' ? '/survey' : '/search'
+
+    navigate(route, {
+      state: { searchTerm },
+    })
+
+    setShowSuggestions(false)
+  }
+
   // ==========================================================
   // State
   // ==========================================================
 
   const [menuOpen, setMenuOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [showSuggestions, setShowSuggestions] = useState(false)
 
   // ==========================================================
   // Logout
@@ -131,11 +143,53 @@ function Navbar({ user, setUser, activeRole, onRoleChange }: Props) {
           {/* ======================================================
           Search
           ====================================================== */}
-          <div className={styles.searchBar}>
-            <input type="text" placeholder="Search..." />
-            <button className={styles.searchBtn}>
-              <i className="bx bx-search"></i>
-            </button>
+          <div className={styles.searchBarContainer}>
+            <div className={styles.searchBar}>
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value)
+                  setShowSuggestions(e.target.value.trim().length > 0)
+                }}
+              />
+
+              <button
+                className={styles.searchBtn}
+                onClick={() => handleSearch('resources')}
+              >
+                <i className="bx bx-search"></i>
+              </button>
+            </div>
+
+            {showSuggestions && searchTerm.trim() && (
+              <div className={styles.searchSuggestions}>
+                <div
+                  className={styles.suggestionItem}
+                  onClick={() => handleSearch('resources')}
+                >
+                  <i className="bx bx-file"></i>
+                  <div>
+                    <strong>Search Resources</strong>
+                    <p>Search resources for "{searchTerm}"</p>
+                  </div>
+                </div>
+                
+                <div
+                  className={styles.suggestionItem}
+                  onClick={() => handleSearch('survey')}
+                >
+                  <i className="bx bx-clipboard"></i>
+                  <div>
+                    <strong>Search Surveys</strong>
+                    <p>Search surveys for "{searchTerm}"</p>
+                  </div>
+                </div>
+
+
+              </div>
+            )}
           </div>
 
           {/* ======================================================

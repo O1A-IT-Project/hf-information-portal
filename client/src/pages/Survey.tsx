@@ -27,7 +27,7 @@ export default function SurveyList() {
 
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
-  
+
   const [currentPage, setCurrentPage] = useState(1)
   const surveysPerPage = 10
 
@@ -142,7 +142,7 @@ export default function SurveyList() {
       </div>
 
       <div className={styles.categoryDropdown}>
-        <label htmlFor="surveyCategory">Filter by category:</label>
+        <label htmlFor="surveyCategory">Filter by Category:</label>
 
         <select
           id="surveyCategory"

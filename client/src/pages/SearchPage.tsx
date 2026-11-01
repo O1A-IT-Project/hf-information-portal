@@ -139,58 +139,59 @@ function SearchPage() {
           Search
         </button>
       </div>
+      <div className={styles.filtersContainer}>
+        <div className={styles.dropdown}>
+          <label htmlFor="surveyCategory">Filter by Category:</label>
 
-      <div className={styles.categoryDropdown}>
-        <label htmlFor="surveyCategory">Filter by category:</label>
+          <select
+            id="surveyCategory"
+            value={selectedCategory}
+            onChange={(e) => {
+              setSelectedCategory(e.target.value)
+              // setCurrentPage(1)
+            }}
+          >
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          id="surveyCategory"
-          value={selectedCategory}
-          onChange={(e) => {
-            setSelectedCategory(e.target.value)
-            // setCurrentPage(1)
-          }}
-        >
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
+        <div className={styles.dropdown}>
+          <label htmlFor="surveyCategory">Filter by Type:</label>
+
+          <select
+            id="surveyCategory"
+            value={selectedType}
+            onChange={(e) => {
+              setSelectedType(e.target.value)
+              // setCurrentPage(1)
+            }}
+          >
+            {types.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className={styles.dropdown}>
+          <label htmlFor="sortOrder">Sort by Date:</label>
+
+          <select
+            id="sortOrder"
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value="latest">Latest first</option>
+            <option value="oldest">Oldest first</option>
+          </select>
+        </div>
       </div>
 
-      <div className={styles.typeDropdown}>
-        <label htmlFor="surveyCategory">Filter by type:</label>
-
-        <select
-          id="surveyCategory"
-          value={selectedType}
-          onChange={(e) => {
-            setSelectedType(e.target.value)
-            // setCurrentPage(1)
-          }}
-        >
-          {types.map((type) => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className={styles.typeDropdown}>
-        <label htmlFor="sortOrder">Sort by date:</label>
-
-        <select
-          id="sortOrder"
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
-        >
-          <option value="latest">Latest first</option>
-          <option value="oldest">Oldest first</option>
-        </select>
-      </div>
-      
       <div className={styles.contentGrid}>
         {loadingContent && <p>Loading surveys...</p>}
 

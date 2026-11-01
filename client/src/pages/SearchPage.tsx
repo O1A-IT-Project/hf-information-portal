@@ -24,6 +24,8 @@ type Content = {
 
 function SearchPage() {
 
+  const navigate = useNavigate()
+
   const [content, setContent] = useState<Content[]>([])
   const [loadingContent, setLoadingContent] = useState(true)
   const [contentError, setContentError] = useState('')
@@ -212,12 +214,18 @@ function SearchPage() {
           !contentError &&
           filteredContent.map((content) => (
 
-            <div key={content.id}>
-              <h2>{content.name}</h2>
+            <div key={content.id} className={styles.contentCard}>
+              <h2
+                className={styles.contentTitle}
+                onClick={() => navigate(`/content${content.path}`)}
+              >
+                {content.name}
+              </h2>
               <p>{content.overview}</p>
-              <p>{content.author}</p>
-              <p>{new Date(content.updated).getFullYear()}</p>
-              <p>{new Date(content.type).getFullYear()}</p>
+              <div className={styles.contentInformation}>
+                <p>Author: {content.author}</p>
+                <p>Publishing Date: {new Date(content.updated).getFullYear()}</p>
+              </div>
             </div>
           ))}
       </div>

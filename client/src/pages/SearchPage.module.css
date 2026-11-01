@@ -99,3 +99,72 @@
   cursor: pointer;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
+
+/* ------------------------------------------------------------
+  Content Grid
+   ------------------------------------------------------------ */
+.contentGrid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* ------------------------------------------------------------
+  Content Card
+   ------------------------------------------------------------ */
+
+
+.contentCard {
+  padding: 20px 0;
+  border-bottom: 1px solid #dadce0;
+}
+
+.contentCard:first-child {
+  border-top: 1px solid #dadce0;
+}
+
+.contentCard h2 {
+  color: #1a0dab;
+  font-size: 18px;
+  font-weight: 500; 
+  margin: 0 0 8px;
+}
+
+.contentCard p {
+  margin: 5px 0;
+  line-height: 1.5;
+  color: #5f6368;
+}
+
+/* ------------------------------------------------------------
+  Content Information
+   ------------------------------------------------------------ */
+
+.contentInformation {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.contentInformation p {
+  margin: 5px 0;
+  line-height: 1.5;
+  color: #5f6368;
+}
+
+.contentTitle {
+  color: #1a0dab;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0 0 8px;
+  cursor: pointer;
+}
+
+.contentTitle:hover {
+  text-decoration: underline;
+}
+
+.contentTitle:visited {
+  color: #b39ddb;
+}

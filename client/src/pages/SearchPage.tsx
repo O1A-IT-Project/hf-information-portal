@@ -31,6 +31,7 @@ function SearchPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedType, setSelectedType] = useState('All')
+  const [sortOrder, setSortOrder] = useState('latest')
 
   // ==========================================================
   // Load Content
@@ -100,6 +101,14 @@ function SearchPage() {
 
     return matchesTitle && matchesCategory && matchesType
   })
+    .sort((a, b) => {
+      const dateA = new Date(a.created).getTime()
+      const dateB = new Date(b.created).getTime()
+
+      return sortOrder === 'latest'
+        ? dateB - dateA
+        : dateA - dateB
+    })
 
   return (
     <div className={styles.resourcesContainer}>
@@ -167,6 +176,49 @@ function SearchPage() {
             </option>
           ))}
         </select>
+      </div>
+
+      <div className={styles.typeDropdown}>
+        <label htmlFor="sortOrder">Sort by date:</label>
+
+        <select
+          id="sortOrder"
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+        >
+          <option value="latest">Latest first</option>
+          <option value="oldest">Oldest first</option>
+        </select>
+      </div>
+      
+      <div className={styles.contentGrid}>
+        {loadingContent && <p>Loading surveys...</p>}
+
+        {contentError && <p role="alert">{contentError}</p>}
+
+        {!loadingContent && !contentError && content.length === 0 && (
+          <p>No content available at the moment.</p>
+        )}
+
+        {!loadingContent &&
+          !contentError &&
+          content.length > 0 &&
+          filteredContent.length === 0 && (
+            <p>No content found matching "{searchTerm}".</p>
+          )}
+
+        {!loadingContent &&
+          !contentError &&
+          filteredContent.map((content) => (
+
+            <div key={content.id}>
+              <h2>{content.name}</h2>
+              <p>{content.overview}</p>
+              <p>{content.author}</p>
+              <p>{new Date(content.updated).getFullYear()}</p>
+              <p>{new Date(content.type).getFullYear()}</p>
+            </div>
+          ))}
       </div>
     </div>
 

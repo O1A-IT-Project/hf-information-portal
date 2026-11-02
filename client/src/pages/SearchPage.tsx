@@ -178,7 +178,7 @@ function SearchPage() {
             setSearchTerm(e.target.value)
             // setCurrentPage(1)
           }}
-          aria-label="Search surveys by title"
+          aria-label="Search conent by title"
         />
 
         <button
@@ -194,10 +194,10 @@ function SearchPage() {
       </div>
       <div className={styles.filtersContainer}>
         <div className={styles.dropdown}>
-          <label htmlFor="surveyCategory">Filter by Category:</label>
+          <label htmlFor="contentCategory">Filter by Category:</label>
 
           <select
-            id="surveyCategory"
+            id="contentCategory"
             value={selectedCategory}
             onChange={(e) => {
               setSelectedCategory(e.target.value)
@@ -213,10 +213,10 @@ function SearchPage() {
         </div>
 
         <div className={styles.dropdown}>
-          <label htmlFor="surveyCategory">Filter by Type:</label>
+          <label htmlFor="contentCategory">Filter by Type:</label>
 
           <select
-            id="surveyCategory"
+            id="contentCategory"
             value={selectedType}
             onChange={(e) => {
               setSelectedType(e.target.value)
@@ -246,7 +246,7 @@ function SearchPage() {
       </div>
 
       <div className={styles.contentGrid}>
-        {loadingContent && <p>Loading surveys...</p>}
+        {loadingContent && <p>Loading content...</p>}
 
         {contentError && <p role="alert">{contentError}</p>}
 

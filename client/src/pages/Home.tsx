@@ -1,11 +1,10 @@
 import styles from './Home.module.css'
 
-import type { User } from '../App'
+import type { User, Role } from '../App'
 
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { getForms, getContent } from '../services/umbraco'
-
 
 // ============================================================
 // Types
@@ -13,6 +12,7 @@ import { getForms, getContent } from '../services/umbraco'
 
 type Props = {
   user: User | null
+  activeRole: Role | null
 }
 
 type Content = {
@@ -42,14 +42,12 @@ type Survey = {
   path: string
 }
 
-
 // ============================================================
 // Home Component
 // ============================================================
 
-function Home({ }: Props) {
+function Home({ activeRole }: Props) {
   const navigate = useNavigate()
-
 
   // ==========================================================
   // State
@@ -66,7 +64,6 @@ function Home({ }: Props) {
   const [loadingSurveys, setLoadingSurveys] = useState(true)
   const [surveyError, setSurveyError] = useState('')
 
-
   // ==========================================================
   // Load Content
   // ==========================================================
@@ -74,7 +71,7 @@ function Home({ }: Props) {
   useEffect(() => {
     const loadContent = async () => {
       try {
-        const data = await getContent()
+        const data = await getContent(activeRole)
 
         setContent(data)
       } catch (error) {
@@ -86,8 +83,7 @@ function Home({ }: Props) {
     }
 
     loadContent()
-  }, [])
-
+  }, [activeRole])
 
   // ==========================================================
   // Load Surveys
@@ -96,7 +92,7 @@ function Home({ }: Props) {
   useEffect(() => {
     const loadSurveys = async () => {
       try {
-        const data = await getForms()
+        const data = await getForms(activeRole)
 
         setSurveys(data)
       } catch (error) {
@@ -108,36 +104,29 @@ function Home({ }: Props) {
     }
 
     loadSurveys()
-  }, [])
-
+  }, [activeRole])
 
   // ==========================================================
   // Survey Navigation
   // ==========================================================
 
   const openSurvey = (path: string) => {
-    window.open(
-      `https://localhost:8443${path}`,
-      '_blank',
-      'noopener,noreferrer'
-    )
+    window.open(`https://localhost:8443${path}`, '_blank', 'noopener,noreferrer')
   }
 
   return (
     <div className={styles.homeContainer}>
-
-
       {/* ======================================================
           Hero / Search
           ====================================================== */}
 
       <section className={styles.searchSection}>
         <div className={styles.searchContent}>
-
           <h1>Heart Failure: Information, Resources & Support</h1>
 
           <p>
-            Explore helpful resources, take surveys, and share your insights to help improve heart failure data and research.
+            Explore helpful resources, take surveys, and share your insights to help improve heart
+            failure data and research.
           </p>
 
           <div className={styles.homeSearchContainer}>
@@ -148,7 +137,7 @@ function Home({ }: Props) {
                 type="text"
                 placeholder="Search heart failure information..."
                 value={homeSearchTerm}
-                onChange={(e) => {
+                onChange={e => {
                   setHomeSearchTerm(e.target.value)
                   setShowSuggestions(e.target.value.trim().length > 0)
                 }}
@@ -162,7 +151,7 @@ function Home({ }: Props) {
               <button
                 onClick={() => {
                   navigate('/search', {
-                    state: { searchTerm: homeSearchTerm }
+                    state: { searchTerm: homeSearchTerm },
                   })
                 }}
               >
@@ -172,12 +161,11 @@ function Home({ }: Props) {
 
             {showSuggestions && homeSearchTerm.trim() && (
               <div className={styles.searchSuggestions}>
-
-                  <div
+                <div
                   className={styles.suggestionItem}
                   onClick={() => {
                     navigate('/search', {
-                      state: { searchTerm: homeSearchTerm }
+                      state: { searchTerm: homeSearchTerm },
                     })
                     setShowSuggestions(false)
                   }}
@@ -193,7 +181,7 @@ function Home({ }: Props) {
                   className={styles.suggestionItem}
                   onClick={() => {
                     navigate('/survey', {
-                      state: { searchTerm: homeSearchTerm }
+                      state: { searchTerm: homeSearchTerm },
                     })
                     setShowSuggestions(false)
                   }}
@@ -204,16 +192,11 @@ function Home({ }: Props) {
                     <p>Search surveys for "{homeSearchTerm}"</p>
                   </div>
                 </div>
-
-              
-
               </div>
             )}
           </div>
-
         </div>
       </section>
-
 
       {/* ======================================================
           About / Feature Cards
@@ -221,9 +204,7 @@ function Home({ }: Props) {
 
       <section className={styles.aboutSection}>
         <div className={styles.aboutContent}>
-
           <div className={styles.infoGrid}>
-
             {/* Explore Resources */}
             <div className={styles.infoCard}>
               <div className={`${styles.iconCircle} ${styles.resourceIcon}`}>
@@ -232,9 +213,7 @@ function Home({ }: Props) {
 
               <h3>Explore Resources</h3>
 
-              <p>
-                Access guides, articles, and tools to better understand heart failure.
-              </p>
+              <p>Access guides, articles, and tools to better understand heart failure.</p>
             </div>
 
             {/* Take Surveys */}
@@ -245,9 +224,7 @@ function Home({ }: Props) {
 
               <h3>Take Surveys</h3>
 
-              <p>
-                Share your experiences to support better heart failure research and care.
-              </p>
+              <p>Share your experiences to support better heart failure research and care.</p>
             </div>
 
             {/* Join Our Community */}
@@ -258,9 +235,7 @@ function Home({ }: Props) {
 
               <h3>Join Our Community</h3>
 
-              <p>
-                Learn, share experiences, and connect with others.
-              </p>
+              <p>Learn, share experiences, and connect with others.</p>
             </div>
 
             {/* Make an Impact */}
@@ -271,17 +246,11 @@ function Home({ }: Props) {
 
               <h3>Make an Impact</h3>
 
-              <p>
-                Your insights can help contribute to better heart failure
-                research and support.
-              </p>
+              <p>Your insights can help contribute to better heart failure research and support.</p>
             </div>
-
           </div>
-
         </div>
       </section>
-
 
       {/* ======================================================
           Featured Resouces
@@ -289,34 +258,24 @@ function Home({ }: Props) {
 
       <section className={styles.resourcesSection}>
         <div className={styles.resourcesContent}>
-
           {/* Section Header */}
           <div className={styles.resourcesTitleBox}>
-
             <div className={styles.resourcesTitleText}>
               <h2>Featured Resources</h2>
 
-              <p>
-                Guides, articles, and tools to better understand heart failure.
-              </p>
+              <p>Guides, articles, and tools to better understand heart failure.</p>
             </div>
 
-            <Link
-              to="/search"
-              className={styles.viewAllResourcesLink}
-            >
+            <Link to="/search" className={styles.viewAllResourcesLink}>
               View All Resources →
             </Link>
-
           </div>
 
           {/* Resource Cards */}
           <div className={styles.resourceGrid}>
             {loadingContent && <p>Loading resources...</p>}
 
-            {!loadingContent && contentError && (
-              <p role="alert">{contentError}</p>
-            )}
+            {!loadingContent && contentError && <p role="alert">{contentError}</p>}
 
             {!loadingContent && !contentError && content.length === 0 && (
               <p>No resources available at the moment.</p>
@@ -324,40 +283,24 @@ function Home({ }: Props) {
 
             {!loadingContent &&
               !contentError &&
-              content.slice(0, 3).map((content) => (
-
-                <div
-                  className={styles.resourceCard}
-                  key={content.id}
-                >
-
+              content.slice(0, 3).map(content => (
+                <div className={styles.resourceCard} key={content.id}>
                   {/* Resource Header */}
                   <div className={styles.resourceHeader}>
-
-                    <span className={styles.resourceType}>
-                      {content.type}
-                    </span>
-
+                    <span className={styles.resourceType}>{content.type}</span>
                   </div>
 
                   {/* Resource Information */}
-                  <h3 className={styles.resourceName}>
-                    {content.name}
-                  </h3>
+                  <h3 className={styles.resourceName}>{content.name}</h3>
 
-                  <p className={styles.resourceDescription}>
-                    {content.overview}
-                  </p>
+                  <p className={styles.resourceDescription}>{content.overview}</p>
 
                   {/* Resource Details */}
                   <div className={styles.resourceDetails}>
-
                     <div>
                       <span>Category</span>
 
-                      <strong>
-                        {content.category}
-                      </strong>
+                      <strong>{content.category}</strong>
                     </div>
 
                     <div>
@@ -387,33 +330,32 @@ function Home({ }: Props) {
                     <div>
                       <span>Author</span>
 
-                      <strong>
-                        {content.author}
-                      </strong>
+                      <strong>{content.author}</strong>
                     </div>
-
                   </div>
 
                   {/* Resource Action */}
-                  <button className={styles.viewResourceButton} onClick={() => navigate(`/content${content.path}`)}>  View Resource → </button>
+                  <button
+                    className={styles.viewResourceButton}
+                    onClick={() => navigate(`/content${content.path}`)}
+                  >
+                    {' '}
+                    View Resource →{' '}
+                  </button>
                 </div>
-
               ))}
-
           </div>
-        </div >
-      </section >
+        </div>
+      </section>
 
       {/* ======================================================
           Featured Surveys
           ====================================================== */}
 
-      < section className={styles.surveysSection} >
+      <section className={styles.surveysSection}>
         <div className={styles.surveysContent}>
-
           {/* Section Header */}
           <div className={styles.surveysTitleBox}>
-
             <div className={styles.surveysTitleText}>
               <h2>Featured Surveys</h2>
 
@@ -422,13 +364,9 @@ function Home({ }: Props) {
               </p>
             </div>
 
-            <Link
-              to="/survey"
-              className={styles.viewAllSurveysLink}
-            >
+            <Link to="/survey" className={styles.viewAllSurveysLink}>
               View All Surveys →
             </Link>
-
           </div>
 
           {/* Survey Cards */}
@@ -443,44 +381,26 @@ function Home({ }: Props) {
 
             {!loadingSurveys &&
               !surveyError &&
-              surveys.slice(0, 3).map((survey) => (
-
-                <div
-                  className={styles.surveyCard}
-                  key={survey.id}
-                >
-
+              surveys.slice(0, 3).map(survey => (
+                <div className={styles.surveyCard} key={survey.id}>
                   {/* Survey Header */}
                   <div className={styles.surveyHeader}>
+                    <span className={styles.surveyType}>Survey</span>
 
-                    <span className={styles.surveyType}>
-                      Survey
-                    </span>
-
-                    <span className={styles.surveyStatus}>
-                      Open
-                    </span>
-
+                    <span className={styles.surveyStatus}>Open</span>
                   </div>
 
                   {/* Survey Information */}
-                  <h3 className={styles.surveyName}>
-                    {survey.name}
-                  </h3>
+                  <h3 className={styles.surveyName}>{survey.name}</h3>
 
-                  <p className={styles.surveyDescription}>
-                    {survey.description}
-                  </p>
+                  <p className={styles.surveyDescription}>{survey.description}</p>
 
                   {/* Survey Details */}
                   <div className={styles.surveyDetails}>
-
                     <div>
                       <span>Recipient</span>
 
-                      <strong>
-                        {survey.recipients.join(', ')}
-                      </strong>
+                      <strong>{survey.recipients.join(', ')}</strong>
                     </div>
 
                     <div>
@@ -510,11 +430,8 @@ function Home({ }: Props) {
                     <div>
                       <span>Organisation</span>
 
-                      <strong>
-                        {survey.organisationName}
-                      </strong>
+                      <strong>{survey.organisationName}</strong>
                     </div>
-
                   </div>
 
                   {/* Survey Action */}
@@ -524,18 +441,12 @@ function Home({ }: Props) {
                   >
                     Take Survey →
                   </button>
-
                 </div>
-
               ))}
-
           </div>
-
         </div>
-      </section >
-
-
-    </div >
+      </section>
+    </div>
   )
 }
 

@@ -1,8 +1,13 @@
+import type { Role } from '../App'
 import { useEffect, useState } from 'react'
 import { getForms } from '../services/umbraco'
 import { useLocation } from 'react-router-dom'
 
 import styles from './Survey.module.css'
+
+type Props = {
+  activeRole: Role | null
+}
 
 type Survey = {
   id: string
@@ -16,8 +21,7 @@ type Survey = {
   path: string
 }
 
-export default function SurveyList() {
-
+export default function SurveyList({ activeRole }: Props) {
   const location = useLocation()
 
   // ==========================================================
@@ -49,7 +53,7 @@ export default function SurveyList() {
   useEffect(() => {
     const loadSurveys = async () => {
       try {
-        const data = await getForms()
+        const data = await getForms(activeRole)
 
         setSurveys(data)
       } catch (error) {
@@ -61,7 +65,7 @@ export default function SurveyList() {
     }
 
     loadSurveys()
-  }, [])
+  }, [activeRole])
 
   // ==========================================================
   // Get Categories
@@ -71,7 +75,7 @@ export default function SurveyList() {
     'All',
     ...new Set(
       surveys
-        .map((survey) => survey.category?.trim())
+        .map(survey => survey.category?.trim())
         .filter((category): category is string => Boolean(category))
     ),
   ]
@@ -80,14 +84,11 @@ export default function SurveyList() {
   // Filter Surveys
   // ==========================================================
 
-  const filteredSurveys = surveys.filter((survey) => {
-    const matchesTitle = survey.name
-      .toLowerCase()
-      .includes(searchTerm.trim().toLowerCase())
+  const filteredSurveys = surveys.filter(survey => {
+    const matchesTitle = survey.name.toLowerCase().includes(searchTerm.trim().toLowerCase())
 
     const matchesCategory =
-      selectedCategory === 'All' ||
-      survey.category?.trim() === selectedCategory
+      selectedCategory === 'All' || survey.category?.trim() === selectedCategory
 
     return matchesTitle && matchesCategory
   })
@@ -96,32 +97,21 @@ export default function SurveyList() {
   // Survey Page
   // ==========================================================
 
-  const totalPages = Math.ceil(
-    filteredSurveys.length / surveysPerPage
-  )
+  const totalPages = Math.ceil(filteredSurveys.length / surveysPerPage)
 
   const startIndex = (currentPage - 1) * surveysPerPage
 
-  const paginatedSurveys = filteredSurveys.slice(
-    startIndex,
-    startIndex + surveysPerPage
-  )
+  const paginatedSurveys = filteredSurveys.slice(startIndex, startIndex + surveysPerPage)
 
   // ==========================================================
   // Survey Navigation
   // ==========================================================
 
   const openSurvey = (path: string) => {
-    window.open(
-      `https://localhost:8443${path}`,
-      '_blank',
-      'noopener,noreferrer'
-    )
+    window.open(`https://localhost:8443${path}`, '_blank', 'noopener,noreferrer')
   }
   return (
-
     <div className={styles.surveysContainer}>
-
       <div className={styles.surveysTitleBox}>
         <h1>Available Surveys</h1>
       </div>
@@ -132,7 +122,7 @@ export default function SurveyList() {
             type="text"
             placeholder="Search surveys by title..."
             value={searchTerm}
-            onChange={(e) => {
+            onChange={e => {
               setSearchTerm(e.target.value)
               setCurrentPage(1)
             }}
@@ -158,12 +148,12 @@ export default function SurveyList() {
         <select
           id="surveyCategory"
           value={selectedCategory}
-          onChange={(e) => {
+          onChange={e => {
             setSelectedCategory(e.target.value)
             setCurrentPage(1)
           }}
         >
-          {categories.map((category) => (
+          {categories.map(category => (
             <option key={category} value={category}>
               {category}
             </option>
@@ -180,54 +170,32 @@ export default function SurveyList() {
           <p>No surveys available at the moment.</p>
         )}
 
-        {!loadingSurveys &&
-          !surveyError &&
-          surveys.length > 0 &&
-          filteredSurveys.length === 0 && (
-            <p>No surveys found matching "{searchTerm}".</p>
-          )}
+        {!loadingSurveys && !surveyError && surveys.length > 0 && filteredSurveys.length === 0 && (
+          <p>No surveys found matching "{searchTerm}".</p>
+        )}
 
         {!loadingSurveys &&
           !surveyError &&
-          paginatedSurveys.map((survey) => (
-
-
-            <div
-              className={styles.surveyCard}
-              key={survey.id}
-            >
-
+          paginatedSurveys.map(survey => (
+            <div className={styles.surveyCard} key={survey.id}>
               {/* Survey Header */}
               <div className={styles.surveyHeader}>
+                <span className={styles.surveyType}>Survey</span>
 
-                <span className={styles.surveyType}>
-                  Survey
-                </span>
-
-                <span className={styles.surveyStatus}>
-                  Open
-                </span>
-
+                <span className={styles.surveyStatus}>Open</span>
               </div>
 
               {/* Survey Information */}
-              <h3 className={styles.surveyName}>
-                {survey.name}
-              </h3>
+              <h3 className={styles.surveyName}>{survey.name}</h3>
 
-              <p className={styles.surveyDescription}>
-                {survey.description}
-              </p>
+              <p className={styles.surveyDescription}>{survey.description}</p>
 
               {/* Survey Details */}
               <div className={styles.surveyDetails}>
-
                 <div>
                   <span>Recipient</span>
 
-                  <strong>
-                    {survey.recipients.join(', ')}
-                  </strong>
+                  <strong>{survey.recipients.join(', ')}</strong>
                 </div>
 
                 <div>
@@ -257,70 +225,52 @@ export default function SurveyList() {
                 <div>
                   <span>Organisation</span>
 
-                  <strong>
-                    {survey.organisationName}
-                  </strong>
+                  <strong>{survey.organisationName}</strong>
                 </div>
-
               </div>
 
               {/* Survey Action */}
-              <button
-                className={styles.takeSurveyButton}
-                onClick={() => openSurvey(survey.path)}
-              >
+              <button className={styles.takeSurveyButton} onClick={() => openSurvey(survey.path)}>
                 Take Survey →
               </button>
-
             </div>
-
           ))}
-
       </div>
 
       {/* Survey Page navigation */}
-      {!loadingSurveys &&
-        !surveyError &&
-        totalPages > 1 && (
-          <div className={styles.pagination}>
+      {!loadingSurveys && !surveyError && totalPages > 1 && (
+        <div className={styles.pagination}>
+          <button
+            type="button"
+            className={styles.pageButton}
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(page => page - 1)}
+          >
+            Previous
+          </button>
+
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map(page => (
             <button
               type="button"
-              className={styles.pageButton}
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((page) => page - 1)}
+              key={page}
+              className={`${styles.pageButton} ${currentPage === page ? styles.activePage : ''}`}
+              aria-current={currentPage === page ? 'page' : undefined}
+              onClick={() => setCurrentPage(page)}
             >
-              Previous
+              {page}
             </button>
+          ))}
 
-            {Array.from(
-              { length: totalPages },
-              (_, index) => index + 1
-            ).map((page) => (
-              <button
-                type="button"
-                key={page}
-                className={`${styles.pageButton} ${currentPage === page ? styles.activePage : ''
-                  }`}
-                aria-current={currentPage === page ? 'page' : undefined}
-                onClick={() => setCurrentPage(page)}
-              >
-                {page}
-              </button>
-            ))}
-
-            <button
-              type="button"
-              className={styles.pageButton}
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage((page) => page + 1)}
-            >
-              Next
-            </button>
-          </div>
-        )}
-
+          <button
+            type="button"
+            className={styles.pageButton}
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(page => page + 1)}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
-
   )
 }
-

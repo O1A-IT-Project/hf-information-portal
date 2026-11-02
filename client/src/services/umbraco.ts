@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import type { Role } from '../App'
+
 type Content = {
   id: string
   name: string
@@ -25,7 +29,15 @@ type Survey = {
   path: string
 }
 
-export async function getContent(): Promise<Content[]> {
+function isVisibleToRole(audiences: string[], activeRole: Role | null) {
+  const role = activeRole ?? 'patient'
+
+  return audiences.some(
+    audience => audience.trim().toLowerCase() === role
+  )
+}
+
+export async function getContent(activeRole: Role | null): Promise<Content[]> {
   const res = await fetch(
     'https://localhost:8443/umbraco/delivery/api/v2/content'
   )
@@ -52,9 +64,12 @@ export async function getContent(): Promise<Content[]> {
       updated: item.updateDate,
       path: item.route?.path ?? '',
     }))
+    .filter((content: Content) =>
+      isVisibleToRole(content.visibility, activeRole)
+    )
 }
 
-export async function getForms(): Promise<Survey[]> {
+export async function getForms(activeRole: Role | null): Promise<Survey[]> {
   const res = await fetch(
     'https://localhost:8443/umbraco/delivery/api/v2/content'
   )
@@ -78,13 +93,7 @@ export async function getForms(): Promise<Survey[]> {
       updated: item.updateDate,
       path: item.route?.path ?? '',
     }))
+    .filter((survey: Survey) =>
+      isVisibleToRole(survey.recipients, activeRole)
+    )
 }
-
-
-
-
-
-
-
-
-

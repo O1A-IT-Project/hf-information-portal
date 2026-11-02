@@ -12,7 +12,6 @@ import ClinicianOnly from './pages/ClinicianOnly'
 import RoleApplicationForm from './components/RoleApplicationForm'
 // import ContentPage from './pages/ContentPage'
 import Survey from './pages/Survey'
-import FindClinic from './pages/FindClinic'
 import SearchPage from './pages/SearchPage'
 import ContentPage from './pages/ContentPage'
 
@@ -137,13 +136,15 @@ function App() {
       )}
 
       <Routes>
-        <Route path="/" element={<Home user={user} />} />
-        <Route path="/find-clinic" element={<FindClinic />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/survey" element={<Survey />} />
-        <Route path="/content/:contentPath" element={<ContentPage />} />
+        <Route path="/" element={<Home user={user} activeRole={activeRole} />} />
 
-        <Route path="/content" element={<SearchPage />} />
+        <Route path="/search" element={<SearchPage activeRole={activeRole} />} />
+
+        <Route path="/survey" element={<Survey activeRole={activeRole} />} />
+
+        <Route path="/content/:contentPath" element={<ContentPage activeRole={activeRole} />} />
+
+        <Route path="/content" element={<SearchPage activeRole={activeRole} />} />
 
         <Route path="/register" element={<Register setUser={setUser} />} />
 

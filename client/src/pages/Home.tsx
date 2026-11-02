@@ -117,7 +117,7 @@ function Home({ }: Props) {
 
   const openSurvey = (path: string) => {
     window.open(
-      `https://localhost:44343${path}`,
+      `https://localhost:8443${path}`,
       '_blank',
       'noopener,noreferrer'
     )

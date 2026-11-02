@@ -332,7 +332,7 @@ Umbraco's JWT secret is the same as the one used for our backend (auth) node.js.
 Add UMBRACO_SERVER with your Umbraco's address to .env in backend.
 
 E.g
-```UMBRACO_SERVER="https://localhost:44343"```
+```UMBRACO_SERVER="https://localhost:8443"```
 
 ## Member sync (Umbraco)
 

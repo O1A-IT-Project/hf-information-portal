@@ -52,7 +52,7 @@ function ContentPage() {
 
   const bodyContent = content.bodyContent.replace(
     /src="\/media\//g,
-    'src="https://localhost:44343/media/'
+    'src="https://localhost:8443/media/'
   );
 
   return (

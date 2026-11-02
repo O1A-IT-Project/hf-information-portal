@@ -51,6 +51,7 @@ services:
       Umbraco__CMS__Unattended__UnattendedUserEmail: "${UMBRACO_ADMIN_EMAIL:?Please set UMBRACO_ADMIN_EMAIL in the .env file}"
       Umbraco__CMS__Unattended__UnattendedUserPassword: "${UMBRACO_ADMIN_PASSWORD}"
       Umbraco__CMS__Unattended__InstallMissingDatabase: "true"
+      Jwt__Secret: "${JWT_SECRET:?Please set JWT_SECRET in the .env file}"
     ports:
       - "8443:8443"
     volumes:

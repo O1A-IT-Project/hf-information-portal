@@ -27,7 +27,7 @@ type Survey = {
 
 export async function getContent(): Promise<Content[]> {
   const res = await fetch(
-    'https://localhost:44343/umbraco/delivery/api/v2/content'
+    'https://localhost:8443/umbraco/delivery/api/v2/content'
   )
 
   if (!res.ok) {
@@ -56,7 +56,7 @@ export async function getContent(): Promise<Content[]> {
 
 export async function getForms(): Promise<Survey[]> {
   const res = await fetch(
-    'https://localhost:44343/umbraco/delivery/api/v2/content'
+    'https://localhost:8443/umbraco/delivery/api/v2/content'
   )
 
   if (!res.ok) {

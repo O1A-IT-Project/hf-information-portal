@@ -192,7 +192,7 @@ fetch('/umbraco/delivery/api/v2/content')
 
 are forwarded to:
 
-<http://localhost:8433/umbraco/delivery/api/v2/content>
+<http://localhost:8443/umbraco/delivery/api/v2/content>
 
 The Umbraco CMS must be running separately for live content to appear on the homepage and content pages.
 
@@ -361,7 +361,7 @@ For the browser to send the `jwt` cookie to a different origin (e.g. React dev s
 ## Prerequisites
 
 - Node server running (e.g. `http://localhost:3000`)
-- .NET/Umbraco server running (e.g. `https://localhost:8433`)
+- .NET/Umbraco server running (e.g. `https://localhost:8443`)
 - A Postman **Environment** created, with a variable named `jwt_token` (leave the value blank for now)
 
 ## 1. Log in via Node and capture the token
@@ -410,7 +410,7 @@ If a claim is missing here, the bug is on the Node side — no point testing .NE
 **Request**
 
 - Method: `GET`
-- URL: `https://localhost:8433/umbraco/api/members/` (or whichever protected route you're testing)
+- URL: `https://localhost:8443/umbraco/api/members/` (or whichever protected route you're testing)
 - Authorization tab:
   - Type: `Bearer Token`
   - Token: `{{jwt_token}}`
@@ -422,7 +422,7 @@ Send it. A `200` with a list of claims confirms the token is valid and being rea
 **Request**
 
 - Method: `POST`
-- URL: `https://localhost:8433/umbraco/api/members/`
+- URL: `https://localhost:8443/umbraco/api/members/`
 - Body: none required (claims are read from the token, not the body)
 - Authorization tab: Bearer Token → `{{jwt_token}}`
 
@@ -440,11 +440,11 @@ Expected responses:
 If you want to test the cookie-based flow (`OnMessageReceived` reading from the `jwt` cookie) rather than a header:
 
 1. Click **Cookies** under the Send button (or Settings → Cookies).
-2. Add a domain matching your .NET server exactly, e.g. `localhost:8433`.
+2. Add a domain matching your .NET server exactly, e.g. `localhost:8443`.
 3. Add cookie: Name = `jwt`, Value = your token, Path = `/`.
 4. Send the same request with **no** Authorization header set.
 
-Postman stores cookies per domain — a cookie set by calling Node (`localhost:3000`) is not automatically available to a request against `localhost:8433`, so it needs to be added manually here.
+Postman stores cookies per domain — a cookie set by calling Node (`localhost:3000`) is not automatically available to a request against `localhost:8443`, so it needs to be added manually here.
 
 ## 6. Negative test cases worth checking
 

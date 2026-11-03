@@ -25,5 +25,4 @@ aspnetapp.pfx
 *.sln
 *.sw?
 
-cert.pem
-.gitignore
+*.pem

@@ -148,6 +148,27 @@ VITE_GOOGLE_MAPS_API_KEY=XXXXXXXXXXXXXX
 VITE_USE_MOCK_DATA=true
 ```
 
+
+Create a .env file in the root project folder:
+
+```
+# DB
+SA_PASSWORD=
+
+# Umbraco Certificate - see README-Docker.md
+CERT_PASSWORD=
+
+UMBRACO_ADMIN_EMAIL=
+UMBRACO_ADMIN_PASSWORD=
+
+# Backend
+JWT_SECRET=
+
+# Find-clinic api key for front-end
+# GOOGLE MAPS API KEY - DO NOT PUBLISH
+VITE_GOOGLE_MAPS_API_KEY=
+```
+
 ### 5. Run the backend
 
 Open a terminal:

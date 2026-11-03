@@ -21,6 +21,7 @@ import { Route, Navigate, Routes, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import { api } from './api'
+import FindClinic from './pages/FindClinic'
 
 export type Role = 'patient' | 'clinician' | 'doctor' | 'pharmacy' | 'custodian' | 'admin'
 
@@ -149,6 +150,8 @@ function App() {
         <Route path="/register" element={<Register setUser={setUser} />} />
 
         <Route path="/login" element={<Login setUser={setUser} />} />
+
+        <Route path='/find-clinic' element={<FindClinic />} />
 
         <Route
           path="/admin_panel"

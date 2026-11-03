@@ -89,3 +89,33 @@ Open the printed local URL (e.g. `http://localhost:5173`).
 
 - **`ECONNREFUSED` / proxy errors on the frontend** → Umbraco isn't running yet, or SQL Server container is stopped. Start both (steps 1 and 3) before the frontend.
 - **Umbraco won't boot / database errors** → confirm `docker ps` shows `umbraco-sql` as "Up," and that your user-secrets connection string matches the container's password.
+
+## Docker - convenient commands
+To rebuild just one part, add its service name from docker-compose.yml to the command. For example, to rebuild and restart only cms:
+
+zsh
+
+```
+docker compose up -d --build cms
+```
+
+Your service names so far are cms, website, and backend. You can list them all with docker compose config --services.
+
+Task	Command
+Rebuild and restart one service	
+
+```
+docker compose up -d --build cms
+```
+
+Rebuild several services
+
+```
+docker compose up -d --build cms website
+```
+### Additional docker commands
+Rebuild without restarting	docker compose build cms
+Rebuild from scratch, ignoring the cache	docker compose build --no-cache cms, then docker compose up -d cms
+Restart without rebuilding	docker compose restart cms
+Apply docker-compose.yml changes without rebuilding	docker compose up -d cms
+Rebuild one service without touching its dependencies

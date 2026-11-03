@@ -75,7 +75,8 @@ services:
       DB_PASSWORD: "${SA_PASSWORD}"
       JWT_SECRET: "${JWT_SECRET:?Please set JWT_SECRET in the .env file}"
       JWT_EXPIRES_IN: "7d"
-      NODE_ENV: development
+      NODE_ENV: development,
+      UMBRACO_SERVER: "${UMBRACO_SERVER}"
     ports:
       - "3000:3000"
     restart: unless-stopped

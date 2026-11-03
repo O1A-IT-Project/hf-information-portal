@@ -57,6 +57,7 @@ services:
     volumes:
       - ./cms/aspnetapp.pfx:/https/aspnetapp.pfx:ro
       - cms-media:/app/wwwroot/media
+      - ./cms/uSync:/app/uSync
     restart: unless-stopped
 
   backend:

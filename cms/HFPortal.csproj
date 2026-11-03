@@ -13,6 +13,7 @@
     <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice" />
     <PackageReference Include="Umbraco.Forms" />
     <PackageReference Include="uSync" />
+    <PackageReference Include="uSync.Forms" />
   </ItemGroup>
 
   <ItemGroup>

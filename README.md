@@ -184,7 +184,7 @@ The frontend fetches Umbraco content through the Vite proxy in client/vite.confi
 
 The expected local Umbraco server is:
 
-<http://localhost:8443/umbraco>
+<https://localhost:8443/umbraco>
 
 Frontend requests such as:
 
@@ -192,7 +192,7 @@ fetch('/umbraco/delivery/api/v2/content')
 
 are forwarded to:
 
-<http://localhost:8443/umbraco/delivery/api/v2/content>
+<https://localhost:8443/umbraco/delivery/api/v2/content>
 
 The Umbraco CMS must be running separately for live content to appear on the homepage and content pages.
 
@@ -260,23 +260,23 @@ The JWT payload carries only non-secret, identifying claims:
 ## Node.js — issuing tokens
 
 ```javascript
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 
 export const generateToken = (userId, name, email, res) => {
-  const payload = { id: userId, name, email, memberTypeAlias: 'member' }
+  const payload = { id: userId, name, email, memberTypeAlias: "member" };
   const token = jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN || '7d',
-  })
+    expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+  });
 
-  res.cookie('jwt', token, {
+  res.cookie("jwt", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     maxAge: 1000 * 60 * 60 * 24 * 7,
-  })
+  });
 
-  return token
-}
+  return token;
+};
 ```
 
 ## .NET — validating tokens
@@ -321,10 +321,10 @@ Registered as a **non-default** authentication scheme so it doesn't interfere wi
 
 ## Secrets configuration
 
-| Environment | Storage |
-| --- | --- |
-| Local development | `dotnet user-secrets set "Jwt:Secret" "..."` |
-| Production | Environment variable (`Jwt__Secret`) or Azure Key Vault |
+| Environment       | Storage                                                 |
+| ----------------- | ------------------------------------------------------- |
+| Local development | `dotnet user-secrets set "Jwt:Secret" "..."`            |
+| Production        | Environment variable (`Jwt__Secret`) or Azure Key Vault |
 
 `appsettings.json` holds only non-secret config (issuer, audience); the secret itself is never committed to source control.
 Umbraco's JWT secret is the same as the one used for our backend (auth) node.js.
@@ -332,7 +332,7 @@ Umbraco's JWT secret is the same as the one used for our backend (auth) node.js.
 Add UMBRACO_SERVER with your Umbraco's address to .env in backend.
 
 E.g
-```UMBRACO_SERVER="https://localhost:8443"```
+`UMBRACO_SERVER="https://localhost:8443"`
 
 ## Member sync (Umbraco)
 
@@ -428,12 +428,12 @@ Send it. A `200` with a list of claims confirms the token is valid and being rea
 
 Expected responses:
 
-| Status | Meaning |
-| --- | --- |
-| `200` | Member created or already exists (check `created` field in response) |
-| `400` | Missing/invalid claims, or a validation error |
-| `401` | Token missing, invalid, or expired |
-| `409` | Member already exists (if using a strict conflict response instead of idempotent 200) |
+| Status | Meaning                                                                               |
+| ------ | ------------------------------------------------------------------------------------- |
+| `200`  | Member created or already exists (check `created` field in response)                  |
+| `400`  | Missing/invalid claims, or a validation error                                         |
+| `401`  | Token missing, invalid, or expired                                                    |
+| `409`  | Member already exists (if using a strict conflict response instead of idempotent 200) |
 
 ## 5. Testing via cookie instead of Bearer header
 

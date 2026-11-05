@@ -83,7 +83,7 @@ export async function getContent(activeRole: Role | null): Promise<Content[]> {
 
 export async function getForms(activeRole: Role | null): Promise<Survey[]> {
   const params = new URLSearchParams({
-    filter: 'contentType:contentPage',
+    filter: 'contentType:surveyPage',
     take: '1000',
   })
 

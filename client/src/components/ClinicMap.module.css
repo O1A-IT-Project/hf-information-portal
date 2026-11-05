@@ -32,3 +32,19 @@
     padding-bottom: 56.25%; /* 16:9 */
   }
 }
+
+.locationButton {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #08211f;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.locationButton:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}

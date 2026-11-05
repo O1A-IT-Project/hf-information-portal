@@ -46,9 +46,9 @@ export async function getContent(activeRole: Role | null): Promise<Content[]> {
     throw new Error(`Failed to fetch content: ${res.status}`)
   }
 
-  const data = await res.json()
+  let data = await res.json()
 
-  return data.items
+  data = data.items
     .filter((item: any) => item.contentType === 'contentPage')
     .map((item: any) => ({
       id: item.id,
@@ -64,9 +64,13 @@ export async function getContent(activeRole: Role | null): Promise<Content[]> {
       updated: item.updateDate,
       path: item.route?.path ?? '',
     }))
-    .filter((content: Content) =>
-      isVisibleToRole(content.visibility, activeRole)
-    )
+
+    if (activeRole?.toLowerCase() != "admin") {
+     data = data.filter((content: Content) =>
+      isVisibleToRole(content.visibility, activeRole))
+    }
+
+    return data;
 }
 
 export async function getForms(activeRole: Role | null): Promise<Survey[]> {
@@ -78,9 +82,9 @@ export async function getForms(activeRole: Role | null): Promise<Survey[]> {
     throw new Error(`Failed to fetch forms: ${res.status}`)
   }
 
-  const data = await res.json()
+  let data = await res.json()
 
-  return data.items
+  data = data.items
     .filter((item: any) => item.contentType === 'surveyPage')
     .map((item: any) => ({
       id: item.id,
@@ -93,7 +97,12 @@ export async function getForms(activeRole: Role | null): Promise<Survey[]> {
       updated: item.updateDate,
       path: item.route?.path ?? '',
     }))
-    .filter((survey: Survey) =>
+
+  if (activeRole?.toLowerCase() != "admin") {
+    data = data.filter((survey: Survey) =>
       isVisibleToRole(survey.recipients, activeRole)
     )
+  }
+
+  return data
 }

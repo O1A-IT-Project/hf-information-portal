@@ -46,8 +46,13 @@ function isVisibleToRole(audiences: string[], activeRole: Role | null) {
 }
 
 export async function getContent(activeRole: Role | null): Promise<Content[]> {
+  const params = new URLSearchParams({
+    filter: 'contentType:contentPage',
+    take: '1000',
+  })
+
   const res = await fetch(
-    'https://localhost:8443/umbraco/delivery/api/v2/content'
+    `https://localhost:8443/umbraco/delivery/api/v2/content?${params}`
   )
 
   if (!res.ok) {

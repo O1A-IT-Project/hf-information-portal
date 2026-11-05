@@ -490,6 +490,8 @@
    ------------------------------------------------------------ */
 
 .surveyCard {
+  display: flex;
+  flex-direction: column;
   padding: 28px;
   border-radius: 12px;
   background-color: #ffffff;
@@ -555,6 +557,7 @@
    ------------------------------------------------------------ */
 
 .surveyDetails {
+  margin-top: auto;
   display: flex;
   gap: 35px;
   padding: 16px 0;

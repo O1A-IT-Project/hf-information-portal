@@ -29,12 +29,20 @@ type Survey = {
   path: string
 }
 
-function isVisibleToRole(audiences: string[], activeRole: Role | null) {
-  const role = activeRole ?? 'patient'
+const FULL_ACCESS_ROLES = ['admin', 'custodian']
 
-  return audiences.some(
-    audience => audience.trim().toLowerCase() === role
-  )
+function normaliseRole(value: string) {
+  return value.trim().toLowerCase().replace(/[\s_-]+/g, '')
+}
+
+function isVisibleToRole(audiences: string[], activeRole: Role | null) {
+  const role = normaliseRole(activeRole ?? 'patient')
+
+  if (FULL_ACCESS_ROLES.includes(role)) {
+    return true
+  }
+
+  return audiences.some(audience => normaliseRole(audience) === role)
 }
 
 export async function getContent(activeRole: Role | null): Promise<Content[]> {
@@ -48,7 +56,7 @@ export async function getContent(activeRole: Role | null): Promise<Content[]> {
 
   let data = await res.json()
 
-  data = data.items
+  return data.items
     .filter((item: any) => item.contentType === 'contentPage')
     .map((item: any) => ({
       id: item.id,
@@ -63,14 +71,9 @@ export async function getContent(activeRole: Role | null): Promise<Content[]> {
       created: item.createDate,
       updated: item.updateDate,
       path: item.route?.path ?? '',
-    }))
-
-    if (activeRole?.toLowerCase() != "admin") {
-     data = data.filter((content: Content) =>
-      isVisibleToRole(content.visibility, activeRole))
-    }
-
-    return data;
+    })).filter((content: Content) =>
+    isVisibleToRole(content.visibility, activeRole),
+    );
 }
 
 export async function getForms(activeRole: Role | null): Promise<Survey[]> {
@@ -84,7 +87,7 @@ export async function getForms(activeRole: Role | null): Promise<Survey[]> {
 
   let data = await res.json()
 
-  data = data.items
+  return data.items
     .filter((item: any) => item.contentType === 'surveyPage')
     .map((item: any) => ({
       id: item.id,
@@ -96,13 +99,7 @@ export async function getForms(activeRole: Role | null): Promise<Survey[]> {
       created: item.createDate,
       updated: item.updateDate,
       path: item.route?.path ?? '',
-    }))
-
-  if (activeRole?.toLowerCase() != "admin") {
-    data = data.filter((survey: Survey) =>
+    })).filter((survey: Survey) =>
       isVisibleToRole(survey.recipients, activeRole)
     )
-  }
-
-  return data
 }

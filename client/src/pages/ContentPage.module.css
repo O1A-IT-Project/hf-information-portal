@@ -4,3 +4,34 @@
   margin: 0 auto;        /* Centers the container horizontally */
   padding: 48px 24px;       /* Safety padding so text doesn't touch browser edges on tablets/mobile */
 }
+
+.contentBody :where(p, ul, ol) {
+  display: block !important;
+  margin: 0 0 1rem !important;
+}
+
+.contentBody :where(h2, h3, h4) {
+  display: block !important;
+  margin: 1.5rem 0 0.75rem !important;
+}
+
+.contentBody :where(ul, ol) {
+  padding-left: 1.5rem !important;
+}
+
+.contentBody ul {
+  list-style: disc !important;
+}
+
+.contentBody ol {
+  list-style: decimal !important;
+}
+
+.contentBody li {
+  display: list-item !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.contentBody li p {
+  margin: 0 !important;
+}

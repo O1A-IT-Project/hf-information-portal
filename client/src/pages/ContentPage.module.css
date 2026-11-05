@@ -1,5 +1,6 @@
 .contentBody {
-  padding-top: 20px;
-  padding-left: 10px;
-  padding-right: 10px;
+  max-width: 680px;      /* Restricts the text line length to ~75 characters */
+  width: 100%;           /* Ensures responsiveness on smaller screens */
+  margin: 0 auto;        /* Centers the container horizontally */
+  padding: 48px 24px;       /* Safety padding so text doesn't touch browser edges on tablets/mobile */
 }

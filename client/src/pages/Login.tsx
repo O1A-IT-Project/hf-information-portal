@@ -140,6 +140,19 @@ function Login({ setUser }: Props) {
             </button>
           </div>
 
+          <div className={styles.redirect}>
+            <p>Content Custodian Login: </p>
+            <button
+              type="button"
+              className={styles.underlinedBtn}
+              onClick={() =>
+                window.open('https://localhost:8443/umbraco', '_blank', 'noopener,noreferrer')
+              }
+            >
+              Umbraco
+            </button>
+          </div>
+
         </div>
 
       </div>

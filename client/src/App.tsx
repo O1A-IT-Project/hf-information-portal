@@ -165,7 +165,7 @@ function App() {
         <Route
           path="/ClinicianOnly"
           element={
-            <ProtectedRoute user={user} activeRole={activeRole} allowedRoles={['doctor']}>
+            <ProtectedRoute user={user} activeRole={activeRole} allowedRoles={['clinician']}>
               <ClinicianOnly />
             </ProtectedRoute>
           }

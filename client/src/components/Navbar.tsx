@@ -129,7 +129,7 @@ function Navbar({ user, setUser, activeRole, onRoleChange }: Props) {
             </NavLink>
           )}
 
-          {activeRole === 'doctor' && (
+          {activeRole === 'clinician' && (
             <NavLink
               to="/ClinicianOnly"
               className={({ isActive }) => (isActive ? styles.active : undefined)}

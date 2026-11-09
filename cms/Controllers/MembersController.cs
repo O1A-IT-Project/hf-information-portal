@@ -67,10 +67,10 @@ namespace HFPortal.Controllers
         {
             // The Node-issued JWT's "id" claim is used as the Umbraco member's
             // Username, so the two systems can be linked via a single stable value.
-            var nodeUserId = User.FindFirstValue("id");
-            var fullName = User.FindFirstValue("fullName");
-            var email = User.FindFirstValue("emailaddress");
-            var memberTypeAlias = User.FindFirstValue("memberTypeAlias");
+            var nodeUserId = User.FindFirstValue("id") ?? string.Empty;
+            var fullName = User.FindFirstValue("fullName") ?? string.Empty;
+            var email = User.FindFirstValue("emailaddress") ?? string.Empty;
+            var memberTypeAlias = User.FindFirstValue("memberTypeAlias") ?? string.Empty;
             var IsApproved = true;
 
             // Validate presence of every claim CreateMemberWithIdentity requires,

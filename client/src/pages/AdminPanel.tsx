@@ -85,6 +85,7 @@ function AdminPanel({ user }: Props) {
     return String(userId).toLowerCase() === String(user.id).toLowerCase()
   }
 
+  // Approve the selected verification request
   const handleApprove = async () => {
     if (!selectedRequest) return
 
@@ -108,6 +109,7 @@ function AdminPanel({ user }: Props) {
     }
   }
 
+  // Reject a verification request and remove it from the list
   const handleReject = async () => {
     if (!selectedRequest) return
 
@@ -130,6 +132,7 @@ function AdminPanel({ user }: Props) {
     }
   }
 
+  //  Search for a user by email and update the searchedUser state
   const searchUserByEmail = async (email: string) => {
     const trimmedEmail = email.trim()
 
@@ -169,10 +172,12 @@ function AdminPanel({ user }: Props) {
     }
   }
 
+  // Handle the user search when the search button is clicked or Enter is pressed
   const handleUserSearch = async () => {
     await searchUserByEmail(searchEmail)
   }
 
+  // Toggle a role in the selectedRoles state
   const handleRoleChange = (role: string) => {
     setSelectedRoles(currentRoles => {
       if (currentRoles.includes(role)) {
@@ -183,6 +188,7 @@ function AdminPanel({ user }: Props) {
     })
   }
 
+  // Save the selected roles for the searched user
   const handleSaveRoles = async () => {
     if (!searchedUser) return
 
@@ -243,6 +249,7 @@ function AdminPanel({ user }: Props) {
     }
   }
 
+  // Load current admins only when the tab is opened for the first time.
   const loadAdmins = async () => {
     if (adminsLoaded) return
 
@@ -263,6 +270,7 @@ function AdminPanel({ user }: Props) {
     }
   }
 
+  // Handle tab changes and load data as needed
   const handleTabChange = async (tab: AdminTab) => {
     setActiveTab(tab)
 
@@ -271,6 +279,7 @@ function AdminPanel({ user }: Props) {
     }
   }
 
+  // Handle managing an admin user by searching for them and switching to the User Management tab
   const handleManageAdmin = async (admin: ManagedUser) => {
     // Frontend safeguard:
     // only allow an admin to manage themselves.

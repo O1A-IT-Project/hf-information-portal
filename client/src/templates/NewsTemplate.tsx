@@ -20,6 +20,7 @@ type Props = {
   content: Content
 }
 
+// Template for displaying a news page
 function NewsTemplate({ content }: Props) {
   const props = content.properties
 

@@ -24,6 +24,7 @@ type Props = {
   content: Content
 }
 
+// Template for displaying a content page
 function ContentTemplate({ content }: Props) {
   const props = content.properties
 

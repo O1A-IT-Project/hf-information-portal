@@ -31,10 +31,13 @@ type Survey = {
 
 const FULL_ACCESS_ROLES = ['admin', 'custodian']
 
+// Normalise a role string by trimming whitespace, converting to lowercase, and removing spaces, underscores, and hyphens
 function normaliseRole(value: string) {
   return value.trim().toLowerCase().replace(/[\s_-]+/g, '')
 }
 
+
+// Check if a content item or survey is visible to the active role based on its audiences
 function isVisibleToRole(audiences: string[], activeRole: Role | null) {
   const role = normaliseRole(activeRole ?? 'patient')
 
@@ -45,6 +48,7 @@ function isVisibleToRole(audiences: string[], activeRole: Role | null) {
   return audiences.some(audience => normaliseRole(audience) === role)
 }
 
+// Fetch content items from the Umbraco API and filter them based on the active role
 export async function getContent(activeRole: Role | null): Promise<Content[]> {
   const params = new URLSearchParams({
     filter: 'contentType:contentPage',
@@ -81,6 +85,7 @@ export async function getContent(activeRole: Role | null): Promise<Content[]> {
     );
 }
 
+// Fetch survey forms from the Umbraco API and filter them based on the active role
 export async function getForms(activeRole: Role | null): Promise<Survey[]> {
   const params = new URLSearchParams({
     filter: 'contentType:surveyPage',

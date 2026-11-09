@@ -22,6 +22,7 @@ type Props = {
   content: Content
 }
 
+// Template for displaying a condition page 
 function ConditionTemplate({ content }: Props) {
   const props = content.properties
 

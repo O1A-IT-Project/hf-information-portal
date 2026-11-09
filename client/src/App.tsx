@@ -45,6 +45,7 @@ export type User = {
   }[]
 }
 
+// Main application component that handles routing and user authentication
 function App() {
   const [user, setUser] = useState<User | null>(null)
   const [activeRole, setActiveRole] = useState<Role | null>(null)
@@ -63,6 +64,7 @@ function App() {
     }
   }
 
+  // Load the current user on component mount
   useEffect(() => {
     const loadUser = async () => {
       try {
@@ -79,6 +81,7 @@ function App() {
     loadUser()
   }, [])
 
+  // Update the active role based on the user's roles and session storage whenever the user or loading state changes
   useEffect(() => {
     // Wait until the initial authentication check has finished
     if (loading) {

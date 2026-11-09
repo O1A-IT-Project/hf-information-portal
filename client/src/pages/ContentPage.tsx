@@ -31,6 +31,7 @@ function ContentPage({ activeRole }: Props) {
   const [content, setContent] = useState<Content | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Fetch content based on the active role and content path whenever they change
   useEffect(() => {
     getContent(activeRole)
       .then((contents) => {

@@ -22,6 +22,7 @@ const allRoles: Role[] = ['clinician', 'doctor', 'pharmacy', 'custodian']
 function RoleApplicationForm({ refreshUser }: Props) {
   const navigate = useNavigate()
 
+  // state for available roles and form fields
   const [availableRoles, setAvailableRoles] = useState<Role[]>(allRoles)
 
   const [requestedRole, setRequestedRole] = useState<Role>('clinician')
@@ -37,6 +38,7 @@ function RoleApplicationForm({ refreshUser }: Props) {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  // fetch available roles on component mount
   useEffect(() => {
     const fetchAvailableRoles = async () => {
       try {
@@ -81,6 +83,8 @@ function RoleApplicationForm({ refreshUser }: Props) {
       return
     }
 
+
+    // validate required fields based on the requested role
     try {
       setIsSubmitting(true)
 

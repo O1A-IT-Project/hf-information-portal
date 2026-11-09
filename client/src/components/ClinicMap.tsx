@@ -14,6 +14,7 @@ function ClinicMap() {
   const [locating, setLocating] = useState(false)
 
   function requestLocation() {
+    // check if the browser supports geolocation
     if (!navigator.geolocation) {
       setLocationError('Your browser does not support location access.')
       return
@@ -22,6 +23,7 @@ function ClinicMap() {
     setLocating(true)
     setLocationError('')
 
+    // retrieve the user's current position
     navigator.geolocation.getCurrentPosition(
       position => {
         setCoords({
@@ -37,6 +39,7 @@ function ClinicMap() {
     )
   }
 
+  // construct the URL parameters for the Google Maps embed
   const params = new URLSearchParams({
     key: apiKey,
     q: coords ? `clinics near ${coords.lat},${coords.lng}` : 'clinics near me',

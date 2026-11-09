@@ -17,6 +17,7 @@ const API_BASE = 'http://localhost:3000'
 function Profile({ user, onUpdateUser }: Props) {
   const [view, setView] = useState<View>('overview')
 
+  // form state for editing user information
   const [form, setForm] = useState({
     firstName: user.firstName,
     lastName: user.lastName,
@@ -35,6 +36,7 @@ function Profile({ user, onUpdateUser }: Props) {
   const avatarSrc =
     avatarPreview || `${API_BASE}/api/auth/profile-image/${user.id}?v=${avatarVersion}`
 
+  // Open the edit view and reset form state
   function openEdit() {
     setForm({
       firstName: user.firstName,
@@ -52,6 +54,7 @@ function Profile({ user, onUpdateUser }: Props) {
     setIsSaving(true)
     setError(null)
 
+    // validate form fields
     try {
       const res = await fetch(`${API_BASE}/api/auth/me`, {
         method: 'PATCH',
@@ -75,6 +78,7 @@ function Profile({ user, onUpdateUser }: Props) {
     }
   }
 
+  // Handle image selection and validate the file type and size
   function handleImageSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
 
@@ -98,6 +102,7 @@ function Profile({ user, onUpdateUser }: Props) {
     uploadImage(file)
   }
 
+  // Upload the selected image to the server
   async function uploadImage(file: File) {
     setIsUploadingImage(true)
     setImageError(null)

@@ -11,6 +11,7 @@ builder.CreateUmbracoBuilder()
     .AddComposers()
     .Build();
 
+// Allow the React client to call the CMS API from the local development origins.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactApp", policy =>
@@ -23,10 +24,13 @@ builder.Services.AddCors(options =>
     });
 });
 
+
+// Load the shared JWT secret at startup so authentication cannot run with an invalid configuration.
 var secret = builder.Configuration["Jwt:Secret"]
     ?? throw new InvalidOperationException("Jwt:Secret is not configured");
 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
 
+// Validate bearer tokens issued by the Node.js identity service.
 builder.Services.AddAuthentication()
 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
         {
@@ -44,6 +48,8 @@ builder.Services.AddAuthentication()
             {
                 OnMessageReceived = context =>
                 {
+                    // The client stores the JWT in a cookie, so only copy it when the
+                    // request comes from one of the explicitly allowed local origins.
                     if (string.IsNullOrEmpty(context.Token) &&
                           context.Request.Cookies.TryGetValue("jwt", out var token))
                     {
@@ -68,6 +74,7 @@ await app.BootUmbracoAsync();
 
 app.UseRouting();
 
+// CORS must run before authentication and authorization for browser requests.
 app.UseCors("ReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
@@ -84,4 +91,3 @@ app.UseUmbraco()
     });
 
 await app.RunAsync();
-

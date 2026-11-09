@@ -143,6 +143,7 @@ const signin = async (req, res) => {
 
     // Generate JWT
     const token = generateToken(user.userId, `${user.firstName} ${user.lastName}`, user.email, res)
+
     // Ensure Umbraco Member record exists
     try {
       const memberResponse = await fetch(`${process.env.UMBRACO_SERVER}/umbraco/api/members/`, {

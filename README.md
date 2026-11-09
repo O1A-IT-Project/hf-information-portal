@@ -99,7 +99,7 @@ localhost,1434
 
 Default local credentials:
 
-```
+```text
 User: sa
 Password: HF123456!
 Database: DB_CEIH
@@ -109,7 +109,7 @@ Database: DB_CEIH
 
 Open SSMS or Azure Data Studio and connect using:
 
-```
+```text
 Server: localhost,1434
 Authentication: SQL Server Authentication
 User: sa
@@ -124,7 +124,7 @@ database/schema.sql
 
 Create a .env file inside the backend/ folder:
 
-```
+```env
 DB_SERVER=localhost
 DB_PORT=1434
 DB_DATABASE=DB_CEIH
@@ -140,7 +140,7 @@ JWT_EXPIRES_IN=7d
 
 Create a .env file **INSIDE THE /CLIENT** folder:
 
-```
+```env
 # GOOGLE MAPS API KEY - DO NOT PUBLISH
 VITE_GOOGLE_MAPS_API_KEY=XXXXXXXXXXXXXX
 
@@ -148,10 +148,9 @@ VITE_GOOGLE_MAPS_API_KEY=XXXXXXXXXXXXXX
 VITE_USE_MOCK_DATA=true
 ```
 
-
 Create a .env file in the root project folder:
 
-```
+```env
 # DB
 SA_PASSWORD=
 
@@ -241,7 +240,7 @@ Run the Umbraco server separately if available
 
 This project uses **Node.js** as the identity provider and **.NET/Umbraco** as a downstream API that trusts Node-issued JSON Web Tokens (JWTs). Node owns user credentials and login; .NET never touches passwords or a credential store — it only validates tokens cryptographically.
 
-```
+```text
 User → Node.js (login, issues JWT) → Browser (httpOnly cookie)
                                             ↓
                                     .NET / Umbraco (validates JWT, reads claims)
@@ -379,7 +378,7 @@ For the browser to send the `jwt` cookie to a different origin (e.g. React dev s
 
 ## Testing the Node ↔ .NET JWT Flow in Postman
 
-## Prerequisites
+## Testing Prerequisites
 
 - Node server running (e.g. `http://localhost:3000`)
 - .NET/Umbraco server running (e.g. `https://localhost:8443`)
@@ -387,7 +386,7 @@ For the browser to send the `jwt` cookie to a different origin (e.g. React dev s
 
 ## 1. Log in via Node and capture the token
 
-**Request**
+Request:
 
 - Method: `POST`
 - URL: `http://localhost:3000/login`
@@ -428,7 +427,7 @@ If a claim is missing here, the bug is on the Node side — no point testing .NE
 
 ## 3. Call a protected .NET endpoint with the Bearer token
 
-**Request**
+Request:
 
 - Method: `GET`
 - URL: `https://localhost:8443/umbraco/api/members/` (or whichever protected route you're testing)
@@ -440,7 +439,7 @@ Send it. A `200` with a list of claims confirms the token is valid and being rea
 
 ## 4. Test the member creation endpoint
 
-**Request**
+Request:
 
 - Method: `POST`
 - URL: `https://localhost:8443/umbraco/api/members/`

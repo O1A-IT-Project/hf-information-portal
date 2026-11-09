@@ -1,3 +1,5 @@
+
+// Utility function to detect the MIME type of an image based on its buffer
 const detectImageMimeType = buffer => {
   if (!buffer || buffer.length < 4) return null
 

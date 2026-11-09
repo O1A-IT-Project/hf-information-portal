@@ -1,5 +1,6 @@
 import { getUserRoles } from '../models/userModel.js'
 
+// Middleware to require admin role for certain routes
 const requireAdmin = async (req, res, next) => {
   try {
     const roles = await getUserRoles(req.user.userId)

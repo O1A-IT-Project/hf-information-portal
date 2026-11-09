@@ -23,6 +23,7 @@ import { requireAdmin } from '../middlewares/requireAdmin.js'
 
 import upload from '../middlewares/upload.js'
 
+// Create an Express router for authentication-related routes
 const router = express.Router()
 
 // Authentication

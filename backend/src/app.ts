@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import authRoutes from './routes/authRoutes.js'
 import { connectDB } from './config/db.js'
 
+// Create an Express application instance
 const app = express()
 
 const allowedOrigins = [

@@ -6,6 +6,8 @@ import { getUserById } from '../models/userModel.js'
 
 dotenv.config()
 
+
+// Middleware to authenticate JWT token from request headers or cookies
 export const authenticateToken = async (req, res, next) => {
   console.log('Token Authentication check | authenticationToken.js')
   let token

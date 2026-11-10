@@ -1,4 +1,3 @@
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -10,7 +9,6 @@ import Login from './pages/Login'
 import AdminPanel from './pages/AdminPanel'
 import ClinicianOnly from './pages/ClinicianOnly'
 import RoleApplicationForm from './components/RoleApplicationForm'
-// import ContentPage from './pages/ContentPage'
 import Survey from './pages/Survey'
 import SearchPage from './pages/SearchPage'
 import ContentPage from './pages/ContentPage'
@@ -82,6 +80,11 @@ function App() {
   }, [])
 
   // Update the active role based on the user's roles and session storage whenever the user or loading state changes
+
+  // The active role represents the role the user is currently viewing the portal as
+  // It is separate from the user's assigned roles
+  // The active role is stored only on the front end of the portal and must always match one of the user's assigned roles
+  // Changing the active role does not modify any database permissions
   useEffect(() => {
     // Wait until the initial authentication check has finished
     if (loading) {
@@ -104,6 +107,8 @@ function App() {
 
     const storedRole = sessionStorage.getItem('activeRole') as Role | null
 
+    // Restore the previous active role when possible
+    // If the stored role is no longer assigned to the user, fall back to Patient or another valid role
     if (storedRole && roles.includes(storedRole)) {
       setActiveRole(storedRole)
       return
@@ -135,6 +140,8 @@ function App() {
           user={user}
           setUser={setUser}
           activeRole={activeRole}
+          // Only allow the user to activate a role that is already assigned to their
+          // account to prevent invalid frontend role states
           onRoleChange={handleRoleChange}
         />
       )}
@@ -154,7 +161,7 @@ function App() {
 
         <Route path="/login" element={<Login setUser={setUser} />} />
 
-        <Route path='/find-clinic' element={<FindClinic />} />
+        <Route path="/find-clinic" element={<FindClinic />} />
 
         <Route
           path="/admin_panel"

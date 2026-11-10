@@ -1,3 +1,10 @@
+# Initialises the local portal database on a fresh environment
+#
+# If the db already exists, skip this to avoid overwriting
+#
+# This script performs initial database setup only. It is not a database
+# migration system and will not apply later schema changes automatically
+
 #!/bin/bash
 set -e
 

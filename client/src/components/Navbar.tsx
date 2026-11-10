@@ -149,45 +149,34 @@ function Navbar({ user, setUser, activeRole, onRoleChange }: Props) {
                 type="text"
                 placeholder="Search..."
                 value={searchTerm}
-                onChange={(e) => {
+                onChange={e => {
                   setSearchTerm(e.target.value)
                   setShowSuggestions(e.target.value.trim().length > 0)
                 }}
               />
 
-              <button
-                className={styles.searchBtn}
-                onClick={() => handleSearch('resources')}
-              >
+              <button className={styles.searchBtn} onClick={() => handleSearch('resources')}>
                 <i className="bx bx-search"></i>
               </button>
             </div>
 
             {showSuggestions && searchTerm.trim() && (
               <div className={styles.searchSuggestions}>
-                <div
-                  className={styles.suggestionItem}
-                  onClick={() => handleSearch('resources')}
-                >
+                <div className={styles.suggestionItem} onClick={() => handleSearch('resources')}>
                   <i className="bx bx-file"></i>
                   <div>
                     <strong>Search Resources</strong>
                     <p>Search resources for "{searchTerm}"</p>
                   </div>
                 </div>
-                
-                <div
-                  className={styles.suggestionItem}
-                  onClick={() => handleSearch('survey')}
-                >
+
+                <div className={styles.suggestionItem} onClick={() => handleSearch('survey')}>
                   <i className="bx bx-clipboard"></i>
                   <div>
                     <strong>Search Surveys</strong>
                     <p>Search surveys for "{searchTerm}"</p>
                   </div>
                 </div>
-
-
               </div>
             )}
           </div>
@@ -201,14 +190,17 @@ function Navbar({ user, setUser, activeRole, onRoleChange }: Props) {
                 <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)}>
                   <i className="bx bx-user-circle"></i>
                 </button>
-
+                // Role switcher is only shown when user has multiple assigned roles. Selecting a
+                role changes the current portal view but does not change the roles stored for the
+                user in the database
                 {menuOpen && (
                   <div className={styles.dropdown}>
                     {activeRole && (user.roles?.length ?? 0) > 1 && (
                       <div className={styles.roleSwitcher}>
                         <div className={styles.roleSwitcherHeader}>
                           <span className={styles.roleSwitcherLabel}>Viewing as </span>
-
+                          // fortmatRole converts role names in the database into user-friendly
+                          labels for the interface.
                           <span className={styles.activeRoleBadge}>{formatRole(activeRole)}</span>
                         </div>
 

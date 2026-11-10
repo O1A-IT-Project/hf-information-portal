@@ -634,7 +634,7 @@ const replaceUserRoles = async (userId, roleNames, adminUserId) => {
       throw new Error('User not found')
     }
 
-    // Patient is always preserved as the base role
+    // Patient is always preserved as the base role so it is retained even when additional roles are updated
     const requestedRoles = [...new Set(['patient', ...roleNames])]
 
     const validRoleNames = Object.keys(roleNameToId)
